@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<!--
+2020/07/01
+No one shown up on the list.
+-->
+<html lang="en-US">
+    <head>
+        <title>Pass 지원</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body>
+        <div>
+            <nav class="nav">
+                <ul>
+                    <li class="navigator">
+                        <a class="nav_href" href="index.html">처음 페이지로</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="content">
+            <div id="fit">
+                <h1 class="title">왜 공유가능한 리스트에 아무도 뜨지 않나요?</h1>
+                <p class="subsubtitle">공유가능한 리스트에 아무도 뜨지 않을 때 수행할 작업에 대해 알아봅니다.</p>
+                <p class="txt">이 오류는 여러 이유가 복합적으로 작용할 수 있습니다. 아래 단계를 따라가며 문제를 해결합니다.</p>
+                <p>
+                    <img src="../assets/divider.png" alt="">
+                </p>
+                <p class="subtitle">1. 네트워크 내에 공유가능한 기기가 있는지 확인힙니다.</p>
+                <p class="txt">우선 같은 네트워크 내에 공유가능한 기기가 있는지 확인합니다. 공유가능한 기기라 함은 다음 조건을 모두 충족하는 기기를 말합니다:</p>
+                <p class="txt">
+                    <ul>
+                        <li>Pass프로그램을 실행중입니다.</li>
+                        <li>두 Pass프로그램의 버전이 일치합니다.</li>
+                        <li>사용자가 공유를 켜놓았습니다.</li>
+                    </ul>
+                </p>
+                <p class="txt">만일 공유가능한 기기가 있음에도 계속 오류가 발생하면 2로 갑니다.</p>
+                <p>
+                    <img src="../assets/divider.png" alt="">
+                </p>
+                <p class="subtitle">2. 인터넷 설정을 확인합니다.</p>
+                <p class="txt">아래 사항을 하나하나 확인하며 기기가 제대로 설정되어있는지 확인합니다.</p>
+                <p class="txt">
+                    <ul>
+                        <li>두 기기가 같은 네트워크에 존재하나요?</li>
+                        <li>방화벽이 현재 연결 프로필에서 Pass의 UDP 통신을 허용하나요?</li>
+                        <li>기기에 인터넷이 제대로 연결되어 있나요?</li>
+                    </ul>
+                </p>
+                <p>
+                    <img src="../assets/divider.png" alt="">
+                </p>
+                <p class="subsubtitle">여전히 문제가 풀리지 않나요?</p>
+                <p class="txt">이 경우 디버거를 이용하는 것이 좋습니다. 아래 방법으로 디버거를 볼 수 있습니다.</p>
+                <p class=txt>
+                    <ol>
+                        <li>Pass를 엽니다.</li>
+                        <li>F9를 5번 연속으로 누릅니다.</li>
+                        <li>공유 가능한 리스트를 새로고칩니다.</li>
+                        <li>Response에 있는 IP별 응답을 확인합니다.</li>
+                    </ol>
+                </p>
+                <p class="txt">Response에는 허용/거부뿐만 아니라 자세한 이유까지 나와있습니다. 참조하여 문제를 해결합니다.</p>
+            </div>
+        </div>
+    </body>
+</html>

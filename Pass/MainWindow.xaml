@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pass"
         Closing="killer"
+        KeyDown="keyDown"
         mc:Ignorable="d"
         Title="{x:Static local:Localization.title}" Height="376" Width="800" Background="Black" ResizeMode="NoResize">
     <Window.Resources>
@@ -42,10 +43,13 @@
                 </Grid.ColumnDefinitions>
                 <Button x:Name="refresh" Style="{StaticResource BtnStyle}" Content="{x:Static local:Localization.doesntappear}" Margin="0,2,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="16" Click="refresh_Click" Height="Auto" Width="Auto" Foreground="#FF51A8FF"/>
             </Grid>
-            <Border x:Name="addicSup" BorderBrush="White" BorderThickness="1" Margin="0,0,137.4,26" CornerRadius="7" HorizontalAlignment="Right" Width="155" Height="56" VerticalAlignment="Bottom">
+            <Border x:Name="addicSup" BorderBrush="White" BorderThickness="1" Margin="0,0,114.4,10" CornerRadius="7" HorizontalAlignment="Right" Width="155" Height="56" VerticalAlignment="Bottom">
                 <Grid>
-                    <Label Content="{x:Static local:Localization.problem}" VerticalAlignment="Top" Foreground="White" FontSize="14" HorizontalAlignment="Center"/>
-                    <Button x:Name="sup2" Content="{x:Static local:Localization.viewSup}" Style="{StaticResource BtnStyle}" Margin="4,29,4,0" FontSize="14" Background="{x:Null}" Foreground="#FF51A8FF" BorderBrush="{x:Null}" HorizontalAlignment="Center" Click="sup2_Click"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="{x:Static local:Localization.problem}" VerticalAlignment="Top" Foreground="White" FontSize="14" HorizontalAlignment="Center" Margin="7,0"/>
+                    <Button x:Name="sup2" Content="{x:Static local:Localization.viewSup}" Style="{StaticResource BtnStyle}" Margin="23,29,23,0" FontSize="14" Background="{x:Null}" Foreground="#FF51A8FF" BorderBrush="{x:Null}" HorizontalAlignment="Center" Click="sup2_Click"/>
                 </Grid>
             </Border>
             <Border BorderBrush="White" BorderThickness="2" Height="100" Margin="30,50,30.4,0" VerticalAlignment="Top" CornerRadius="10" Width="676">

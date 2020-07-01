@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Box\Response.cs" />
     <Compile Include="Bytes.cs" />
     <Compile Include="Internet.cs" />
     <Compile Include="Log.cs" />

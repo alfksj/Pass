@@ -10,6 +10,7 @@ using System.Threading;
 using System.Windows;
 using System.Threading.Tasks;
 using System.Resources;
+using PassLibrary.Box;
 
 namespace PassLibrary
 {
@@ -19,6 +20,7 @@ namespace PassLibrary
         private const int CONTROL_PORT = 24690;
         private const string VERSION = "1.0.0";
         public string myIP = "-1";
+        public List<Response> lastResponse = new List<Response>();
         private ResourceManager rm;
         public Internet(ResourceManager rm)
         {
@@ -74,10 +76,19 @@ namespace PassLibrary
                             {
                                 Log.log("Version Mismatched: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
                             }
+                            else if(r_msg.Equals("self"))
+                            {
+                                Log.log("Myself: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
+                            }
                             else
                             {
                                 Log.log("Denied: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
                             }
+                            lastResponse.Add(new Response()
+                            {
+                                IP = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString(),
+                                response = r_msg
+                            });
                         };
                         Task.Run(() => response(respon));
                         Thread.Sleep(1000);
@@ -119,26 +130,29 @@ namespace PassLibrary
                     //Prepare to receive to sender's server.
                     TcpClient cli = new TcpClient(origin, PING_PORT);
                     NetworkStream stream = cli.GetStream();
-                    if (Setting.Sharing && div[1].Equals(VERSION))
+                    if(((IPEndPoint)cli.Client.RemoteEndPoint).Address.ToString().Equals(myIP))
+                    {
+                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("self");
+                        stream.Write(tosend, 0, tosend.Length);
+                        Log.log("Ping from me myself: " + endPoint.Address.ToString());
+                    }
+                    else if(!div[1].Equals(VERSION))
+                    {
+                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("vers");
+                        stream.Write(tosend, 0, tosend.Length);
+                        Log.log("Version Mismatch: " + endPoint.Address.ToString());
+                    }
+                    else if(!Setting.Sharing)
+                    {
+                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("hate");
+                        stream.Write(tosend, 0, tosend.Length);
+                        Log.log("Deny: " + endPoint.Address.ToString());
+                    }
+                    else
                     {
                         byte[] tosend = ASCIIEncoding.ASCII.GetBytes("love");
                         stream.Write(tosend, 0, tosend.Length);
                         Log.log("Accept: " + endPoint.Address.ToString());
-                    }
-                    else
-                    {
-                        if(!div[1].Equals(VERSION))
-                        {
-                            byte[] tosend = ASCIIEncoding.ASCII.GetBytes("vers");
-                            stream.Write(tosend, 0, tosend.Length);
-                            Log.log("Version Mismatch: " + endPoint.Address.ToString());
-                        }
-                        else
-                        {
-                            byte[] tosend = ASCIIEncoding.ASCII.GetBytes("hate");
-                            stream.Write(tosend, 0, tosend.Length);
-                            Log.log("Deny: " + endPoint.Address.ToString());
-                        }
                     }
                     stream.Flush();
                     stream.Close();
@@ -233,6 +247,7 @@ namespace PassLibrary
                                 MessageBox.Show("notSharing", "Pass", MessageBoxButton.OK);
                                 return;
                             }
+                            //TODO: Version mismatch handle
                             else
                             {
                                 send("{\"reply\":\"approve\"}", sock);

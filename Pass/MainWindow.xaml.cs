@@ -6,6 +6,8 @@ using System.Windows;
 using PassLibrary;
 using System.Threading.Tasks;
 using System;
+using System.Windows.Input;
+using System.Diagnostics;
 
 namespace Pass
 {
@@ -50,11 +52,32 @@ namespace Pass
             y.Visibility = hide;
             u.Visibility = hide;
             lst.Visibility = hide;
+            sup.setResourceManager(rm);
+            debuger.setResourceManager(rm);
             internet.serverStart();
+        }
+        private int keptKeyDown = 0;
+        private Debuger debuger = new Debuger();
+        private void keyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key==Key.F9)
+            {
+                keptKeyDown++;
+            }
+            else
+            {
+                keptKeyDown = 0;
+            }
+            if(keptKeyDown==5)
+            {
+                Log.log("Debugger opened");
+                debuger.Show();
+            }
         }
         int retries=0;
         private void refresh_Click(object sender, RoutedEventArgs ex)
         {
+            refresh.IsEnabled = false;
             none.Visibility = Visibility.Hidden;
             finding.Visibility = Visibility.Visible;
             lst.Visibility = Visibility.Hidden;
@@ -65,23 +88,23 @@ namespace Pass
                 {
                     finding.Visibility = Visibility.Hidden;
                 });
-            if (ip.Count == 0)
-            {
-                none.Dispatcher.Invoke(() =>
+                if (ip.Count == 0)
                 {
-                    none.Visibility = Visibility.Visible;
-                });
-                retries++;
-                if (retries >= 2)
-                {
-                    addicSup.Dispatcher.Invoke(() =>
+                    none.Dispatcher.Invoke(() =>
                     {
-                        addicSup.Visibility = Visibility.Visible;
+                        none.Visibility = Visibility.Visible;
                     });
+                    retries++;
+                    if (retries >= 2)
+                    {
+                        addicSup.Dispatcher.Invoke(() =>
+                        {
+                            addicSup.Visibility = Visibility.Visible;
+                        });
+                    }
                 }
-            }
-            else
-            {
+                else
+                {
                     retries = 0;
                     lst.Dispatcher.Invoke(() =>
                     {
@@ -128,18 +151,23 @@ namespace Pass
                         });
                     });
                 }
+                debuger.setReponse(internet.lastResponse);
+                refresh.Dispatcher.Invoke(() =>
+                {
+                    refresh.IsEnabled = true;
+                });
                 return;
             });
         }
 
+        private Support sup = new Support();
         private void sup2_Click(object sender, RoutedEventArgs e)
         {
-
+            sup.go(Support.NONE_VISIBLE);
         }
-
         private void sup1_Click(object sender, RoutedEventArgs e)
         {
-
+            sup.go(Support.NONE_VISIBLE);
         }
 
         private void killer(object sender, EventArgs e)

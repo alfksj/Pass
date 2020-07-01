@@ -144,11 +144,17 @@
   <data name="ip_addr" xml:space="preserve">
     <value>IP 주소: </value>
   </data>
+  <data name="LANG_CODE" xml:space="preserve">
+    <value>ko-KR</value>
+  </data>
   <data name="mypc" xml:space="preserve">
     <value>내 PC</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>공유할 사람이 없습니다.</value>
+  </data>
+  <data name="noneVisible" xml:space="preserve">
+    <value>왜 아무도 리스트에 보이지 않나요?</value>
   </data>
   <data name="nosel" xml:space="preserve">
     <value>공유할 파일이 없습니다.</value>

@@ -138,17 +138,32 @@
   <data name="finding" xml:space="preserve">
     <value>Finding people to share</value>
   </data>
+  <data name="hate" xml:space="preserve">
+    <value>Denied</value>
+  </data>
   <data name="invalid" xml:space="preserve">
     <value>Peer did abnormal respons</value>
   </data>
+  <data name="ipAddr" xml:space="preserve">
+    <value>IP Address</value>
+  </data>
   <data name="ip_addr" xml:space="preserve">
     <value>IP Address: </value>
+  </data>
+  <data name="LANG_CODE" xml:space="preserve">
+    <value>en-US</value>
+  </data>
+  <data name="love" xml:space="preserve">
+    <value>Accepted</value>
   </data>
   <data name="mypc" xml:space="preserve">
     <value>Your PC</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>No one to share with...</value>
+  </data>
+  <data name="noneVisible" xml:space="preserve">
+    <value>Why no one shown in the list?</value>
   </data>
   <data name="nosel" xml:space="preserve">
     <value>No sharing file selected</value>
@@ -162,11 +177,23 @@
   <data name="regedonly" xml:space="preserve">
     <value>Registered IP only</value>
   </data>
+  <data name="responeAsHost" xml:space="preserve">
+    <value>Ping Replies</value>
+  </data>
+  <data name="response" xml:space="preserve">
+    <value>Response</value>
+  </data>
+  <data name="self" xml:space="preserve">
+    <value>Ping from local(Denied)</value>
+  </data>
   <data name="sup" xml:space="preserve">
     <value>Why no one here?</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Pass</value>
+  </data>
+  <data name="vers" xml:space="preserve">
+    <value>Version Mismatch(Denied)</value>
   </data>
   <data name="viewSup" xml:space="preserve">
     <value>Learn what to do</value>

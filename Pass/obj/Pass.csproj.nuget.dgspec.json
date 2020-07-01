@@ -1,0 +1,76 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\hyunc\\source\\repos\\Pass\\Pass\\Pass.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\hyunc\\source\\repos\\Pass\\PassLibrary\\PassLibrary.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\hyunc\\source\\repos\\Pass\\PassLibrary\\PassLibrary.csproj",
+        "projectName": "PassLibrary",
+        "projectPath": "C:\\Users\\hyunc\\source\\repos\\Pass\\PassLibrary\\PassLibrary.csproj"
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "C:\\Users\\hyunc\\source\\repos\\Pass\\Pass\\Pass.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\hyunc\\source\\repos\\Pass\\Pass\\Pass.csproj",
+        "projectName": "Pass",
+        "projectPath": "C:\\Users\\hyunc\\source\\repos\\Pass\\Pass\\Pass.csproj",
+        "packagesPath": "C:\\Users\\hyunc\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hyunc\\source\\repos\\Pass\\Pass\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\hyunc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "C:\\Users\\hyunc\\source\\repos\\Pass\\PassLibrary\\PassLibrary.csproj": {
+                "projectPath": "C:\\Users\\hyunc\\source\\repos\\Pass\\PassLibrary\\PassLibrary.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Microsoft.Toolkit.Wpf.UI.Controls.WebView": {
+              "target": "Package",
+              "version": "[6.1.0, )"
+            }
+          },
+          "imports": [
+            "uap10.0.18362"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "NRmDumb8ybTxc5T53iZQVf3IuDf9ifRpkEVJSU5XjpGgDCcGljb8QKiGYs8nypZ9USZLkbCsbWCjpXmGuHt+bw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\hyunc\\source\\repos\\Pass\\Pass\\Pass.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hyunc\\.nuget\\packages\\microsoft.toolkit.wpf.ui.controls.webview\\6.1.0\\microsoft.toolkit.wpf.ui.controls.webview.6.1.0.nupkg.sha512",
+    "C:\\Users\\hyunc\\.nuget\\packages\\microsoft.windows.sdk.contracts\\10.0.18362.2005\\microsoft.windows.sdk.contracts.10.0.18362.2005.nupkg.sha512",
+    "C:\\Users\\hyunc\\.nuget\\packages\\system.runtime.windowsruntime\\4.6.0\\system.runtime.windowsruntime.4.6.0.nupkg.sha512",
+    "C:\\Users\\hyunc\\.nuget\\packages\\system.runtime.windowsruntime.ui.xaml\\4.6.0\\system.runtime.windowsruntime.ui.xaml.4.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}
