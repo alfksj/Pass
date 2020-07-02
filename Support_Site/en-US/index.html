@@ -1,19 +1,67 @@
 <!DOCTYPE html>
 
-<html lang="en-US">
+<html lang="ko-KR">
     <head>
         <title>Pass Support</title>
         <meta charset="UTF-8"/>
         <link rel="stylesheet" href="../css/style.css">
     </head>
-    <body>
+    <body onload="prepareIndex()">
         <section>
             <h1 class="title">
                 Welcome to Pass Support
             </h1>
             <form class="search_area">
-                <input placeholder="Search Pass Support" class="search" type="text" autocomplete="off" spellcheck="false">
+                <input placeholder="Search Pass Support" class="search" type="text" autocomplete="off" spellcheck="false" onkeyup="search()" onfocus="showSuggestions()">
+                <div id="hidingSuggestions" name="suggestions">
+                    
+                </div>
             </form>
         </section>
+        <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript">
+            var indexRoot;
+            function prepareIndex() {
+                $.ajax({
+                    url:"indexing.json",
+                    type:"GET",
+                    dataType:"json",
+                    cache:false,
+                    success: function(result) {
+                        indexRoot = result;
+                    },
+                    error: function(result) {
+                        alert("Cannot communicate with server: "+result.status);
+                    }
+                });
+            }
+            function search(e) {
+                var query = document.getElementsByClassName("search")[0].value.split(' ').join('').toLowerCase();
+                var suggested = [];
+                for(var key in indexRoot) {
+                    var keyx = key.split(' ').join('');
+                    if(keyx.includes(query)) {
+                        suggested.push(key);
+                    }
+                }
+                var aria = document.getElementsByName("suggestions")[0];
+                aria.innerHTML = '';
+                for(var i=0; i<Math.min(10, suggested.length); i++) {
+                    var p = document.createElement("a");
+                    p.innerHTML = suggested[i];
+                    p.className = "suggestion";
+                    p.href = indexRoot[suggested[i]];
+                    aria.appendChild(p);
+                }
+            }
+            function showSuggestions() {
+                var aria = document.getElementsByName('suggestions');
+                $(aria).attr('id', 'showingSuggestions');
+            }
+            function hideSuggections() {
+                var aria = document.getElementsByName('suggestions');
+                $(aria).attr('id', 'hidingSuggestions');
+            }
+        </script>
     </body>
 </html>
