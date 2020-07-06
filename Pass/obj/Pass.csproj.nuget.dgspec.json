@@ -46,19 +46,7 @@
         }
       },
       "frameworks": {
-        "net472": {
-          "dependencies": {
-            "Microsoft.Toolkit.Wpf.UI.Controls.WebView": {
-              "target": "Package",
-              "version": "[6.1.0, )"
-            }
-          },
-          "imports": [
-            "uap10.0.18362"
-          ],
-          "assetTargetFallback": true,
-          "warn": true
-        }
+        "net472": {}
       },
       "runtimes": {
         "win": {

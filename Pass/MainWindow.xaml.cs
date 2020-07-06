@@ -33,16 +33,17 @@ namespace Pass
             {
                 fileOpened = "null";
             }
+            Setting.load();
+            const String lang = "ko-KR";
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(lang);
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(lang);
             InitializeComponent();
             addicSup.Visibility = Visibility.Hidden;
             internet = new Internet(rm);
             Task.Run(() =>
             {
                 internet.PingReceiver();
-            });
-            Setting.load();
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+            });            
             MyIp.Content = rm.GetString("mypc") + ": " + internet.myIP;
             q.Visibility = hide;
             w.Visibility = hide;

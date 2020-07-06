@@ -22,3 +22,7 @@ C:\Users\WINNER\source\repos\Pass\PassConsole\bin\Debug\Newtonsoft.Json.xml
 \\WINNER\Users\WINNER\source\repos\Pass\PassConsole\obj\Debug\PassConsole.csproj.CopyComplete
 \\WINNER\Users\WINNER\source\repos\Pass\PassConsole\obj\Debug\PassConsole.exe
 \\WINNER\Users\WINNER\source\repos\Pass\PassConsole\obj\Debug\PassConsole.pdb
+C:\Users\hyunc\source\repos\Pass\PassConsole\obj\Debug\PassConsole.csprojAssemblyReference.cache
+C:\Users\hyunc\source\repos\Pass\PassConsole\obj\Debug\PassConsole.csproj.CoreCompileInputs.cache
+C:\Users\hyunc\source\repos\Pass\PassConsole\obj\Debug\PassConsole.exe
+C:\Users\hyunc\source\repos\Pass\PassConsole\obj\Debug\PassConsole.pdb

@@ -1,4 +1,5 @@
-﻿using System.Resources;
+﻿using System;
+using System.Resources;
 using System.Threading;
 
 namespace Pass
@@ -15,8 +16,9 @@ namespace Pass
         public void go(string type)
         {
             string lang = rm.GetString("LANG_CODE");
-            string URL = "" + lang + '/' + type;
-
+            string URL = "https://supportpass.netlify.app/" + lang + '/' + type;
+            Console.WriteLine(URL);
+            System.Diagnostics.Process.Start(URL);
         }
     }
 }

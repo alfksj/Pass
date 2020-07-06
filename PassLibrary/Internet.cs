@@ -11,6 +11,8 @@ using System.Windows;
 using System.Threading.Tasks;
 using System.Resources;
 using PassLibrary.Box;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
 
 namespace PassLibrary
 {
@@ -132,7 +134,8 @@ namespace PassLibrary
                     NetworkStream stream = cli.GetStream();
                     if(((IPEndPoint)cli.Client.RemoteEndPoint).Address.ToString().Equals(myIP))
                     {
-                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("self");
+                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("love");
+                        //byte[] tosend = ASCIIEncoding.ASCII.GetBytes("self"); above code is for debugging
                         stream.Write(tosend, 0, tosend.Length);
                         Log.log("Ping from me myself: " + endPoint.Address.ToString());
                     }
@@ -301,9 +304,9 @@ namespace PassLibrary
                                 bas = bytes;
                             }
                             bas = Math.Round(bas*100)/100;
-                            MessageBoxResult res = MessageBox.Show(((IPEndPoint)sock.RemoteEndPoint).Address.ToString() +
+                            DialogResult result = MessageBoxClass.Show(((IPEndPoint)sock.RemoteEndPoint).Address.ToString() +
                                 rm.GetString("appv1") + json.Value<String>("name") + rm.GetString("appv2") +
-                                " (" + bas + unit+')', "Pass", MessageBoxButton.OKCancel);
+                                " (" + bas + unit + ')', "Pass", rm.GetString("allow"), rm.GetString("deny"));
                         }
                         else if(msg.Equals("ping"))
                         {

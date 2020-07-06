@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="allow" xml:space="preserve">
+    <value>허용</value>
+  </data>
   <data name="appv1" xml:space="preserve">
     <value>가 </value>
   </data>
   <data name="appv2" xml:space="preserve">
     <value>를 공유하려고 합니다.</value>
+  </data>
+  <data name="deny" xml:space="preserve">
+    <value>거부</value>
   </data>
   <data name="discovered" xml:space="preserve">
     <value>다음 사람으로 부터 Pass 받기: </value>
@@ -138,14 +144,23 @@
   <data name="finding" xml:space="preserve">
     <value>공유할 사람을 찾는 중 입니다.</value>
   </data>
+  <data name="hate" xml:space="preserve">
+    <value>거부됨</value>
+  </data>
   <data name="invalid" xml:space="preserve">
     <value>상대가 정상적이지 않은 통신을 하여 통신을 중단합니다.</value>
+  </data>
+  <data name="ipAddr" xml:space="preserve">
+    <value>IP 주소</value>
   </data>
   <data name="ip_addr" xml:space="preserve">
     <value>IP 주소: </value>
   </data>
   <data name="LANG_CODE" xml:space="preserve">
     <value>ko-KR</value>
+  </data>
+  <data name="love" xml:space="preserve">
+    <value>허용됨</value>
   </data>
   <data name="mypc" xml:space="preserve">
     <value>내 PC</value>
@@ -168,11 +183,23 @@
   <data name="regedonly" xml:space="preserve">
     <value>등록된 IP만 허용</value>
   </data>
+  <data name="responeAsHost" xml:space="preserve">
+    <value>Ping 응답</value>
+  </data>
+  <data name="response" xml:space="preserve">
+    <value>응답</value>
+  </data>
+  <data name="self" xml:space="preserve">
+    <value>로컬에서 보낸 Ping(거부됨)</value>
+  </data>
   <data name="sup" xml:space="preserve">
     <value>왜 아무도 뜨지 않나요?</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Pass</value>
+  </data>
+  <data name="vers" xml:space="preserve">
+    <value>버전 다름(거부됨)</value>
   </data>
   <data name="viewSup" xml:space="preserve">
     <value>해결하기</value>

@@ -48,8 +48,6 @@ C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\Pass.exe.config
 C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\Pass.exe
 C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\Pass.pdb
 C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\ko-KR\Pass.resources.dll
-C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\Microsoft.Toolkit.Wpf.UI.Controls.WebView.dll
-C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\Microsoft.Toolkit.Wpf.UI.Controls.WebView.pdb
 C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\PassLibrary.dll
 C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\Newtonsoft.Json.dll
 C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\PassLibrary.pdb
@@ -68,3 +66,6 @@ C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\Pass.exe
 C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\Pass.pdb
 C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\Debuger.g.cs
 C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\Debuger.baml
+C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\en-US\Pass.resources.dll
+C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\Pass.Localization.en-US.resources
+C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\en-US\Pass.resources.dll

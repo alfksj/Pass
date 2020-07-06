@@ -61,6 +61,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow.
+        /// </summary>
+        public static string allow {
+            get {
+                return ResourceManager.GetString("allow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  would like to share .
         /// </summary>
         public static string appv1 {
@@ -75,6 +84,15 @@ namespace Pass {
         public static string appv2 {
             get {
                 return ResourceManager.GetString("appv2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deny.
+        /// </summary>
+        public static string deny {
+            get {
+                return ResourceManager.GetString("deny", resourceCulture);
             }
         }
         

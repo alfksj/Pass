@@ -24,3 +24,4 @@ C:\Users\hyunc\source\repos\Pass\PassLibrary\obj\Debug\PassLibrary.csproj.CoreCo
 C:\Users\hyunc\source\repos\Pass\PassLibrary\obj\Debug\PassLibrary.csproj.CopyComplete
 C:\Users\hyunc\source\repos\Pass\PassLibrary\obj\Debug\PassLibrary.dll
 C:\Users\hyunc\source\repos\Pass\PassLibrary\obj\Debug\PassLibrary.pdb
+C:\Users\hyunc\source\repos\Pass\PassLibrary\obj\Debug\PassLibrary.csprojAssemblyReference.cache
