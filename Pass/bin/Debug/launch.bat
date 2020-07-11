@@ -1,1 +1,1 @@
-Pass.exe D:\hyunc\F_ma.ent
+Pass.exe C:\Users\WINNER\Desktop\Wolfgang-amadeus-mozart_1.jpg

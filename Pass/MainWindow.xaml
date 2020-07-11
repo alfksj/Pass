@@ -32,6 +32,69 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <SolidColorBrush x:Key="ProgressBar.Progress" Color="#FF06B025"/>
+        <SolidColorBrush x:Key="ProgressBar.Background" Color="#FFE6E6E6"/>
+        <SolidColorBrush x:Key="ProgressBar.Border" Color="#FFBCBCBC"/>
+        <Style x:Key="CornerRadius" TargetType="{x:Type ProgressBar}">
+            <Setter Property="Foreground" Value="{StaticResource ProgressBar.Progress}"/>
+            <Setter Property="Background" Value="{StaticResource ProgressBar.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ProgressBar.Border}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid x:Name="TemplateRoot">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Determinate"/>
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="Animation">
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="0.25"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="Animation">
+                                                <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5"/>
+                                                <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
+                                                <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5"/>
+                                            </PointAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="5"/>
+                            <Rectangle x:Name="PART_Track" RadiusX="5" RadiusY="5"/>
+                            <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
+                                <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" RadiusX="5" RadiusY="5"/>
+                                <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" RadiusX="5" RadiusY="5">
+                                    <Rectangle.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Orientation" Value="Vertical">
+                                <Setter Property="LayoutTransform" TargetName="TemplateRoot">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsIndeterminate" Value="true">
+                                <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid Margin="0,0,-0.4,0">
@@ -72,44 +135,45 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid x:Name="q" Margin="0,0,3,2">
-                            <Image Margin="10,0,10,18" Source="Resources/win.png"/>
-                            <Label x:Name="ip1" Content="255.255.255.255" Margin="0,65,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
+                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Label x:Name="ip1" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q1" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" Click="q1_Click" BorderBrush="{x:Null}"/>
                         </Grid>
                         <Grid x:Name="w" Margin="3,0,3,2" Grid.Column="1">
-                            <Image Margin="10,0,10,18" Source="Resources/win.png"/>
-                            <Label x:Name="ip2" Content="255.255.255.255" Margin="0,65,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
+                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Label x:Name="ip2" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q2" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q2_Click"/>
                         </Grid>
                         <Grid x:Name="e" Margin="3,0,3,2" Grid.Column="2">
+                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Label x:Name="ip3" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q3" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q3_Click"/>
-                            <Image Margin="10,0,10,18" Source="Resources/win.png"/>
-                            <Label x:Name="ip3" Content="255.255.255.255" Margin="0,65,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                         </Grid>
                         <Grid x:Name="r" Margin="3,0,3,2" Grid.Column="3">
+                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Label x:Name="ip4" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q4" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q4_Click"/>
-                            <Image Margin="10,0,10,18" Source="Resources/win.png"/>
-                            <Label x:Name="ip4" Content="255.255.255.255" Margin="0,65,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                         </Grid>
                         <Grid x:Name="t" Margin="3,0,3,2" Grid.Column="4">
+                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Label x:Name="ip5" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q5" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q5_Click"/>
-                            <Image Margin="10,0,10,18" Source="Resources/win.png"/>
-                            <Label x:Name="ip5" Content="255.255.255.255" Margin="0,65,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                         </Grid>
                         <Grid x:Name="y" Margin="3,0,3,2" Grid.Column="5">
+                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Label x:Name="ip6" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q6" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q6_Click"/>
-                            <Image Margin="10,0,10,18" Source="Resources/win.png"/>
-                            <Label x:Name="ip6" Content="255.255.255.255" Margin="0,65,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                         </Grid>
                         <Grid x:Name="u" Margin="3,0,3,2" Grid.Column="6">
+                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Label x:Name="ip7" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center" Width="89"/>
                             <Button x:Name="q7" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q7_Click"/>
-                            <Image Margin="10,0,10,18" Source="Resources/win.png"/>
-                            <Label x:Name="ip7" Content="255.255.255.255" Margin="0,65,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </Grid>
             </Border>
             <Label Content="{x:Static local:Localization.ip_addr}" HorizontalAlignment="Left" Margin="69,20,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
+            <ProgressBar x:Name="progress" Height="10" Margin="59,155,59.4,0" VerticalAlignment="Top" Style="{DynamicResource CornerRadius}" Background="{x:Null}" BorderBrush="White" Foreground="#FFE8E8E8"/>
         </Grid>
     </Grid>
 </Window>

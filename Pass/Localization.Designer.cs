@@ -88,6 +88,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Denied.
+        /// </summary>
+        public static string denied {
+            get {
+                return ResourceManager.GetString("denied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deny.
         /// </summary>
         public static string deny {
@@ -111,6 +120,15 @@ namespace Pass {
         public static string doesntappear {
             get {
                 return ResourceManager.GetString("doesntappear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string error {
+            get {
+                return ResourceManager.GetString("error", resourceCulture);
             }
         }
         
@@ -282,6 +300,15 @@ namespace Pass {
         public static string self {
             get {
                 return ResourceManager.GetString("self", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending.
+        /// </summary>
+        public static string sending {
+            get {
+                return ResourceManager.GetString("sending", resourceCulture);
             }
         }
         

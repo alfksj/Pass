@@ -4,6 +4,7 @@ namespace PassLibrary
 {
     public class Log
     {
+        public const int INFO = 0, WARN = 1, ERR = 2, FATAL = 3;
         /// <summary>
         /// make log
         /// </summary>
@@ -36,6 +37,22 @@ namespace PassLibrary
         {
             string now = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
             Console.WriteLine(now + " |INFO| " + msg);
+        }
+        public static void serverLog(string msg)
+        {
+            log("SERVER > " + msg);
+        }
+        public static void clientLog(string msg)
+        {
+            log("CLIENT > " + msg);
+        }
+        public static void serverLog(string msg, int code)
+        {
+            log("SERVER > " + msg, code);
+        }
+        public static void clientLog(string msg, int code)
+        {
+            log("CLIENT > " + msg, code);
         }
     }
 }

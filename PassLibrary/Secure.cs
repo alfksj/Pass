@@ -9,7 +9,7 @@ namespace PassLibrary
 {
     public class Secure
     {
-        public Secure(String Key)
+        public Secure(string Key)
         {
             KEY = Key;
         }
@@ -34,7 +34,8 @@ namespace PassLibrary
             return new string(Enumerable.Repeat(chars, len)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
-        public String AES256Encrypt(String msg)
+        //TODO: Code Optimize
+        public string AES256Encrypt(string msg)
         {
             RijndaelManaged aes = new RijndaelManaged();
             aes.KeySize = 256;
@@ -57,7 +58,7 @@ namespace PassLibrary
             string Output = Convert.ToBase64String(buf);
             return Output;
         }
-        public String AES256Decrypt(String msg)
+        public string AES256Decrypt(string msg)
         {
             RijndaelManaged aes = new RijndaelManaged();
             aes.KeySize = 256;
@@ -79,6 +80,48 @@ namespace PassLibrary
             }
             string Output = Encoding.UTF8.GetString(buf);
             return Output;
+        }
+        public byte[] AES256Encrypt(byte[] msg)
+        {
+            RijndaelManaged aes = new RijndaelManaged();
+            aes.KeySize = 256;
+            aes.BlockSize = 128;
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.Key = Encoding.UTF8.GetBytes(Key);
+            aes.IV = Encoding.UTF8.GetBytes(IV);
+            var encrypt = aes.CreateEncryptor(aes.Key, aes.IV);
+            byte[] buf = null;
+            using (var ms = new MemoryStream())
+            {
+                using (var cs = new CryptoStream(ms, encrypt, CryptoStreamMode.Write))
+                {
+                    cs.Write(msg, 0, msg.Length);
+                }
+                buf = ms.ToArray();
+            }
+            return buf;
+        }
+        public byte[] AES256Decrypt(byte[] msg)
+        {
+            RijndaelManaged aes = new RijndaelManaged();
+            aes.KeySize = 256;
+            aes.BlockSize = 128;
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.Key = Encoding.UTF8.GetBytes(Key);
+            aes.IV = Encoding.UTF8.GetBytes(IV);
+            var decrypt = aes.CreateDecryptor();
+            byte[] buf = null;
+            using (var ms = new MemoryStream())
+            {
+                using (var cs = new CryptoStream(ms, decrypt, CryptoStreamMode.Write))
+                {
+                    cs.Write(msg, 0, msg.Length);
+                }
+                buf = ms.ToArray();
+            }
+            return buf;
         }
         public class RSASystem
         {

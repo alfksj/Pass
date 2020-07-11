@@ -7,7 +7,8 @@ using PassLibrary;
 using System.Threading.Tasks;
 using System;
 using System.Windows.Input;
-using System.Diagnostics;
+using Label = System.Windows.Controls.Label;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace Pass
 {
@@ -21,7 +22,7 @@ namespace Pass
         private string fileOpened;
         private List<string> IP;
         private ResourceManager rm = new ResourceManager("Pass.Localization", typeof(MainWindow).Assembly);
-        Internet internet;
+        private Internet internet;
         public MainWindow()
         {
             string[] cmds = Environment.GetCommandLineArgs();
@@ -34,12 +35,37 @@ namespace Pass
                 fileOpened = "null";
             }
             Setting.load();
-            const String lang = "ko-KR";
+            const string lang = "en-US";
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(lang);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(lang);
             InitializeComponent();
             addicSup.Visibility = Visibility.Hidden;
-            internet = new Internet(rm);
+            internet = new Internet(rm, progress);
+            internet.setFunction(
+            (bool action) =>
+            {
+                progress.Dispatcher.Invoke(() =>
+                {
+                    progress.IsIndeterminate = action;
+                });
+            },
+            (int max) =>
+            {
+                progress.Dispatcher.Invoke(() =>
+                {
+                    progress.IsIndeterminate = false;
+                    progress.Minimum = 0;
+                    progress.Maximum = max;
+                    progress.Value = 0;
+                });
+            },
+            () =>
+            {
+                progress.Dispatcher.Invoke(() =>
+                {
+                    progress.Value++;
+                });
+            });
             Task.Run(() =>
             {
                 internet.PingReceiver();
@@ -176,7 +202,7 @@ namespace Pass
             Environment.Exit(0);
         }
 
-        private void exec(int whoareu)
+        private void exec(int whoareu, Label label)
         {
             if (fileOpened.Equals("null"))
             {
@@ -184,42 +210,67 @@ namespace Pass
                 return;
             }
             string ip = IP[whoareu];
-            internet.wannaSendTo(ip, fileOpened);
+            label.FontWeight = FontWeights.Bold;
+            label.Content = rm.GetString("sending");
+            label.Foreground = Brushes.LawnGreen;
+            Task.Run(()=>{
+                int result = internet.wannaSendTo(ip, fileOpened);
+                if(result==Internet.DENIED)
+                {
+                    label.Dispatcher.Invoke(() =>
+                    {
+                        label.Content = rm.GetString("denied");
+                        label.Foreground = Brushes.Red;
+                    });
+                }
+                else if(result==Internet.ERROR)
+                {
+                    label.Dispatcher.Invoke(() =>
+                    {
+                        label.Content = rm.GetString("error");
+                        label.Foreground = Brushes.Red;
+                    });
+                }
+                label.Dispatcher.Invoke(() =>
+                {
+                    label.FontWeight = FontWeights.Normal;
+                });
+            });
         }
 
         private void q1_Click(object sender, RoutedEventArgs e)
         {
-            exec(0);
+            exec(0, ip1);
         }
 
         private void q2_Click(object sender, RoutedEventArgs e)
         {
-            exec(1);
+            exec(1, ip2);
         }
 
         private void q3_Click(object sender, RoutedEventArgs e)
         {
-            exec(2);
+            exec(2, ip3);
         }
 
         private void q4_Click(object sender, RoutedEventArgs e)
         {
-            exec(3);
+            exec(3, ip4);
         }
 
         private void q5_Click(object sender, RoutedEventArgs e)
         {
-            exec(4);
+            exec(4, ip5);
         }
 
         private void q6_Click(object sender, RoutedEventArgs e)
         {
-            exec(5);
+            exec(5, ip6);
         }
 
         private void q7_Click(object sender, RoutedEventArgs e)
         {
-            exec(6);
+            exec(6, ip7);
         }
     }
 }
