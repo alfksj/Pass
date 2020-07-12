@@ -63,7 +63,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="5"/>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="5" Visibility="Hidden"/>
                             <Rectangle x:Name="PART_Track" RadiusX="5" RadiusY="5"/>
                             <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
                                 <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" RadiusX="5" RadiusY="5"/>
@@ -173,7 +173,43 @@
                 </Grid>
             </Border>
             <Label Content="{x:Static local:Localization.ip_addr}" HorizontalAlignment="Left" Margin="69,20,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
-            <ProgressBar x:Name="progress" Height="10" Margin="59,155,59.4,0" VerticalAlignment="Top" Style="{DynamicResource CornerRadius}" Background="{x:Null}" BorderBrush="White" Foreground="#FFE8E8E8"/>
+            <Popup/>
+            <StatusBar Height="16.667" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Margin="-0.15,0,0.15,0" Background="Black">
+                <StatusBar.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="-2.148"/>
+                        <RotateTransform/>
+                        <TranslateTransform X="0.463"/>
+                    </TransformGroup>
+                </StatusBar.RenderTransform>
+                <StatusBar.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </StatusBar.ItemsPanel>
+                <StatusBarItem Grid.Column="0" Margin="-0.003,-8.333,-0.497,-7" RenderTransformOrigin="0.5,0.5" Foreground="White">
+                    <StatusBarItem.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="-0.486"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="-0.158"/>
+                        </TransformGroup>
+                    </StatusBarItem.RenderTransform>
+                    <Label x:Name="statusText" Content="dddysdsdfsdfsdf" Background="{x:Null}" Foreground="White"/>
+                </StatusBarItem>
+                <Separator Grid.Column="1" />
+                <StatusBarItem Grid.Column="3">
+                    <ProgressBar x:Name="progress" Height="10" VerticalAlignment="Top" Style="{DynamicResource CornerRadius}" Background="{x:Null}" BorderBrush="White" Foreground="White" Width="516.267"/>
+                </StatusBarItem>
+            </StatusBar>
         </Grid>
     </Grid>
 </Window>

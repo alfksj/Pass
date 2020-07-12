@@ -201,6 +201,9 @@
   <data name="sending" xml:space="preserve">
     <value>Sending</value>
   </data>
+  <data name="sent" xml:space="preserve">
+    <value>Sent</value>
+  </data>
   <data name="sup" xml:space="preserve">
     <value>Why no one here?</value>
   </data>

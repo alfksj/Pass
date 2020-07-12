@@ -32,13 +32,18 @@ namespace Pass
             }
             else
             {
-                fileOpened = "null";
+                fileOpened = null;
             }
             Setting.load();
             const string lang = "en-US";
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(lang);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(lang);
             InitializeComponent();
+            if (fileOpened != null)
+            {
+                statusText.Content = fileOpened;
+            }
+            else statusText.Content = "Not selelcted";
             addicSup.Visibility = Visibility.Hidden;
             internet = new Internet(rm, progress);
             internet.setFunction(
@@ -210,6 +215,7 @@ namespace Pass
                 return;
             }
             string ip = IP[whoareu];
+            string origin = label.Content.ToString();
             label.FontWeight = FontWeights.Bold;
             label.Content = rm.GetString("sending");
             label.Foreground = Brushes.LawnGreen;
@@ -231,8 +237,18 @@ namespace Pass
                         label.Foreground = Brushes.Red;
                     });
                 }
+                else if(result==Internet.SUCESS)
+                {
+                    label.Dispatcher.Invoke(() =>
+                    {
+                        label.Content = rm.GetString("sent");
+                    });
+                }
+                Thread.Sleep(1000);
                 label.Dispatcher.Invoke(() =>
                 {
+                    label.Content = origin;
+                    label.Foreground = Brushes.White;
                     label.FontWeight = FontWeights.Normal;
                 });
             });

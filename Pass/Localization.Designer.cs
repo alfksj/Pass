@@ -313,6 +313,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sent.
+        /// </summary>
+        public static string sent {
+            get {
+                return ResourceManager.GetString("sent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Why no one here?.
         /// </summary>
         public static string sup {

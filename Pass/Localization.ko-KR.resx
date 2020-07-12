@@ -201,6 +201,9 @@
   <data name="sending" xml:space="preserve">
     <value>공유중</value>
   </data>
+  <data name="sent" xml:space="preserve">
+    <value>보내짐</value>
+  </data>
   <data name="sup" xml:space="preserve">
     <value>왜 아무도 뜨지 않나요?</value>
   </data>
