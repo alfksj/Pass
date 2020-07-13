@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Windows.Controls;
 
 namespace PassLibrary
 {
     public class Log
     {
+        private static Action<string> logger;
+        public static void setLogVisualizer(Action<string> setter)
+        {
+            logger = setter;
+        }
         public const int INFO = 0, WARN = 1, ERR = 2, FATAL = 3;
         /// <summary>
         /// make log
@@ -40,19 +46,43 @@ namespace PassLibrary
         }
         public static void serverLog(string msg)
         {
+            logger.Invoke(msg);
             log("SERVER > " + msg);
         }
         public static void clientLog(string msg)
         {
+            logger.Invoke(msg);
             log("CLIENT > " + msg);
         }
         public static void serverLog(string msg, int code)
         {
+            logger.Invoke(msg);
             log("SERVER > " + msg, code);
         }
         public static void clientLog(string msg, int code)
         {
+            logger.Invoke(msg);
             log("CLIENT > " + msg, code);
+        }
+        public static void pingSender(string msg)
+        {
+            logger.Invoke(msg);
+            log("PingSender > " + msg);
+        }
+        public static void pingReceiver(string msg)
+        {
+            logger.Invoke(msg);
+            log("PingReceiver > " + msg);
+        }
+        public static void pingSender(string msg, int code)
+        {
+            logger.Invoke(msg);
+            log("PingSender > " + msg, code);
+        }
+        public static void pingReceiver(string msg, int code)
+        {
+            logger.Invoke(msg);
+            log("PingReceiver > " + msg, code);
         }
     }
 }

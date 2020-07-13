@@ -51,18 +51,19 @@ namespace PassLibrary
         {
             determined.Invoke(true);
             List<string> okIp = new List<string>();
-            Log.log("Scanning private network");
+            Log.pingSender("Scanning private network");
             Socket updSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             updSocket.EnableBroadcast = true;
             byte[] sendbuf = Encoding.ASCII.GetBytes("Hi+"+VERSION);
             EndPoint targetPoint = new IPEndPoint(IPAddress.Broadcast, PING_PORT);
             updSocket.SendTo(sendbuf, targetPoint);
-            Log.log("Sent broadcasting ping");
+            Log.pingSender("Sent broadcasting ping");
             updSocket.Close();
             Socket avls = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint serverEP = new IPEndPoint(IPAddress.Any, PING_PORT);
             avls.Bind(serverEP);
             avls.Listen(10);
+            Log.pingSender("Waiting for response");
             Thread receiving = new Thread(() =>
             {
                 while (true)
@@ -77,20 +78,24 @@ namespace PassLibrary
                             string r_msg = ASCIIEncoding.ASCII.GetString(msg);
                             if (r_msg.Equals("love"))
                             {
-                                Log.log("Accepted: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
+                                Log.pingSender("Accepted: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
                                 okIp.Add(((IPEndPoint)socket.RemoteEndPoint).Address.ToString());
                             }
                             else if (r_msg.Equals("vers"))
                             {
-                                Log.log("Version Mismatched: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
+                                Log.pingSender("Version Mismatched: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
                             }
-                            else if(r_msg.Equals("self"))
+                            else if (r_msg.Equals("self"))
                             {
-                                Log.log("Myself: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
+                                Log.pingSender("Myself: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
+                            }
+                            else if (r_msg.Equals("hate"))
+                            {
+                                Log.pingSender("Denied: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
                             }
                             else
                             {
-                                Log.log("Denied: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
+                                Log.pingSender("Invalid reponse: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"', Log.WARN);
                             }
                             lastResponse.Add(new Response()
                             {
@@ -103,7 +108,7 @@ namespace PassLibrary
                         respon.Close();
                     } catch(ThreadAbortException)
                     {
-                        Log.log("Abort Replies receiving");
+                        Log.pingSender("Abort Replies receiving");
                         determined.Invoke(false);
                         return;
                     } catch(SocketException)
@@ -116,7 +121,7 @@ namespace PassLibrary
             receiving.Start();
             receiving.Join(5000);
             avls.Close();
-            Log.log("Searching finished");
+            Log.pingSender("Searching finished");
             determined.Invoke(false);
             return okIp;
         }
@@ -125,7 +130,7 @@ namespace PassLibrary
         /// </summary>
         public void PingReceiver()
         {
-            Log.log("Ping Receiver Started");
+            Log.pingReceiver("Ping Receiver Started");
             while(true)
             {
                 UdpClient pinger = new UdpClient(PING_PORT);
@@ -134,7 +139,7 @@ namespace PassLibrary
                 string origin = endPoint.Address.ToString();
                 pinger.Close();
                 string code = ASCIIEncoding.ASCII.GetString(received);
-                Log.log("Ping received!");
+                Log.pingReceiver("Ping received!");
                 string[] div = code.Split(new char[] { '+' });
                 if(div[0].Equals("Hi"))
                 {
@@ -143,29 +148,27 @@ namespace PassLibrary
                     NetworkStream stream = cli.GetStream();
                     if(((IPEndPoint)cli.Client.RemoteEndPoint).Address.ToString().Equals(myIP))
                     {
-                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("love");
-                        //TODO: above code is for debugging
-                        //byte[] tosend = ASCIIEncoding.ASCII.GetBytes("self");
+                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("self");
                         stream.Write(tosend, 0, tosend.Length);
-                        Log.log("Ping from me myself: " + endPoint.Address.ToString());
+                        Log.pingReceiver("Ping from me myself: " + endPoint.Address.ToString());
                     }
                     else if(!div[1].Equals(VERSION))
                     {
                         byte[] tosend = ASCIIEncoding.ASCII.GetBytes("vers");
                         stream.Write(tosend, 0, tosend.Length);
-                        Log.log("Version Mismatch: " + endPoint.Address.ToString());
+                        Log.pingReceiver("Version Mismatch: " + endPoint.Address.ToString());
                     }
                     else if(!Setting.Sharing)
                     {
                         byte[] tosend = ASCIIEncoding.ASCII.GetBytes("hate");
                         stream.Write(tosend, 0, tosend.Length);
-                        Log.log("Deny: " + endPoint.Address.ToString());
+                        Log.pingReceiver("Deny: " + endPoint.Address.ToString());
                     }
                     else
                     {
                         byte[] tosend = ASCIIEncoding.ASCII.GetBytes("love");
                         stream.Write(tosend, 0, tosend.Length);
-                        Log.log("Accept: " + endPoint.Address.ToString());
+                        Log.pingReceiver("Accept: " + endPoint.Address.ToString());
                     }
                     stream.Flush();
                     stream.Close();
@@ -173,7 +176,7 @@ namespace PassLibrary
                 }
                 else
                 {
-                    Log.log("Invalid ping message: " + code, 2);
+                    Log.pingReceiver("Invalid ping message: " + code, Log.WARN);
                 }
             }
         }

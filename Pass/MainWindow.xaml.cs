@@ -9,6 +9,12 @@ using System;
 using System.Windows.Input;
 using Label = System.Windows.Controls.Label;
 using Brushes = System.Windows.Media.Brushes;
+using Application = System.Windows.Application;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MessageBox = System.Windows.MessageBox;
+using System.Windows.Forms;
+using System.Drawing;
+using System.ComponentModel;
 
 namespace Pass
 {
@@ -26,7 +32,7 @@ namespace Pass
         public MainWindow()
         {
             string[] cmds = Environment.GetCommandLineArgs();
-            if(cmds.Length>1)
+            if (cmds.Length > 1)
             {
                 fileOpened = cmds[1];
             }
@@ -39,12 +45,49 @@ namespace Pass
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(lang);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(lang);
             InitializeComponent();
+            //TRAY
+            NotifyIcon ni = new NotifyIcon();
+            ContextMenu tray = new ContextMenu();
+            MenuItem exit = new MenuItem();
+            exit.Index = 0;
+            exit.Text = rm.GetString("exit");
+            exit.Click += delegate (object click, EventArgs e)
+            {
+                Environment.Exit(0);
+            };
+            MenuItem open = new MenuItem();
+            open.Text = rm.GetString("open");
+            open.Click += delegate (object click, EventArgs e)
+            {
+                Show();
+            };
+            SettingPage settingPage = new SettingPage();
+            MenuItem setting = new MenuItem();
+            setting.Text = rm.GetString("setting");
+            setting.Click += delegate (object click, EventArgs e)
+            {
+                settingPage.Show();
+            };
+            open.Index = 0;
+            tray.MenuItems.Add(setting);
+            tray.MenuItems.Add(open);
+            tray.MenuItems.Add(exit);
+            ResourceManager resource = new ResourceManager("Pass.Resource", typeof(MainWindow).Assembly);
+            ni.Icon = new Icon("Resources\\icon.ico");
+            ni.Visible = true;
+            ni.DoubleClick += delegate (object senders, EventArgs e)
+            {
+                Show();
+            };
+            ni.ContextMenu = tray;
+            ni.Text = "Pass";
+            //
             if (fileOpened != null)
             {
                 statusText.Content = fileOpened;
             }
             else statusText.Content = "Not selelcted";
-            addicSup.Visibility = Visibility.Hidden;
+            status.Visibility = hide;
             internet = new Internet(rm, progress);
             internet.setFunction(
             (bool action) =>
@@ -71,10 +114,17 @@ namespace Pass
                     progress.Value++;
                 });
             });
+            Log.setLogVisualizer((string msg)=>
+            {
+                statusText.Dispatcher.Invoke(() =>
+                {
+                    statusText.Content = msg;
+                });
+            });
             Task.Run(() =>
             {
                 internet.PingReceiver();
-            });            
+            });     
             MyIp.Content = rm.GetString("mypc") + ": " + internet.myIP;
             q.Visibility = hide;
             w.Visibility = hide;
@@ -88,7 +138,7 @@ namespace Pass
             debuger.setResourceManager(rm);
             internet.serverStart();
         }
-        private int keptKeyDown = 0;
+        private long keptKeyDown = 0, lastCtrl = 0;
         private Debuger debuger = new Debuger();
         private void keyDown(object sender, KeyEventArgs e)
         {
@@ -99,6 +149,22 @@ namespace Pass
             else
             {
                 keptKeyDown = 0;
+            }
+            if(e.Key==Key.LeftCtrl || e.Key==Key.RightCtrl)
+            {
+                if((long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds - lastCtrl < 2)
+                {
+                    status.Visibility = status.Visibility == show ? hide : show;
+                    lastCtrl = 0;
+                }
+                else
+                {
+                    lastCtrl = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                }
+            }
+            else
+            {
+                lastCtrl = 0;
             }
             if(keptKeyDown==5)
             {
@@ -127,13 +193,6 @@ namespace Pass
                         none.Visibility = Visibility.Visible;
                     });
                     retries++;
-                    if (retries >= 2)
-                    {
-                        addicSup.Dispatcher.Invoke(() =>
-                        {
-                            addicSup.Visibility = Visibility.Visible;
-                        });
-                    }
                 }
                 else
                 {
@@ -202,9 +261,10 @@ namespace Pass
             sup.go(Support.NONE_VISIBLE);
         }
 
-        private void killer(object sender, EventArgs e)
+        private void killer(object sender, CancelEventArgs e)
         {
-            Environment.Exit(0);
+            e.Cancel = true;
+            Hide();
         }
 
         private void exec(int whoareu, Label label)

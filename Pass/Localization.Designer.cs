@@ -133,6 +133,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit Pass.
+        /// </summary>
+        public static string exit {
+            get {
+                return ResourceManager.GetString("exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Peer has a problem with a file.
         /// </summary>
         public static string FileErr {
@@ -259,6 +268,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open Pass.
+        /// </summary>
+        public static string open {
+            get {
+                return ResourceManager.GetString("open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Still having problem?.
         /// </summary>
         public static string problem {
@@ -318,6 +336,15 @@ namespace Pass {
         public static string sent {
             get {
                 return ResourceManager.GetString("sent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pass settings.
+        /// </summary>
+        public static string setting {
+            get {
+                return ResourceManager.GetString("setting", resourceCulture);
             }
         }
         

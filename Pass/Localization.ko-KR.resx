@@ -141,6 +141,9 @@
   <data name="error" xml:space="preserve">
     <value>오류</value>
   </data>
+  <data name="exit" xml:space="preserve">
+    <value>Pass 종료</value>
+  </data>
   <data name="FileErr" xml:space="preserve">
     <value>상대가 보내려는 파일에 문제가 생겼습니다.</value>
   </data>
@@ -183,6 +186,9 @@
   <data name="notSharing" xml:space="preserve">
     <value>파일 공유를 하려면 우선 파일 공유를 허용해야 합니다.</value>
   </data>
+  <data name="open" xml:space="preserve">
+    <value>Pass 열기</value>
+  </data>
   <data name="problem" xml:space="preserve">
     <value>여전히 안 되나요?</value>
   </data>
@@ -203,6 +209,9 @@
   </data>
   <data name="sent" xml:space="preserve">
     <value>보내짐</value>
+  </data>
+  <data name="setting" xml:space="preserve">
+    <value>Pass 설정</value>
   </data>
   <data name="sup" xml:space="preserve">
     <value>왜 아무도 뜨지 않나요?</value>
