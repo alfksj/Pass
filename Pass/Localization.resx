@@ -141,9 +141,6 @@
   <data name="error" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="exit" xml:space="preserve">
-    <value>Exit Pass</value>
-  </data>
   <data name="FileErr" xml:space="preserve">
     <value>Peer has a problem with a file</value>
   </data>
@@ -186,9 +183,6 @@
   <data name="notSharing" xml:space="preserve">
     <value>Enable sharing option to share file</value>
   </data>
-  <data name="open" xml:space="preserve">
-    <value>Open Pass</value>
-  </data>
   <data name="problem" xml:space="preserve">
     <value>Still having problem?</value>
   </data>
@@ -209,9 +203,6 @@
   </data>
   <data name="sent" xml:space="preserve">
     <value>Sent</value>
-  </data>
-  <data name="setting" xml:space="preserve">
-    <value>Pass settings</value>
   </data>
   <data name="sup" xml:space="preserve">
     <value>Why no one here?</value>

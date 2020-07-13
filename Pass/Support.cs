@@ -1,5 +1,6 @@
-﻿using System.Resources;
-using PassLibrary;
+﻿using System;
+using System.Resources;
+using System.Threading;
 
 namespace Pass
 {
@@ -16,7 +17,7 @@ namespace Pass
         {
             string lang = rm.GetString("LANG_CODE");
             string URL = "https://supportpass.netlify.app/" + lang + '/' + type;
-            Log.log("OpenSupport: " + URL);
+            Console.WriteLine(URL);
             System.Diagnostics.Process.Start(URL);
         }
     }

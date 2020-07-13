@@ -106,9 +106,18 @@
                 </Grid.ColumnDefinitions>
                 <Button x:Name="refresh" Style="{StaticResource BtnStyle}" Content="{x:Static local:Localization.doesntappear}" Margin="0,2,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="16" Click="refresh_Click" Height="Auto" Width="Auto" Foreground="#FF51A8FF"/>
             </Grid>
+            <Border x:Name="addicSup" BorderBrush="White" BorderThickness="1" Margin="0,0,114.4,10" CornerRadius="7" HorizontalAlignment="Right" Width="155" Height="56" VerticalAlignment="Bottom">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="{x:Static local:Localization.problem}" VerticalAlignment="Top" Foreground="White" FontSize="14" HorizontalAlignment="Center" Margin="7,0"/>
+                    <Button x:Name="sup2" Content="{x:Static local:Localization.viewSup}" Style="{StaticResource BtnStyle}" Margin="23,29,23,0" FontSize="14" Background="{x:Null}" Foreground="#FF51A8FF" BorderBrush="{x:Null}" HorizontalAlignment="Center" Click="sup2_Click"/>
+                </Grid>
+            </Border>
             <Border BorderBrush="White" BorderThickness="2" Height="100" Margin="30,50,30.4,0" VerticalAlignment="Top" CornerRadius="10" Width="676">
                 <Grid>
-                    <Grid x:Name="none" Height="76" Margin="10,10,10,0" VerticalAlignment="Top" Visibility="Hidden">
+                    <Grid x:Name="none" HorizontalAlignment="Left" Height="76" Margin="10,10,0,0" VerticalAlignment="Top" Width="708" Visibility="Hidden">
                         <Label Content="{x:Static local:Localization.none}" Margin="10,0,10,43" Foreground="White" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
                         <Button x:Name="sup1" Content="{x:Static local:Localization.sup}" Style="{StaticResource BtnStyle}" Margin="10,38,10,0" VerticalAlignment="Top" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF51A8FF" Click="sup1_Click"/>
                     </Grid>
@@ -165,7 +174,7 @@
             </Border>
             <Label Content="{x:Static local:Localization.ip_addr}" HorizontalAlignment="Left" Margin="69,20,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
             <Popup/>
-            <StatusBar x:Name="status" Height="16.667" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Margin="-0.15,0,0.15,0" Background="Black">
+            <StatusBar Height="16.667" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Margin="-0.15,0,0.15,0" Background="Black">
                 <StatusBar.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -194,7 +203,7 @@
                             <TranslateTransform X="-0.158"/>
                         </TransformGroup>
                     </StatusBarItem.RenderTransform>
-                    <Label x:Name="statusText" Content="Nothing" Background="{x:Null}" Foreground="White"/>
+                    <Label x:Name="statusText" Content="dddysdsdfsdfsdf" Background="{x:Null}" Foreground="White"/>
                 </StatusBarItem>
                 <Separator Grid.Column="1" />
                 <StatusBarItem Grid.Column="3">
