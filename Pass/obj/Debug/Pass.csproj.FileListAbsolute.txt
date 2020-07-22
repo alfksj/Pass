@@ -69,3 +69,8 @@ C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\Debuger.baml
 C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\en-US\Pass.resources.dll
 C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\Pass.Localization.en-US.resources
 C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\en-US\Pass.resources.dll
+C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\SettingPage.g.cs
+C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\SettingPage.baml
+C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\WPF\ToggleButton.g.cs
+C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\WPF\ToggleButton.baml
+C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\GeneratedInternalTypeHelper.g.cs

@@ -1,41 +1,55 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Dynamic;
-using System.IO;
-using System.Net;
+﻿using Microsoft.Win32;
 
 namespace PassLibrary
 {
     public class Setting
     {
-        private static string ROOT = Environment.GetEnvironmentVariable("appdata") + "/Pass";
-        private static string PATH = Environment.GetEnvironmentVariable("appdata")+"/Pass/setting.json";
-
-        private static bool sharing { get; set; }
-        private static string iam { get; set; }
-        public static bool Sharing
+        private const string REGED_PATH = "HKEY_CURRENT_USER\\SOFTWARE\\Pass";
+        public static bool sharing { get; set; }
+        public static string name { get; set; }
+        public static bool askBeforeShare { get; set; }
+        public static string defaultSave { get; set; }
+        public static int pingTimeout { get; set; }
+        public static bool statusOnLaunch { get; set; }
+        public static bool logOnLaunch { get; set; }
+        private class Preset
         {
-            get
+            public static int Lenght
             {
-                return sharing;
+                get
+                {
+                    int a = keyList.Length, b = defaultSetting.Length;
+                    if (a != b)
+                    {
+                        return 0;
+                    }
+                    else return a;
+                }
             }
-            set
+            public static string[] keyList = { "sharing", "DeviceName", "askBeforeShare", "DefaultSave", "PingTimeout", "statusOnLaunch", "LogPageOnLaunch" };
+            public static object[] defaultSetting = { true, "", false, "D:\\", 3000, false, false };
+            public static RegistryValueKind[] valueType = { RegistryValueKind.String, RegistryValueKind.String, RegistryValueKind.String,
+                RegistryValueKind.String, RegistryValueKind.DWord, RegistryValueKind.String, RegistryValueKind.String };
+        }
+        public static void checkEnvironment()
+        {
+            Log.log("Checking Registry environment");
+            RegistryKey keyRoot = Registry.CurrentUser.OpenSubKey("SOFTWARE").OpenSubKey("Pass");
+            if (keyRoot == null)
             {
-                sharing = value;
+                Registry.SetValue(REGED_PATH, "valid", true);
+                Log.log("Created key:" + REGED_PATH);
+            }
+            for (int i = 0; i < Preset.Lenght; i++)
+            {
+                object key = Registry.GetValue(REGED_PATH, Preset.keyList[i], null);
+                if (key == null)
+                {
+                    Log.log("Created " + REGED_PATH + Preset.keyList[i] + " = \"" + Preset.defaultSetting[i] + "\"");
+                    Registry.SetValue(REGED_PATH, Preset.keyList[i], Preset.defaultSetting[i], Preset.valueType[i]);
+                }
             }
         }
-        public static string Iam
-        {
-            get
-            {
-                return iam;
-            }
-            set
-            {
-                iam = value;
-            }
-        }
-
         /// <summary>
         /// Load setting
         /// configure env if it's not configured.
@@ -43,19 +57,13 @@ namespace PassLibrary
         public static void load()
         {
             Log.log("Loading");
-            if(!Directory.Exists(ROOT) || !File.Exists(PATH))
-            {
-                Directory.CreateDirectory(ROOT);
-                File.WriteAllText(PATH, "{\n" +
-                    "    \"allowShare\":true,\n" +
-                    "    \"iam\":\"DefaultName\"\n" +
-                    "}");
-                Log.log("Environment configured");
-            }
-            string raw = File.ReadAllText(PATH);
-            JObject RootObj = JObject.Parse(raw);
-            Sharing = (bool)RootObj.GetValue("allowShare");
-            Iam = RootObj.GetValue("iam").ToString();
+            sharing = bool.Parse(Registry.GetValue(REGED_PATH, "sharing", true).ToString());
+            name = Registry.GetValue(REGED_PATH, "DeviceName", "").ToString();
+            askBeforeShare = bool.Parse(Registry.GetValue(REGED_PATH, "askBeforeShare", false).ToString());
+            defaultSave = Registry.GetValue(REGED_PATH, "DefaultSave", "").ToString();
+            pingTimeout = (int)Registry.GetValue(REGED_PATH, "PingTimeout", 0);
+            statusOnLaunch = bool.Parse(Registry.GetValue(REGED_PATH, "statusOnLaunch", false).ToString());
+            logOnLaunch = bool.Parse(Registry.GetValue(REGED_PATH, "LogPageOnLaunch", false).ToString());
             Log.log("Loaded!");
         }
         /// <summary>
@@ -65,15 +73,13 @@ namespace PassLibrary
         public static void save()
         {
             Log.log("Saving");
-            if (!Directory.Exists(ROOT))
-            {
-                Directory.CreateDirectory(ROOT);
-                Log.log("Environment configured");
-            }
-            File.WriteAllText(PATH, "{\n" +
-                    "    \"allowShare\":"+Sharing.ToString()+"\n" +
-                    "    \"iam\":\""+Iam+"\"" +
-                    "}");
+            Registry.SetValue(REGED_PATH, "sharing", sharing);
+            Registry.SetValue(REGED_PATH, "DeviceName", name);
+            Registry.SetValue(REGED_PATH, "askBeforeShare", askBeforeShare);
+            Registry.SetValue(REGED_PATH, "DefaultSave", defaultSave);
+            Registry.SetValue(REGED_PATH, "PingTimeout", pingTimeout);
+            Registry.SetValue(REGED_PATH, "statusOnLaunch", statusOnLaunch);
+            Registry.SetValue(REGED_PATH, "LogPageOnLaunch", logOnLaunch);
             Log.log("Saved!");
         }
     }

@@ -98,24 +98,9 @@
     </Window.Resources>
     <Grid>
         <Grid Margin="0,0,-0.4,0">
-            <Image Margin="10,0,10,82" Source="Resources/win.png" Height="59" VerticalAlignment="Bottom"/>
-            <Label x:Name="MyIp" Content="Hello." Margin="10,0,10,47" Foreground="White" Height="35" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FontSize="18" FontFamily="SpoqaHanSans"/>
-            <Grid Margin="10,0,10,10" Height="37" VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="refresh" Style="{StaticResource BtnStyle}" Content="{x:Static local:Localization.doesntappear}" Margin="0,2,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="16" Click="refresh_Click" Height="Auto" Width="Auto" Foreground="#FF51A8FF"/>
-            </Grid>
-            <Border x:Name="addicSup" BorderBrush="White" BorderThickness="1" Margin="0,0,114.4,10" CornerRadius="7" HorizontalAlignment="Right" Width="155" Height="56" VerticalAlignment="Bottom">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label Content="{x:Static local:Localization.problem}" VerticalAlignment="Top" Foreground="White" FontSize="14" HorizontalAlignment="Center" Margin="7,0"/>
-                    <Button x:Name="sup2" Content="{x:Static local:Localization.viewSup}" Style="{StaticResource BtnStyle}" Margin="23,29,23,0" FontSize="14" Background="{x:Null}" Foreground="#FF51A8FF" BorderBrush="{x:Null}" HorizontalAlignment="Center" Click="sup2_Click"/>
-                </Grid>
-            </Border>
-            <Border BorderBrush="White" BorderThickness="2" Height="100" Margin="30,50,30.4,0" VerticalAlignment="Top" CornerRadius="10" Width="676">
+            <Image Margin="367,205,367.4,82" Source="pack://application:,,,/Resources/win.png" HorizontalAlignment="Center"/>
+            <Label x:Name="MyIp" Content="Hello." Margin="10,0,10,47" Foreground="White" Width="auto" Height="35" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FontSize="18" FontFamily="SpoqaHanSans" HorizontalAlignment="Center"/>
+            <Border BorderBrush="White" BorderThickness="2" Height="100" Margin="30,50,30.4,0" VerticalAlignment="Top" CornerRadius="10" Width="676" HorizontalAlignment="Center">
                 <Grid>
                     <Grid x:Name="none" HorizontalAlignment="Left" Height="76" Margin="10,10,0,0" VerticalAlignment="Top" Width="708" Visibility="Hidden">
                         <Label Content="{x:Static local:Localization.none}" Margin="10,0,10,43" Foreground="White" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
@@ -135,46 +120,46 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid x:Name="q" Margin="0,0,3,2">
-                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip1" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q1" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" Click="q1_Click" BorderBrush="{x:Null}"/>
                         </Grid>
                         <Grid x:Name="w" Margin="3,0,3,2" Grid.Column="1">
-                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip2" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q2" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q2_Click"/>
                         </Grid>
                         <Grid x:Name="e" Margin="3,0,3,2" Grid.Column="2">
-                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip3" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q3" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q3_Click"/>
                         </Grid>
                         <Grid x:Name="r" Margin="3,0,3,2" Grid.Column="3">
-                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip4" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q4" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q4_Click"/>
                         </Grid>
                         <Grid x:Name="t" Margin="3,0,3,2" Grid.Column="4">
-                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip5" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q5" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q5_Click"/>
                         </Grid>
                         <Grid x:Name="y" Margin="3,0,3,2" Grid.Column="5">
-                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip6" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
                             <Button x:Name="q6" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q6_Click"/>
                         </Grid>
                         <Grid x:Name="u" Margin="3,0,3,2" Grid.Column="6">
-                            <Image Margin="10,0,10,25" Source="Resources/win.png"/>
+                            <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip7" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center" Width="89"/>
                             <Button x:Name="q7" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q7_Click"/>
                         </Grid>
                     </Grid>
                 </Grid>
             </Border>
-            <Label Content="{x:Static local:Localization.ip_addr}" HorizontalAlignment="Left" Margin="69,20,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
+            <Label HorizontalContentAlignment="Left" Content="{x:Static local:Localization.ip_addr}" HorizontalAlignment="Left" Margin="69,20,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15" Height="30" Width="auto"/>
             <Popup/>
-            <StatusBar Height="16.667" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Margin="-0.15,0,0.15,0" Background="Black">
+            <StatusBar x:Name="status" Height="16.667" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Margin="-0.15,0,0.15,0" Background="Black">
                 <StatusBar.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -210,6 +195,7 @@
                     <ProgressBar x:Name="progress" Height="10" VerticalAlignment="Top" Style="{DynamicResource CornerRadius}" Background="{x:Null}" BorderBrush="White" Foreground="White" Width="516.267"/>
                 </StatusBarItem>
             </StatusBar>
+            <Button x:Name="refresh" Style="{StaticResource BtnStyle}" Content="{x:Static local:Localization.doesntappear}" Margin="11,300,10.4,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="16" Click="refresh_Click" Height="Auto" Width="Auto" Foreground="#FF51A8FF" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>
 </Window>

@@ -70,6 +70,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sharing :.
+        /// </summary>
+        public static string allowSharing {
+            get {
+                return ResourceManager.GetString("allowSharing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  would like to share .
         /// </summary>
         public static string appv1 {
@@ -84,6 +93,43 @@ namespace Pass {
         public static string appv2 {
             get {
                 return ResourceManager.GetString("appv2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ask before share : .
+        /// </summary>
+        public static string AskBeforeShare {
+            get {
+                return ResourceManager.GetString("AskBeforeShare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You would like to share .
+        /// </summary>
+        public static string askBeforeShare1 {
+            get {
+                return ResourceManager.GetString("askBeforeShare1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        ///Are you sure?.
+        /// </summary>
+        public static string askBeforeShare2 {
+            get {
+                return ResourceManager.GetString("askBeforeShare2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading Path : .
+        /// </summary>
+        public static string DefaultSavingPath {
+            get {
+                return ResourceManager.GetString("DefaultSavingPath", resourceCulture);
             }
         }
         
@@ -133,6 +179,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string exit {
+            get {
+                return ResourceManager.GetString("exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Peer has a problem with a file.
         /// </summary>
         public static string FileErr {
@@ -160,11 +215,29 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string general {
+            get {
+                return ResourceManager.GetString("general", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Denied.
         /// </summary>
         public static string hate {
             get {
                 return ResourceManager.GetString("hate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string info {
+            get {
+                return ResourceManager.GetString("info", resourceCulture);
             }
         }
         
@@ -196,6 +269,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IP Address.
+        /// </summary>
+        public static string IpAddress {
+            get {
+                return ResourceManager.GetString("IpAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to en-US.
         /// </summary>
         public static string LANG_CODE {
@@ -214,11 +296,47 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MAC Address.
+        /// </summary>
+        public static string MacAddress {
+            get {
+                return ResourceManager.GetString("MacAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name :.
+        /// </summary>
+        public static string myName {
+            get {
+                return ResourceManager.GetString("myName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your PC.
         /// </summary>
         public static string mypc {
             get {
                 return ResourceManager.GetString("mypc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string name {
+            get {
+                return ResourceManager.GetString("name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network.
+        /// </summary>
+        public static string network {
+            get {
+                return ResourceManager.GetString("network", resourceCulture);
             }
         }
         
@@ -255,6 +373,52 @@ namespace Pass {
         public static string notSharing {
             get {
                 return ResourceManager.GetString("notSharing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Pass.
+        /// </summary>
+        public static string open {
+            get {
+                return ResourceManager.GetString("open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pass Protocol Version.
+        /// </summary>
+        public static string PassProtocolVersion {
+            get {
+                return ResourceManager.GetString("PassProtocolVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pass Version.
+        /// </summary>
+        public static string PassVersion {
+            get {
+                return ResourceManager.GetString("PassVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to As scan time is long you may find device with slow device, but you have to wait longer time.
+        ///Normaly, shorter than a second is also good..
+        /// </summary>
+        public static string pingTimeExplain {
+            get {
+                return ResourceManager.GetString("pingTimeExplain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network Scan Timeout(ms) :.
+        /// </summary>
+        public static string PingTimeout {
+            get {
+                return ResourceManager.GetString("PingTimeout", resourceCulture);
             }
         }
         
@@ -318,6 +482,24 @@ namespace Pass {
         public static string sent {
             get {
                 return ResourceManager.GetString("sent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string settings {
+            get {
+                return ResourceManager.GetString("settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must turn sharing on to share.
+        /// </summary>
+        public static string sharingAlert {
+            get {
+                return ResourceManager.GetString("sharingAlert", resourceCulture);
             }
         }
         

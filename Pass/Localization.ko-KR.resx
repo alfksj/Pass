@@ -120,11 +120,27 @@
   <data name="allow" xml:space="preserve">
     <value>허용</value>
   </data>
+  <data name="allowSharing" xml:space="preserve">
+    <value>공유 허용 :</value>
+  </data>
   <data name="appv1" xml:space="preserve">
     <value>(이)가 </value>
   </data>
   <data name="appv2" xml:space="preserve">
     <value>를 공유하려고 합니다.</value>
+  </data>
+  <data name="AskBeforeShare" xml:space="preserve">
+    <value>공유 전 묻기 : </value>
+  </data>
+  <data name="askBeforeShare1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="askBeforeShare2" xml:space="preserve">
+    <value>(을)를 공유하려고 합니다.
+계속합니까?</value>
+  </data>
+  <data name="DefaultSavingPath" xml:space="preserve">
+    <value>저장 경로 : </value>
   </data>
   <data name="denied" xml:space="preserve">
     <value>거부됨</value>
@@ -141,6 +157,9 @@
   <data name="error" xml:space="preserve">
     <value>오류</value>
   </data>
+  <data name="exit" xml:space="preserve">
+    <value>Pass 종료</value>
+  </data>
   <data name="FileErr" xml:space="preserve">
     <value>상대가 보내려는 파일에 문제가 생겼습니다.</value>
   </data>
@@ -150,13 +169,22 @@
   <data name="finding" xml:space="preserve">
     <value>공유할 사람을 찾는 중 입니다.</value>
   </data>
+  <data name="general" xml:space="preserve">
+    <value>일반</value>
+  </data>
   <data name="hate" xml:space="preserve">
     <value>거부됨</value>
+  </data>
+  <data name="info" xml:space="preserve">
+    <value>정보</value>
   </data>
   <data name="invalid" xml:space="preserve">
     <value>상대가 정상적이지 않은 통신을 하여 통신을 중단합니다.</value>
   </data>
   <data name="ipAddr" xml:space="preserve">
+    <value>IP 주소</value>
+  </data>
+  <data name="IpAddress" xml:space="preserve">
     <value>IP 주소</value>
   </data>
   <data name="ip_addr" xml:space="preserve">
@@ -168,8 +196,20 @@
   <data name="love" xml:space="preserve">
     <value>허용됨</value>
   </data>
+  <data name="MacAddress" xml:space="preserve">
+    <value>MAC 주소</value>
+  </data>
+  <data name="myName" xml:space="preserve">
+    <value>이름 :</value>
+  </data>
   <data name="mypc" xml:space="preserve">
     <value>내 PC</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>이름</value>
+  </data>
+  <data name="network" xml:space="preserve">
+    <value>네트워크</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>공유할 사람이 없습니다.</value>
@@ -182,6 +222,22 @@
   </data>
   <data name="notSharing" xml:space="preserve">
     <value>파일 공유를 하려면 우선 파일 공유를 허용해야 합니다.</value>
+  </data>
+  <data name="open" xml:space="preserve">
+    <value>열기</value>
+  </data>
+  <data name="PassProtocolVersion" xml:space="preserve">
+    <value>Pass 프로토콜 버전</value>
+  </data>
+  <data name="PassVersion" xml:space="preserve">
+    <value>Pass 버전</value>
+  </data>
+  <data name="pingTimeExplain" xml:space="preserve">
+    <value>네트워크에서 공유가능한 기기를 검색하는 시간입니다.
+가능한 네트워크가 느릴수록 길게 하는 것이 좋습니다.</value>
+  </data>
+  <data name="PingTimeout" xml:space="preserve">
+    <value>네트워크 검색 대기시간(ms) :</value>
   </data>
   <data name="problem" xml:space="preserve">
     <value>여전히 안 되나요?</value>
@@ -203,6 +259,15 @@
   </data>
   <data name="sent" xml:space="preserve">
     <value>보내짐</value>
+  </data>
+  <data name="setting" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="settings" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="sharingAlert" xml:space="preserve">
+    <value>You must turn sharing on to share</value>
   </data>
   <data name="sup" xml:space="preserve">
     <value>왜 아무도 뜨지 않나요?</value>

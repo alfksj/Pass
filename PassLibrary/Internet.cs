@@ -14,8 +14,6 @@ using PassLibrary.Box;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using MessageBox = System.Windows.MessageBox;
-using ProgressBar = System.Windows.Controls.ProgressBar;
-using System.Security.Policy;
 
 namespace PassLibrary
 {
@@ -27,8 +25,7 @@ namespace PassLibrary
         public string myIP = "-1";
         public List<Response> lastResponse = new List<Response>();
         private ResourceManager rm;
-        private ProgressBar progress;
-        public Internet(ResourceManager rm, ProgressBar progress)
+        public Internet(ResourceManager rm)
         {
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (IPAddress ip in host.AddressList)
@@ -39,8 +36,23 @@ namespace PassLibrary
                     break;
                 }
             }
-            this.progress = progress;
             this.rm = rm;
+        }
+        /// <summary>
+        /// Get local ip address
+        /// </summary>
+        /// <returns></returns>
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
         }
         /// <summary>
         /// Send ping to local network machine  through broatcasting
@@ -114,7 +126,7 @@ namespace PassLibrary
                 }
             });
             receiving.Start();
-            receiving.Join(5000);
+            receiving.Join(Setting.pingTimeout);
             avls.Close();
             Log.log("Searching finished");
             determined.Invoke(false);
@@ -155,7 +167,7 @@ namespace PassLibrary
                         stream.Write(tosend, 0, tosend.Length);
                         Log.log("Version Mismatch: " + endPoint.Address.ToString());
                     }
-                    else if(!Setting.Sharing)
+                    else if(!Setting.sharing)
                     {
                         byte[] tosend = ASCIIEncoding.ASCII.GetBytes("hate");
                         stream.Write(tosend, 0, tosend.Length);
@@ -234,7 +246,8 @@ namespace PassLibrary
             //Log.log("Send \""+toSend+"\"");
             s.Send(toSend);
         }
-        public void mainServer()
+        private Action<bool> frameControl;
+        public void mainServer(Window window)
         {
             try
             {
@@ -257,7 +270,7 @@ namespace PassLibrary
                         msg = receive(sock);
                         if(msg.Equals("handshake")) // Share request
                         {
-                            if(!Setting.Sharing)
+                            if(!Setting.sharing)
                             {
                                 send("{\"reply\":\"deny\",\"reason\":\"notSharing\"}", sock);
                                 Log.serverLog("Denied request: You're currently not sharing", Log.WARN);
@@ -318,6 +331,7 @@ namespace PassLibrary
                                 bas = bytes;
                             }
                             bas = Math.Round(bas*100)/100;
+                            frameControl.Invoke(true);
                             DialogResult result = MessageBoxClass.Show(((IPEndPoint)sock.RemoteEndPoint).Address.ToString() +
                                 rm.GetString("appv1") + json.Value<string>("name") + rm.GetString("appv2") +
                                 " (" + bas + unit + ')', "Pass", rm.GetString("allow"), rm.GetString("deny"));
@@ -328,11 +342,12 @@ namespace PassLibrary
                             else
                             {
                                 send("deny", sock, secure);
+                                frameControl.Invoke(false);
                                 return;
                             }
                             string hashValue = receive(sock, secure);
                             Log.serverLog("Received hash");
-                            string targetPath = "D:\\hyunc\\"+json.Value<string>("name");
+                            string targetPath = Setting.defaultSave;
                             Log.serverLog("Write to " + targetPath);
                             //file download start;
                             Log.serverLog("Downloading started");
@@ -407,11 +422,12 @@ namespace PassLibrary
         private Action<bool> determined;
         private Action<int> initializer;
         private Action adder;
-        public void setFunction(Action<bool> determined, Action<int> initializer, Action adder)
+        public void setFunction(Action<bool> determined, Action<int> initializer, Action adder, Action<bool> FrameControl)
         {
             this.determined = determined;
             this.initializer = initializer;
             this.adder = adder;
+            this.frameControl = FrameControl;
         }
         public static string reason;
         public static int SUCESS = 0;
@@ -555,11 +571,11 @@ namespace PassLibrary
             Log.clientLog("Done: sent " + packets + " file pieces");
             return SUCESS;
         }
-        public void serverStart()
+        public void serverStart(Window window)
         {
             Task.Run(() =>
             {
-                mainServer();
+                mainServer(window);
             });
         }
     }

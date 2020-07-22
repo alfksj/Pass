@@ -9,6 +9,12 @@ using System;
 using System.Windows.Input;
 using Label = System.Windows.Controls.Label;
 using Brushes = System.Windows.Media.Brushes;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MessageBox = System.Windows.Forms.MessageBox;
+using System.Diagnostics;
 
 namespace Pass
 {
@@ -34,18 +40,63 @@ namespace Pass
             {
                 fileOpened = null;
             }
+            Setting.checkEnvironment();
             Setting.load();
             const string lang = "en-US";
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(lang);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(lang);
             InitializeComponent();
+            SettingPage settingPage = new SettingPage();
+            settingPage.Rm = rm;
+            settingPage.applySetting();
+            if (Setting.logOnLaunch) debuger.Show();
+            if (Setting.statusOnLaunch) status.Visibility = show;
+            //DEBUG//
+            //Hide();
+            settingPage.Show();
+            /////////
+            //TRAY
+            NotifyIcon ni = new NotifyIcon();
+            ContextMenu tray = new ContextMenu();
+            MenuItem exit = new MenuItem();
+            exit.Index = 0;
+            exit.Text = rm.GetString("exit");
+            exit.Click += delegate (object click, EventArgs e)
+            {
+                Environment.Exit(0);
+            };
+            MenuItem open = new MenuItem();
+            open.Text = rm.GetString("open");
+            open.Click += delegate (object click, EventArgs e)
+            {
+                Show();
+            };
+            MenuItem setting = new MenuItem();
+            setting.Text = rm.GetString("settings");
+            setting.Click += delegate (object click, EventArgs e)
+            {
+                settingPage.Show();
+            };
+            open.Index = 0;
+            tray.MenuItems.Add(setting);
+            tray.MenuItems.Add(open);
+            tray.MenuItems.Add(exit);
+            ResourceManager resource = new ResourceManager("Pass.Resource", typeof(MainWindow).Assembly);
+            ni.Icon = new Icon("assets/pass.ico");
+            ni.Visible = true;
+            ni.DoubleClick += delegate (object senders, EventArgs e)
+            {
+                Show();
+            };
+            ni.ContextMenu = tray;
+            ni.Text = "Pass";
+            //
             if (fileOpened != null)
             {
                 statusText.Content = fileOpened;
             }
             else statusText.Content = "Not selelcted";
-            addicSup.Visibility = Visibility.Hidden;
-            internet = new Internet(rm, progress);
+            internet = new Internet(rm);
             internet.setFunction(
             (bool action) =>
             {
@@ -70,11 +121,19 @@ namespace Pass
                 {
                     progress.Value++;
                 });
+            },
+            (bool show) =>
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (show) Show();
+                    else Hide();
+                });
             });
             Task.Run(() =>
             {
                 internet.PingReceiver();
-            });            
+            });
             MyIp.Content = rm.GetString("mypc") + ": " + internet.myIP;
             q.Visibility = hide;
             w.Visibility = hide;
@@ -86,9 +145,10 @@ namespace Pass
             lst.Visibility = hide;
             sup.setResourceManager(rm);
             debuger.setResourceManager(rm);
-            internet.serverStart();
+            internet.serverStart(this);
         }
         private int keptKeyDown = 0;
+        private long lastKeyDown=0;
         private Debuger debuger = new Debuger();
         private void keyDown(object sender, KeyEventArgs e)
         {
@@ -99,6 +159,22 @@ namespace Pass
             else
             {
                 keptKeyDown = 0;
+            }
+            if(e.Key==Key.LeftCtrl)
+            {
+                if(lastKeyDown==0)
+                {
+                    lastKeyDown = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                }
+                else
+                {
+                    long interval=(long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds-lastKeyDown;
+                    if(interval<=1)
+                    {
+                        status.Visibility = status.Visibility == show ? hide : show;
+                    }
+                    lastKeyDown = 0;
+                }
             }
             if(keptKeyDown==5)
             {
@@ -127,13 +203,6 @@ namespace Pass
                         none.Visibility = Visibility.Visible;
                     });
                     retries++;
-                    if (retries >= 2)
-                    {
-                        addicSup.Dispatcher.Invoke(() =>
-                        {
-                            addicSup.Visibility = Visibility.Visible;
-                        });
-                    }
                 }
                 else
                 {
@@ -202,17 +271,31 @@ namespace Pass
             sup.go(Support.NONE_VISIBLE);
         }
 
-        private void killer(object sender, EventArgs e)
+        private void killer(object sender, CancelEventArgs e)
         {
-            Environment.Exit(0);
+            Hide();
+            e.Cancel = true;
         }
 
         private void exec(int whoareu, Label label)
         {
+            if(!Setting.sharing)
+            {
+                MessageBox.Show(rm.GetString("sharingAlert"), "Pass", MessageBoxButtons.OK);
+                return;
+            }
             if (fileOpened.Equals("null"))
             {
                 MessageBox.Show(rm.GetString("nosel"), "Pass");
                 return;
+            }
+            if (Setting.askBeforeShare)
+            {
+                DialogResult opti = MessageBox.Show(rm.GetString("askBeforeShare1")+fileOpened+rm.GetString("askBeforeShare2"), "Pass", MessageBoxButtons.YesNo);
+                if (opti == System.Windows.Forms.DialogResult.No)
+                {
+                    return;
+                }
             }
             string ip = IP[whoareu];
             string origin = label.Content.ToString();

@@ -120,11 +120,27 @@
   <data name="allow" xml:space="preserve">
     <value>Allow</value>
   </data>
+  <data name="allowSharing" xml:space="preserve">
+    <value>Sharing :</value>
+  </data>
   <data name="appv1" xml:space="preserve">
     <value> would like to share </value>
   </data>
   <data name="appv2" xml:space="preserve">
     <value />
+  </data>
+  <data name="AskBeforeShare" xml:space="preserve">
+    <value>Ask before share :</value>
+  </data>
+  <data name="askBeforeShare1" xml:space="preserve">
+    <value>You would like to share </value>
+  </data>
+  <data name="askBeforeShare2" xml:space="preserve">
+    <value>.
+Are you sure?</value>
+  </data>
+  <data name="DefaultSavingPath" xml:space="preserve">
+    <value>Downloading Path :</value>
   </data>
   <data name="denied" xml:space="preserve">
     <value>Denied</value>
@@ -141,6 +157,9 @@
   <data name="error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
   <data name="FileErr" xml:space="preserve">
     <value>Peer has a problem with a file</value>
   </data>
@@ -150,13 +169,22 @@
   <data name="finding" xml:space="preserve">
     <value>Finding people to share</value>
   </data>
+  <data name="general" xml:space="preserve">
+    <value>General</value>
+  </data>
   <data name="hate" xml:space="preserve">
     <value>Denied</value>
+  </data>
+  <data name="info" xml:space="preserve">
+    <value>About</value>
   </data>
   <data name="invalid" xml:space="preserve">
     <value>Peer did abnormal respons</value>
   </data>
   <data name="ipAddr" xml:space="preserve">
+    <value>IP Address</value>
+  </data>
+  <data name="IpAddress" xml:space="preserve">
     <value>IP Address</value>
   </data>
   <data name="ip_addr" xml:space="preserve">
@@ -168,8 +196,20 @@
   <data name="love" xml:space="preserve">
     <value>Accepted</value>
   </data>
+  <data name="MacAddress" xml:space="preserve">
+    <value>MAC Address</value>
+  </data>
+  <data name="myName" xml:space="preserve">
+    <value>Name :</value>
+  </data>
   <data name="mypc" xml:space="preserve">
     <value>Your PC</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="network" xml:space="preserve">
+    <value>Network</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>No one to share with...</value>
@@ -182,6 +222,22 @@
   </data>
   <data name="notSharing" xml:space="preserve">
     <value>Enable sharing option to share file</value>
+  </data>
+  <data name="open" xml:space="preserve">
+    <value>Open Pass</value>
+  </data>
+  <data name="PassProtocolVersion" xml:space="preserve">
+    <value>Pass Protocol Version</value>
+  </data>
+  <data name="PassVersion" xml:space="preserve">
+    <value>Pass Version</value>
+  </data>
+  <data name="pingTimeExplain" xml:space="preserve">
+    <value>Time that will search sharable device in network. As your network is slow,
+you'd better to take this longer.</value>
+  </data>
+  <data name="PingTimeout" xml:space="preserve">
+    <value>Network Search Timeout(ms) :</value>
   </data>
   <data name="problem" xml:space="preserve">
     <value>Still having problem?</value>
@@ -203,6 +259,15 @@
   </data>
   <data name="sent" xml:space="preserve">
     <value>Sent</value>
+  </data>
+  <data name="setting" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="sharingAlert" xml:space="preserve">
+    <value>You must turn sharing on to share</value>
   </data>
   <data name="sup" xml:space="preserve">
     <value>Why no one here?</value>
