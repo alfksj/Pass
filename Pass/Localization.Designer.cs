@@ -125,11 +125,47 @@ namespace Pass {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Downloading Path : .
+        ///   Looks up a localized string similar to Automatically scan when Pass is launched : .
+        /// </summary>
+        public static string AutoScanOnLaunch {
+            get {
+                return ResourceManager.GetString("AutoScanOnLaunch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically scan when Pass is showing : .
+        /// </summary>
+        public static string AutoScanOnVisible {
+            get {
+                return ResourceManager.GetString("AutoScanOnVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Startup : .
+        /// </summary>
+        public static string AutoStartOnComputerBoot {
+            get {
+                return ResourceManager.GetString("AutoStartOnComputerBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading Path.
         /// </summary>
         public static string DefaultSavingPath {
             get {
                 return ResourceManager.GetString("DefaultSavingPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading Path :.
+        /// </summary>
+        public static string DefaultSavingPathSetter {
+            get {
+                return ResourceManager.GetString("DefaultSavingPathSetter", resourceCulture);
             }
         }
         
@@ -287,6 +323,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language :.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accepted.
         /// </summary>
         public static string love {
@@ -382,6 +427,15 @@ namespace Pass {
         public static string open {
             get {
                 return ResourceManager.GetString("open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open load page on start :.
+        /// </summary>
+        public static string OpenLogPageAlways {
+            get {
+                return ResourceManager.GetString("OpenLogPageAlways", resourceCulture);
             }
         }
         
@@ -495,6 +549,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Share With Pass.
+        /// </summary>
+        public static string shareWith {
+            get {
+                return ResourceManager.GetString("shareWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must turn sharing on to share.
         /// </summary>
         public static string sharingAlert {
@@ -531,11 +594,29 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot share with different version of Pass.
+        /// </summary>
+        public static string versMismatch {
+            get {
+                return ResourceManager.GetString("versMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Learn what to do.
         /// </summary>
         public static string viewSup {
             get {
                 return ResourceManager.GetString("viewSup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show statusbar on start :.
+        /// </summary>
+        public static string VisibleStatusBarOnLaunch {
+            get {
+                return ResourceManager.GetString("VisibleStatusBarOnLaunch", resourceCulture);
             }
         }
     }

@@ -155,9 +155,7 @@ namespace PassLibrary
                     NetworkStream stream = cli.GetStream();
                     if(((IPEndPoint)cli.Client.RemoteEndPoint).Address.ToString().Equals(myIP))
                     {
-                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("love");
-                        //TODO: above code is for debugging
-                        //byte[] tosend = ASCIIEncoding.ASCII.GetBytes("self");
+                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("self");
                         stream.Write(tosend, 0, tosend.Length);
                         Log.log("Ping from me myself: " + endPoint.Address.ToString());
                     }
@@ -201,7 +199,7 @@ namespace PassLibrary
                 if (x == 0x1a) break;
                 else bid.Append(x);
             }
-            //Log.log("received \"" + bid.ToString() + "\"");
+//Log.log("received \"" + bid.ToString() + "\"");
             return bid.ToString();
         }
         private void send(string msg, Socket s)
@@ -216,6 +214,7 @@ namespace PassLibrary
             string mmsg = msg + '';
             byte[] toSend = new byte[msg.Length];
             toSend = Bytes.AETB(mmsg);
+//Log.log("Send \"" + Bytes.getRawString(toSend) + "\"");
             s.Send(toSend);
         }
         private string receive(Socket s, Secure secure)
@@ -231,7 +230,7 @@ namespace PassLibrary
             }
             string sxe = bid.ToString();
             string bidx = secure.AES256Decrypt(sxe);
-            //Log.log("received \"" + bidx + "\"");
+//Log.log("received \"" + bidx + "\"");
             return bidx;
         }
         private void send(string msg, Socket s, Secure secure)
@@ -241,10 +240,8 @@ namespace PassLibrary
                 return;
             }
             string enc = secure.AES256Encrypt(msg)+ "";
-            byte[] toSend = new byte[s.ReceiveBufferSize];
-            toSend = Bytes.AETB(enc);
-            //Log.log("Send \""+toSend+"\"");
-            s.Send(toSend);
+//Log.log("Send \""+ Bytes.getRawString(Bytes.AETB(enc)) + "\"");
+            s.Send(Bytes.AETB(enc));
         }
         private Action<bool> frameControl;
         public void mainServer(Window window)
@@ -268,7 +265,7 @@ namespace PassLibrary
                         //HAND SHAKE
                         string msg;
                         msg = receive(sock);
-                        if(msg.Equals("handshake")) // Share request
+                        if(msg.Substring(0,9).Equals("handshake")) // Share request
                         {
                             if(!Setting.sharing)
                             {
@@ -277,7 +274,13 @@ namespace PassLibrary
                                 MessageBox.Show("notSharing", "Pass", MessageBoxButton.OK);
                                 return;
                             }
-                            //TODO: Version mismatch handle
+                            if(!msg.Substring(9, msg.Length-9).Equals(VERSION))
+                            {
+                                send("{\"reply\":\"deny\",\"reason\":\"VersionMismatch\"}", sock);
+                                Log.serverLog("Denied request: FROM"+ msg.Substring(9, msg.Length - 9)+" You're: "+VERSION, Log.WARN);
+                                MessageBox.Show("versMismatch", "Pass", MessageBoxButton.OK);
+                                return;
+                            }
                             else
                             {
                                 send("{\"reply\":\"approve\"}", sock);
@@ -347,26 +350,30 @@ namespace PassLibrary
                             }
                             string hashValue = receive(sock, secure);
                             Log.serverLog("Received hash");
-                            string targetPath = Setting.defaultSave;
+                            string targetPath = Setting.defaultSave + '\\' + json.Value<string>("name");
                             Log.serverLog("Write to " + targetPath);
                             //file download start;
                             Log.serverLog("Downloading started");
                             MD5 md5 = MD5.Create();
                             int packets = 0;
                             FileStream stream = File.OpenWrite(targetPath);
+                            Log.serverLog("Writing stream connected");
                             while(true)
                             {
+//Log.serverLog("Waiting for data piece");
                                 string dataSegment = receive(sock);
                                 JObject data = JObject.Parse(dataSegment);
                                 string segment = (String)data.GetValue("segment");
                                 string hash = (String)data.GetValue("hash");
                                 bool isEnd = (bool)data.GetValue("isEnd");
                                 byte[] finalSegment = secure.AES256Decrypt(Convert.FromBase64String(segment));
-                                //Log.serverLog("Got data piece: " + hash);
+
+//Log.serverLog("Got data piece: " + hash);
+
                                 string hashed = Bytes.getRawString(md5.ComputeHash(finalSegment));
                                 if (hash.Equals(hashed)) {
                                     send("ok", sock, secure);
-                                    //Log.serverLog("Wrote " + finalSegment.Length + " bytes");
+//Log.serverLog("Wrote " + finalSegment.Length + " bytes");
                                     stream.Write(finalSegment, 0, finalSegment.Length);
                                     packets++;
                                     if (isEnd) break;
@@ -374,7 +381,7 @@ namespace PassLibrary
                                 else
                                 {
                                     send("retry", sock, secure);
-                                    //Log.serverLog("HASH MISMATCH! requested resend(Hash="+hashed+')', Log.ERR);
+                Log.serverLog("HASH MISMATCH! requested resend(Hash="+hashed+')', Log.ERR);
                                 }
                             }
                             stream.Close();
@@ -435,141 +442,149 @@ namespace PassLibrary
         public static int ERROR = 2;
         public int wannaSendTo(string ip, string path)
         {
-            determined.Invoke(true);
-            Log.clientLog("Connecting to " + ip);
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ip), CONTROL_PORT);
-            socket.Connect(iPEnd);
-            socket.SendBufferSize = 262144;
-            socket.ReceiveBufferSize = 262144;
-            send("handshake", socket);
-            string reply = receive(socket);
-            var j1 = JObject.Parse(reply);
-            if(j1.Value<string>("reply").Equals("deny"))
+            try
             {
-                Log.clientLog("Denied: "+j1.Value<string>("reason"), Log.WARN);
-                reason = j1.Value<string>("reason").ToString();
-                determined.Invoke(false);
-                return DENIED;
-            }
-            else if(!j1.Value<string>("reply").Equals("approve"))
-            {
-                Log.clientLog("Invalid message: " + reply, Log.ERR);
-                reason = "invalid";
-                determined.Invoke(false);
-                return ERROR;
-            }
-            Log.clientLog("RSA public key was received");
-            string pubKey = receive(socket);
-            Secure.RSASystem rsa = new Secure.RSASystem(pubKey);
-            Secure secure = new Secure();
-            secure.Key = "32";
-            send(rsa.encrypt(secure.Key), socket);
-            Log.clientLog("Replied AES key");
-            //Get Allow
-            JObject pack = new JObject();
-            if(!File.Exists(path))
-            {
-                Log.clientLog("File not exists(or it is directory): "+path, Log.ERR);
-                pack.Add("reply", "FileErr");
-                send(pack.ToString(), socket, secure);
-                reason = "FileNotFound";
-                determined.Invoke(false);
-                return ERROR;
-            }
-            FileInfo file = new FileInfo(path);
-            pack.Add("reply", "OK");
-            pack.Add("name", file.Name);
-            pack.Add("size", file.Length);
-            Log.clientLog("File data: "+file.Name+" "+file.Length+" Bytes");
-            send(pack.ToString(), socket, secure);
-            string received = receive(socket, secure);
-            if (received.Equals("deny"))
-            {
-                Log.clientLog("User denied", Log.WARN);
-                determined.Invoke(false);
-                return DENIED;
-            }
-            else if(!received.Equals("approve"))
-            {
-                Log.clientLog("User invalid reply", Log.ERR);
-                determined.Invoke(false);
-                return ERROR;
-            }
-            Log.clientLog("Received Allow Sign!");
-            //Get hash and send: MD5;
-            Log.clientLog("Computing hash");
-            byte[] hashValue;
-            string stringHashValue;
-            MD5 hash = MD5.Create();
-            using (FileStream stream = File.OpenRead(file.FullName))
-            {
-                hashValue = hash.ComputeHash(stream);
-                stringHashValue = Bytes.getRawString(hashValue);
-            }
-            Log.clientLog("Sending hash");
-            send(stringHashValue, socket, secure);
-            Log.clientLog("Sending");
-            //Send start;
-            FileStream fileStream = file.OpenRead();
-            //const int sendingBufferSize = 320; //320B
-            const int sendingBufferSize = 131072; //128KB
-            //const int sendingBufferSize = 1048576; //1MB
-            //const int sendingBufferSize = 524288; //0.5MB
-            initializer.Invoke((int)((file.Length + (sendingBufferSize - (file.Length % sendingBufferSize))) / sendingBufferSize));
-            Log.log((file.Length + (sendingBufferSize - (file.Length % sendingBufferSize))) / sendingBufferSize + " Pieces");
-            int packets = 0;
-            while (true)
-            {
-                byte[] sendingBuffer = new byte[sendingBufferSize];
-                byte[] encryptedSendingBuffer = new byte[sendingBufferSize+16];
-                int read = fileStream.Read(sendingBuffer, 0, sendingBufferSize);
-                /*
-                Log.clientLog("Read " + read + " bytes");
-                Log.clientLog("Encryption started");
-                */
-                byte[] fitByteBuffer = new byte[read];
-                Array.Copy(sendingBuffer, fitByteBuffer, read);
-                encryptedSendingBuffer = secure.AES256Encrypt(fitByteBuffer);
-                string thisData = Convert.ToBase64String(encryptedSendingBuffer);
-                //Log.clientLog("Encryption done");
-                JObject packet = new JObject();
-                string packetHash = Bytes.getRawString(hash.ComputeHash(fitByteBuffer));
-                packet.Add("segment", thisData);
-                packet.Add("hash", packetHash);
-                packet.Add("isEnd", (read < sendingBufferSize ? true : false));
-                thisData = null;
-                encryptedSendingBuffer = null;
-                string replied;
-                int attemp = 0;
-                do
+                determined.Invoke(true);
+                Log.clientLog("Connecting to " + ip);
+                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ip), CONTROL_PORT);
+                socket.Connect(iPEnd);
+                socket.SendBufferSize = 262144;
+                socket.ReceiveBufferSize = 262144;
+                send("handshake" + VERSION, socket);
+                string reply = receive(socket);
+                var j1 = JObject.Parse(reply);
+                if (j1.Value<string>("reply").Equals("deny"))
                 {
-                    attemp++;
-                    //Log.clientLog("Sending data piece: " + (String)packet.GetValue("hash"));
-                    send(packet.ToString(), socket);
-                    //Log.clientLog("Waiting for response");
-                    replied = receive(socket, secure);
-                    //Log.clientLog("File segment reply: \"" + replied + "\", Attemp: "+attemp);
-                } while (!replied.Equals("ok")); // Retry if hash is not correct
-                adder.Invoke();
-                packets++;
-                if (read < sendingBufferSize) break;
-            }
-            Log.clientLog("Waiting for hash test result");
-            string hashReply = receive(socket, secure);
-            if(hashReply.Equals("hash"))
+                    Log.clientLog("Denied: " + j1.Value<string>("reason"), Log.WARN);
+                    reason = j1.Value<string>("reason").ToString();
+                    determined.Invoke(false);
+                    return DENIED;
+                }
+                else if (!j1.Value<string>("reply").Equals("approve"))
+                {
+                    Log.clientLog("Invalid message: " + reply, Log.ERR);
+                    reason = "invalid";
+                    determined.Invoke(false);
+                    return ERROR;
+                }
+                Log.clientLog("RSA public key was received");
+                string pubKey = receive(socket);
+                Secure.RSASystem rsa = new Secure.RSASystem(pubKey);
+                Secure secure = new Secure();
+                secure.Key = "32";
+                send(rsa.encrypt(secure.Key), socket);
+                Log.clientLog("Replied AES key");
+                //Get Allow
+                JObject pack = new JObject();
+                if (!File.Exists(path))
+                {
+                    Log.clientLog("File not exists(or it is directory): " + path, Log.ERR);
+                    pack.Add("reply", "FileErr");
+                    send(pack.ToString(), socket, secure);
+                    reason = "FileNotFound";
+                    determined.Invoke(false);
+                    return ERROR;
+                }
+                FileInfo file = new FileInfo(path);
+                pack.Add("reply", "OK");
+                pack.Add("name", file.Name);
+                pack.Add("size", file.Length);
+                Log.clientLog("File data: " + file.Name + " " + file.Length + " Bytes");
+                send(pack.ToString(), socket, secure);
+                string received = receive(socket, secure);
+                if (received.Equals("deny"))
+                {
+                    Log.clientLog("User denied", Log.WARN);
+                    determined.Invoke(false);
+                    return DENIED;
+                }
+                else if (!received.Equals("approve"))
+                {
+                    Log.clientLog("User invalid reply", Log.ERR);
+                    determined.Invoke(false);
+                    return ERROR;
+                }
+                Log.clientLog("Received Allow Sign!");
+                //Get hash and send: MD5;
+                Log.clientLog("Computing hash");
+                byte[] hashValue;
+                string stringHashValue;
+                MD5 hash = MD5.Create();
+                using (FileStream stream = File.OpenRead(file.FullName))
+                {
+                    hashValue = hash.ComputeHash(stream);
+                    stringHashValue = Bytes.getRawString(hashValue);
+                }
+                Log.clientLog("Sending hash: "+stringHashValue);
+                send(stringHashValue, socket, secure);
+                //Send start;
+                Log.clientLog("Local file stream connected");
+                FileStream fileStream = file.OpenRead();
+                //const int sendingBufferSize = 320;  //320B
+                const int sendingBufferSize = 131072; //128KB
+                                                      //const int sendingBufferSize = 1048576; //1MB
+                                                      //const int sendingBufferSize = 524288; //0.5MB
+                Log.clientLog("Sending pieces");
+                initializer.Invoke((int)((file.Length + (sendingBufferSize - (file.Length % sendingBufferSize))) / sendingBufferSize));
+                Log.log((file.Length + (sendingBufferSize - (file.Length % sendingBufferSize))) / sendingBufferSize + " Pieces");
+                int packets = 0;
+                while (true)
+                {
+                    byte[] sendingBuffer = new byte[sendingBufferSize];
+                    byte[] encryptedSendingBuffer = new byte[sendingBufferSize + 16];
+                    int read = fileStream.Read(sendingBuffer, 0, sendingBufferSize);
+                    
+//Log.clientLog("Read " + read + " bytes");
+//Log.clientLog("Encryption started");
+                    
+                    byte[] fitByteBuffer = new byte[read];
+                    Array.Copy(sendingBuffer, fitByteBuffer, read);
+                    encryptedSendingBuffer = secure.AES256Encrypt(fitByteBuffer);
+                    string thisData = Convert.ToBase64String(encryptedSendingBuffer);
+//Log.clientLog("Encryption done");
+                    JObject packet = new JObject();
+                    string packetHash = Bytes.getRawString(hash.ComputeHash(fitByteBuffer));
+                    packet.Add("segment", thisData);
+                    packet.Add("hash", packetHash);
+                    packet.Add("isEnd", (read < sendingBufferSize ? true : false));
+                    thisData = null;
+                    encryptedSendingBuffer = null;
+                    string replied;
+                    int attemp = 0;
+                    do
+                    {
+                        attemp++;
+//Log.clientLog("Sending data piece: " + (String)packet.GetValue("hash"));
+                        send(packet.ToString(), socket);
+//Log.clientLog("Waiting for response");
+                        replied = receive(socket, secure);
+//Log.clientLog("File segment reply: \"" + replied + "\", Attemp: "+attemp);
+                    } while (!replied.Equals("ok")); // Retry if hash is not correct
+                    adder.Invoke();
+                    packets++;
+                    if (read < sendingBufferSize) break;
+                }
+                Log.clientLog("Waiting for hash test result");
+                string hashReply = receive(socket, secure);
+                if (hashReply.Equals("hash"))
+                {
+                    Log.clientLog("Hash Error: originHash=\"" + stringHashValue + '\"');
+                }
+                else if (!hashReply.Equals("goodbye"))
+                {
+                    Log.clientLog("Invalid hash reply: " + hashReply);
+                    return ERROR;
+                }
+                socket.Close();
+                fileStream.Close();
+                Log.clientLog("Done: sent " + packets + " file pieces");
+                return SUCESS;
+            } catch(Exception e)
             {
-                Log.clientLog("Hash Error: originHash=\"" + stringHashValue+'\"');
-            }
-            else if (!hashReply.Equals("goodbye"))
-            {
-                Log.clientLog("Invalid hash reply: " + hashReply);
+                Log.clientLog(e.Message+" client error", Log.ERR);
                 return ERROR;
             }
-            socket.Close();
-            fileStream.Close();
-            Log.clientLog("Done: sent " + packets + " file pieces");
-            return SUCESS;
         }
         public void serverStart(Window window)
         {

@@ -1,0 +1,2 @@
+C:\Users\hyunc\source\repos\Pass\PassConsole\obj\Release\PassConsole.csprojAssemblyReference.cache
+C:\Users\hyunc\source\repos\Pass\PassConsole\obj\Release\PassConsole.csproj.CoreCompileInputs.cache

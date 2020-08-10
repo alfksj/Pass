@@ -1,4 +1,7 @@
 ﻿using Microsoft.Win32;
+using System;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace PassLibrary
 {
@@ -12,6 +15,10 @@ namespace PassLibrary
         public static int pingTimeout { get; set; }
         public static bool statusOnLaunch { get; set; }
         public static bool logOnLaunch { get; set; }
+        public static bool autoStartOnBoot { get; set; }
+        public static bool autoScanOnLaunch { get; set; }
+        public static bool autoScanOnVisible { get; set; }
+        public static string language { get; set; }
         private class Preset
         {
             public static int Lenght
@@ -26,10 +33,12 @@ namespace PassLibrary
                     else return a;
                 }
             }
-            public static string[] keyList = { "sharing", "DeviceName", "askBeforeShare", "DefaultSave", "PingTimeout", "statusOnLaunch", "LogPageOnLaunch" };
-            public static object[] defaultSetting = { true, "", false, "D:\\", 3000, false, false };
+            public static string[] keyList = { "sharing", "DeviceName", "askBeforeShare", "DefaultSave", "PingTimeout", "statusOnLaunch", "LogPageOnLaunch",
+            "AutoStartOnInit", "autoScanOnLaunch", "autoScanOnVisible", "language"};
+            public static object[] defaultSetting = { true, "", false, "USER_DOWNLOAD_PATH", 3000, false, false, true, false, true, "DEFAULT_LANG"};
             public static RegistryValueKind[] valueType = { RegistryValueKind.String, RegistryValueKind.String, RegistryValueKind.String,
-                RegistryValueKind.String, RegistryValueKind.DWord, RegistryValueKind.String, RegistryValueKind.String };
+                RegistryValueKind.String, RegistryValueKind.DWord, RegistryValueKind.String, RegistryValueKind.String, RegistryValueKind.String,
+                RegistryValueKind.String, RegistryValueKind.String, RegistryValueKind.String };
         }
         public static void checkEnvironment()
         {
@@ -37,15 +46,27 @@ namespace PassLibrary
             RegistryKey keyRoot = Registry.CurrentUser.OpenSubKey("SOFTWARE").OpenSubKey("Pass");
             if (keyRoot == null)
             {
-                Registry.SetValue(REGED_PATH, "valid", true);
-                Log.log("Created key:" + REGED_PATH);
+                RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Default)
+                    .OpenSubKey("SOFTWARE", true)
+                    .CreateSubKey("Pass");
+                Log.log("Created key: " + REGED_PATH);
             }
             for (int i = 0; i < Preset.Lenght; i++)
-            {
+            {                
                 object key = Registry.GetValue(REGED_PATH, Preset.keyList[i], null);
                 if (key == null)
                 {
-                    Log.log("Created " + REGED_PATH + Preset.keyList[i] + " = \"" + Preset.defaultSetting[i] + "\"");
+                    if (i == 3)
+                    {
+                        Preset.defaultSetting[3] = "C:\\Users\\"
+                            + Environment.GetEnvironmentVariable("USERNAME")
+                            + "\\Downloads";
+                    }
+                    if(i == 10)
+                    {
+                        Preset.defaultSetting[10] = CultureInfo.InstalledUICulture.Name;
+                    }
+                    Log.log("Created value: " + REGED_PATH + Preset.keyList[i] + " = \"" + Preset.defaultSetting[i] + "\"");
                     Registry.SetValue(REGED_PATH, Preset.keyList[i], Preset.defaultSetting[i], Preset.valueType[i]);
                 }
             }
@@ -64,6 +85,10 @@ namespace PassLibrary
             pingTimeout = (int)Registry.GetValue(REGED_PATH, "PingTimeout", 0);
             statusOnLaunch = bool.Parse(Registry.GetValue(REGED_PATH, "statusOnLaunch", false).ToString());
             logOnLaunch = bool.Parse(Registry.GetValue(REGED_PATH, "LogPageOnLaunch", false).ToString());
+            autoStartOnBoot = bool.Parse(Registry.GetValue(REGED_PATH, "AutoStartOnInit", true).ToString());
+            autoScanOnVisible = bool.Parse(Registry.GetValue(REGED_PATH, "autoScanOnVisible", true).ToString());
+            autoScanOnLaunch = bool.Parse(Registry.GetValue(REGED_PATH, "autoScanOnLaunch", false).ToString());
+            language = Registry.GetValue(REGED_PATH, "language", "en-US").ToString();
             Log.log("Loaded!");
         }
         /// <summary>
@@ -80,6 +105,10 @@ namespace PassLibrary
             Registry.SetValue(REGED_PATH, "PingTimeout", pingTimeout);
             Registry.SetValue(REGED_PATH, "statusOnLaunch", statusOnLaunch);
             Registry.SetValue(REGED_PATH, "LogPageOnLaunch", logOnLaunch);
+            Registry.SetValue(REGED_PATH, "autoScanOnVisible", autoScanOnVisible);
+            Registry.SetValue(REGED_PATH, "autoScanOnLaunch", autoScanOnLaunch);
+            Registry.SetValue(REGED_PATH, "AutoStartOnInit", autoStartOnBoot);
+            Registry.SetValue(REGED_PATH, "language", language);
             Log.log("Saved!");
         }
     }

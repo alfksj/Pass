@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassLibrary", "PassLibrary\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassConsole", "PassConsole\PassConsole.csproj", "{A6371559-8C5E-4F93-9E32-5D2ADEAB95F5}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PassInstallation", "PassInstallation\PassInstallation.vdproj", "{F9BFD128-B909-449B-BC61-B3A1A741243F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,9 +38,12 @@ Global
 		{A6371559-8C5E-4F93-9E32-5D2ADEAB95F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6371559-8C5E-4F93-9E32-5D2ADEAB95F5}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{A6371559-8C5E-4F93-9E32-5D2ADEAB95F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6371559-8C5E-4F93-9E32-5D2ADEAB95F5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6371559-8C5E-4F93-9E32-5D2ADEAB95F5}.Release|x64.ActiveCfg = Release|Any CPU
 		{A6371559-8C5E-4F93-9E32-5D2ADEAB95F5}.Release|x64.Build.0 = Release|Any CPU
+		{F9BFD128-B909-449B-BC61-B3A1A741243F}.Debug|Any CPU.ActiveCfg = Debug
+		{F9BFD128-B909-449B-BC61-B3A1A741243F}.Debug|x64.ActiveCfg = Debug
+		{F9BFD128-B909-449B-BC61-B3A1A741243F}.Release|Any CPU.ActiveCfg = Release
+		{F9BFD128-B909-449B-BC61-B3A1A741243F}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -139,8 +139,20 @@
     <value>(을)를 공유하려고 합니다.
 계속합니까?</value>
   </data>
+  <data name="AutoScanOnLaunch" xml:space="preserve">
+    <value>Pass가 시작될때 자동으로 네트워크 검색 : </value>
+  </data>
+  <data name="AutoScanOnVisible" xml:space="preserve">
+    <value>Pass가 보여질때 자동으로 네트워크 검색 : </value>
+  </data>
+  <data name="AutoStartOnComputerBoot" xml:space="preserve">
+    <value>자동 시작 :</value>
+  </data>
   <data name="DefaultSavingPath" xml:space="preserve">
-    <value>저장 경로 : </value>
+    <value>저장 경로</value>
+  </data>
+  <data name="DefaultSavingPathSetter" xml:space="preserve">
+    <value>저장 경로 :</value>
   </data>
   <data name="denied" xml:space="preserve">
     <value>거부됨</value>
@@ -190,6 +202,9 @@
   <data name="ip_addr" xml:space="preserve">
     <value>IP 주소: </value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>언어 :</value>
+  </data>
   <data name="LANG_CODE" xml:space="preserve">
     <value>ko-KR</value>
   </data>
@@ -226,6 +241,9 @@
   <data name="open" xml:space="preserve">
     <value>열기</value>
   </data>
+  <data name="OpenLogPageAlways" xml:space="preserve">
+    <value>시작할때 로그 보이기 :</value>
+  </data>
   <data name="PassProtocolVersion" xml:space="preserve">
     <value>Pass 프로토콜 버전</value>
   </data>
@@ -234,7 +252,7 @@
   </data>
   <data name="pingTimeExplain" xml:space="preserve">
     <value>네트워크에서 공유가능한 기기를 검색하는 시간입니다.
-가능한 네트워크가 느릴수록 길게 하는 것이 좋습니다.</value>
+사용하고 있는 네트워크가 느릴수록 길게 하는 것이 좋습니다.</value>
   </data>
   <data name="PingTimeout" xml:space="preserve">
     <value>네트워크 검색 대기시간(ms) :</value>
@@ -266,6 +284,9 @@
   <data name="settings" xml:space="preserve">
     <value>설정</value>
   </data>
+  <data name="shareWith" xml:space="preserve">
+    <value>Pass로 공유하기</value>
+  </data>
   <data name="sharingAlert" xml:space="preserve">
     <value>You must turn sharing on to share</value>
   </data>
@@ -278,7 +299,13 @@
   <data name="vers" xml:space="preserve">
     <value>버전 다름(거부됨)</value>
   </data>
+  <data name="versMismatch" xml:space="preserve">
+    <value>다른 버전의 Pass와 공유할 수 없습니다.</value>
+  </data>
   <data name="viewSup" xml:space="preserve">
     <value>해결하기</value>
+  </data>
+  <data name="VisibleStatusBarOnLaunch" xml:space="preserve">
+    <value>시작할때 상태바 보이기 :</value>
   </data>
 </root>

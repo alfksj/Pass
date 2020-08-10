@@ -1,7 +1,9 @@
 ﻿using PassLibrary;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Net.NetworkInformation;
 using System.Resources;
-using System.Runtime.Remoting;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -35,12 +37,15 @@ namespace Pass
         {
             pushSetting();
             Setting.save();
+            Hide();
+            e.Cancel = true;
         }
         public SettingPage()
         {
             InitializeComponent();
+            languageTable["English"] = "en-US"; languageISO["en-US"] = 0;
+            languageTable["Korean"] = "ko-KR";  languageISO["ko-KR"] = 1;
             currentOn = network;
-            
         }
         private void network_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -54,35 +59,58 @@ namespace Pass
         {
             active(about, e);
         }
+        private Dictionary<string, string> languageTable = new Dictionary<string, string>();
+        private Dictionary<string, int> languageISO = new Dictionary<string, int>();
         public void applySetting()
         {
             Log.log("Applying to UI");
-            sharing.IsToggled = Setting.sharing;
-            askBeforeShare.IsToggled = Setting.askBeforeShare;
+            sharing.isToggled = Setting.sharing;
+            askBeforeShare.isToggled = Setting.askBeforeShare;
             name_setting.Text = Setting.name;
             name.Content = Setting.name;
             downloadPath.Content = Setting.defaultSave;
             ipAddr.Content = Internet.GetLocalIPAddress();
             defSavingPath.Text = Setting.defaultSave;
             PingTimeout.Value = Setting.pingTimeout;
-            timeMs.Content = Setting.pingTimeout;
-            statusVisible.IsToggled = Setting.statusOnLaunch;
-            openLogPage.IsToggled = Setting.logOnLaunch;
+            timeMs.Content = Setting.pingTimeout+"ms";
+            statusVisible.isToggled = Setting.statusOnLaunch;
+            openLogPage.isToggled = Setting.logOnLaunch;
+            string macAddress = NetworkInterface
+                .GetAllNetworkInterfaces()
+                .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                .Select(nic => nic.GetPhysicalAddress().ToString())
+                .FirstOrDefault();
+            string[] partition = new string[6];
+            for(int i=0;i<macAddress.Length;i++)
+            {
+                if ((i+1)%2==0)
+                {
+                    partition[(i - 1) / 2] = macAddress.Substring(i - 1, 2);
+                }
+            }
+            macAddr.Content = string.Join(":", partition);
+            autoScanOnBoot.isToggled = Setting.autoStartOnBoot;
+            AutoScanOnLaunch.isToggled = Setting.autoScanOnLaunch;
+            autoStartOnBoot.isToggled = Setting.autoStartOnBoot;
+            lang.SelectedIndex = languageISO[Setting.language];
             Log.log("Applied");
         }
         public void pushSetting()
         {
             Log.log("Pushing data to Setting");
-            Setting.sharing = sharing.IsToggled;
+            Setting.sharing = sharing.isToggled;
             Setting.name = name_setting.Text;
-            Setting.askBeforeShare = askBeforeShare.IsToggled;
+            Setting.askBeforeShare = askBeforeShare.isToggled;
             Setting.defaultSave = defSavingPath.Text;
             Setting.pingTimeout = (int)PingTimeout.Value;
-            Setting.statusOnLaunch = statusVisible.IsToggled;
-            Setting.logOnLaunch = openLogPage.IsToggled;
+            Setting.statusOnLaunch = statusVisible.isToggled;
+            Setting.logOnLaunch = openLogPage.isToggled;
+            Setting.autoStartOnBoot = autoScanOnBoot.isToggled;
+            Setting.autoScanOnLaunch = AutoScanOnLaunch.isToggled;
+            Setting.autoStartOnBoot = autoStartOnBoot.isToggled;
+            Setting.language = languageTable[((ComboBoxItem)lang.SelectedItem).Content.ToString()];
             Log.log("Pushed");
         }
-
         private void PingTimeout_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             timeMs.Content = (int)PingTimeout.Value+"ms";

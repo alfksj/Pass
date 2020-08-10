@@ -139,7 +139,19 @@
     <value>.
 Are you sure?</value>
   </data>
+  <data name="AutoScanOnLaunch" xml:space="preserve">
+    <value>Automatically scan when Pass is launched : </value>
+  </data>
+  <data name="AutoScanOnVisible" xml:space="preserve">
+    <value>Automatically scan when Pass is showing : </value>
+  </data>
+  <data name="AutoStartOnComputerBoot" xml:space="preserve">
+    <value>Auto Startup : </value>
+  </data>
   <data name="DefaultSavingPath" xml:space="preserve">
+    <value>Downloading Path</value>
+  </data>
+  <data name="DefaultSavingPathSetter" xml:space="preserve">
     <value>Downloading Path :</value>
   </data>
   <data name="denied" xml:space="preserve">
@@ -190,6 +202,9 @@ Are you sure?</value>
   <data name="ip_addr" xml:space="preserve">
     <value>IP Address: </value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language :</value>
+  </data>
   <data name="LANG_CODE" xml:space="preserve">
     <value>en-US</value>
   </data>
@@ -225,6 +240,9 @@ Are you sure?</value>
   </data>
   <data name="open" xml:space="preserve">
     <value>Open Pass</value>
+  </data>
+  <data name="OpenLogPageAlways" xml:space="preserve">
+    <value>Open load page on start :</value>
   </data>
   <data name="PassProtocolVersion" xml:space="preserve">
     <value>Pass Protocol Version</value>
@@ -266,6 +284,9 @@ you'd better to take this longer.</value>
   <data name="settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="shareWith" xml:space="preserve">
+    <value>Share With Pass</value>
+  </data>
   <data name="sharingAlert" xml:space="preserve">
     <value>You must turn sharing on to share</value>
   </data>
@@ -278,7 +299,13 @@ you'd better to take this longer.</value>
   <data name="vers" xml:space="preserve">
     <value>Version Mismatch(Denied)</value>
   </data>
+  <data name="versMismatch" xml:space="preserve">
+    <value>Cannot share with different version of Pass</value>
+  </data>
   <data name="viewSup" xml:space="preserve">
     <value>Learn what to do</value>
+  </data>
+  <data name="VisibleStatusBarOnLaunch" xml:space="preserve">
+    <value>Show statusbar on start :</value>
   </data>
 </root>

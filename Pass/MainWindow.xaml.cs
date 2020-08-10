@@ -14,7 +14,10 @@ using System.Windows.Forms;
 using System.Drawing;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MessageBox = System.Windows.Forms.MessageBox;
-using System.Diagnostics;
+using MenuItem = System.Windows.Forms.MenuItem;
+using ContextMenu = System.Windows.Forms.ContextMenu;
+using Application = System.Windows.Application;
+using System.IO;
 
 namespace Pass
 {
@@ -23,74 +26,116 @@ namespace Pass
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Visibility hide = Visibility.Hidden;
-        private Visibility show = Visibility.Visible;
+        private const Visibility hide = Visibility.Hidden;
+        private const Visibility show = Visibility.Visible;
         private string fileOpened;
+        public string originated;
+
         private List<string> IP;
         private ResourceManager rm = new ResourceManager("Pass.Localization", typeof(MainWindow).Assembly);
         private Internet internet;
+        public static Window Me_Myself;
+
+        public bool debugging = false;
+        private bool dontExitOnClosing = true;
+        private bool exitOnDone = false;
+        /********************************************************************
+        //ALERT//
+        private Thickness up = new Thickness(180, -144, 180, 0);
+        private Thickness down = new Thickness(180, 0, 180, 0);
+        public const int ALERT_OK_MESSAGE = 0, ALERT_YES_NO_MESSAGE = 1, ALERT_OK_CANCEL_MESSAGE = 2, ANIMATION_TIME = 200;
+        public int showAlert(string msg, string title, int type)
+        {
+            titleF.Content = title;
+            message.Text = msg;
+            if(type==ALERT_OK_CANCEL_MESSAGE)
+            {
+                positive.Content = "OK";
+                negative.Content = "CANCEL";
+            }
+            else if(type==ALERT_YES_NO_MESSAGE)
+            {
+                positive.Content = "YES";
+                negative.Content = "NO";
+            }
+            else if(type==ALERT_OK_MESSAGE)
+            {
+                positive.Content = "OK";
+            }
+
+            var fade = new DoubleAnimation()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(ANIMATION_TIME)
+            };
+            var loc = new ThicknessAnimation()
+            {
+                From = up,
+                To = down,
+                Duration = TimeSpan.FromMilliseconds(ANIMATION_TIME)
+            };
+            Storyboard.SetTarget(fade, alert);
+            Storyboard.SetTarget(loc, alert);
+            Storyboard.SetTargetProperty(fade, new PropertyPath(OpacityProperty));
+            Storyboard.SetTargetProperty(loc, new PropertyPath(MarginProperty));
+            var sb = new Storyboard();
+            sb.Children.Add(fade);
+            sb.Children.Add(loc);
+            sb.Begin();
+            return 0;
+        }
+        private void removeAlert()
+        {
+            var fadex = new DoubleAnimation()
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(ANIMATION_TIME)
+            };
+            var locx = new ThicknessAnimation()
+            {
+                From = down,
+                To = up,
+                Duration = TimeSpan.FromMilliseconds(ANIMATION_TIME)
+            };
+            Storyboard.SetTarget(fadex, alert);
+            Storyboard.SetTarget(locx, alert);
+            Storyboard.SetTargetProperty(fadex, new PropertyPath(OpacityProperty));
+            Storyboard.SetTargetProperty(locx, new PropertyPath(MarginProperty));
+            var sbx = new Storyboard();
+            sbx.Children.Add(fadex);
+            sbx.Children.Add(locx);
+            sbx.Begin();
+        }
+        private void positive_Click(object sender, RoutedEventArgs e)
+        {
+            Me_Myself.Dispatcher.Invoke(() =>
+            {
+                removeAlert();
+            });
+        }
+        private void negative_Click(object sender, RoutedEventArgs e)
+        {
+            removeAlert();
+        }
+        //
+        ********************************************************************/
         public MainWindow()
         {
+            Me_Myself = this;
             string[] cmds = Environment.GetCommandLineArgs();
-            if(cmds.Length>1)
-            {
-                fileOpened = cmds[1];
-            }
-            else
-            {
-                fileOpened = null;
-            }
             Setting.checkEnvironment();
             Setting.load();
-            const string lang = "en-US";
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(lang);
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(lang);
-            InitializeComponent();
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(Setting.language);
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(Setting.language);
             SettingPage settingPage = new SettingPage();
+            InitializeComponent();
             settingPage.Rm = rm;
             settingPage.applySetting();
+            status.Visibility = hide;
             if (Setting.logOnLaunch) debuger.Show();
             if (Setting.statusOnLaunch) status.Visibility = show;
-            //DEBUG//
-            //Hide();
-            settingPage.Show();
-            /////////
-            //TRAY
-            NotifyIcon ni = new NotifyIcon();
-            ContextMenu tray = new ContextMenu();
-            MenuItem exit = new MenuItem();
-            exit.Index = 0;
-            exit.Text = rm.GetString("exit");
-            exit.Click += delegate (object click, EventArgs e)
-            {
-                Environment.Exit(0);
-            };
-            MenuItem open = new MenuItem();
-            open.Text = rm.GetString("open");
-            open.Click += delegate (object click, EventArgs e)
-            {
-                Show();
-            };
-            MenuItem setting = new MenuItem();
-            setting.Text = rm.GetString("settings");
-            setting.Click += delegate (object click, EventArgs e)
-            {
-                settingPage.Show();
-            };
-            open.Index = 0;
-            tray.MenuItems.Add(setting);
-            tray.MenuItems.Add(open);
-            tray.MenuItems.Add(exit);
-            ResourceManager resource = new ResourceManager("Pass.Resource", typeof(MainWindow).Assembly);
-            ni.Icon = new Icon("assets/pass.ico");
-            ni.Visible = true;
-            ni.DoubleClick += delegate (object senders, EventArgs e)
-            {
-                Show();
-            };
-            ni.ContextMenu = tray;
-            ni.Text = "Pass";
-            //
             if (fileOpened != null)
             {
                 statusText.Content = fileOpened;
@@ -100,41 +145,189 @@ namespace Pass
             internet.setFunction(
             (bool action) =>
             {
-                progress.Dispatcher.Invoke(() =>
+                try {
+                    progress.Dispatcher.Invoke(() =>
+                    {
+                        if (!IsVisible) return;
+                        progress.IsIndeterminate = action;
+                    });
+                } catch (Exception e)
                 {
-                    progress.IsIndeterminate = action;
-                });
+                    Log.log(e.Message, Log.WARN);
+                }
             },
             (int max) =>
             {
-                progress.Dispatcher.Invoke(() =>
+                try
                 {
-                    progress.IsIndeterminate = false;
-                    progress.Minimum = 0;
-                    progress.Maximum = max;
-                    progress.Value = 0;
-                });
+                    progress.Dispatcher.Invoke(() =>
+                    {
+                        if (!IsVisible) return;
+                        progress.IsIndeterminate = false;
+                        progress.Minimum = 0;
+                        progress.Maximum = max;
+                        progress.Value = 0;
+                    });
+                } catch (Exception e)
+                {
+                    Log.log(e.Message, Log.WARN);
+                }
             },
             () =>
             {
-                progress.Dispatcher.Invoke(() =>
+                try
                 {
-                    progress.Value++;
-                });
+                    progress.Dispatcher.Invoke(() =>
+                    {
+                        if (!IsVisible) return;
+                        progress.Value++;
+                    });
+                } catch (Exception e)
+                {
+                    Log.log(e.Message, Log.WARN);
+                }
             },
             (bool show) =>
             {
-                this.Dispatcher.Invoke(() =>
+                try {
+                    Dispatcher.Invoke(() =>
+                    {
+                        if (!IsVisible) return;
+                        if (show) Show();
+                        else Hide();
+                    });
+                } catch (Exception e)
                 {
-                    if (show) Show();
-                    else Hide();
-                });
+                    Log.log(e.Message, Log.WARN);
+                }
             });
-            Task.Run(() =>
+            if(Setting.name.Equals(""))
             {
-                internet.PingReceiver();
-            });
-            MyIp.Content = rm.GetString("mypc") + ": " + internet.myIP;
+                MyIp.Content = rm.GetString("mypc") + ": " + internet.myIP;
+            }
+            else
+            {
+                MyIp.Content = Setting.name;
+            }
+            if(Setting.autoScanOnLaunch)
+            {
+                ping();
+            }
+            ///Arguments Loading
+            originated = cmds[0];
+            foreach(string i in cmds)
+            {
+                Console.WriteLine(i);
+            }
+            //bool regedEdited = false;
+            if (cmds.Length > 1)
+            {
+                fileOpened = cmds[1];
+                if (cmds.Length > 2)
+                {
+                    for (int i = 2; i < cmds.Length; i++)
+                    {
+                        /*
+                        if (cmds[i].Equals("-RegisEdit"))
+                        {
+                            Regedit.rm = rm;
+                            Regedit.originated = originated;
+                            Regedit.checkEnvironment(true);
+                            regedEdited = true;
+                            Application.Current.Shutdown();
+                        }
+                        */
+                        if (cmds[i].Equals("-debugging"))
+                        {
+                            debugging = true;
+                        }
+                        else if(cmds[i].Equals("-ExitOnDone"))
+                        {
+                            exitOnDone = true;
+                        }
+                        else if (cmds[i].Equals("-server"))
+                        {
+                            internet.serverStart(this);
+                        }
+                        else if (cmds[i].Equals("-pingReceiver"))
+                        {
+                            Task.Run(() =>
+                            {
+                                internet.PingReceiver();
+                            });
+                        }
+                        else if (cmds[i].Equals("-autoStart"))
+                        {
+                            if (!Setting.autoStartOnBoot)
+                            {
+                                Application.Current.Shutdown();
+                            }
+                        }
+                        else if (cmds[i].Equals("-DoNotExitOnClosing"))
+                        {
+                            dontExitOnClosing = false;
+                        }
+                        else if (cmds[i].Equals("-tray"))
+                        {
+                            NotifyIcon ni = new NotifyIcon();
+                            ContextMenu tray = new ContextMenu();
+                            MenuItem exit = new MenuItem();
+                            exit.Index = 0;
+                            exit.Text = rm.GetString("exit");
+                            exit.Click += delegate (object click, EventArgs e)
+                            {
+                                Environment.Exit(0);
+                            };
+                            MenuItem open = new MenuItem();
+                            open.Text = rm.GetString("open");
+                            open.Click += delegate (object click, EventArgs e)
+                            {
+                                Show();
+                                if (Setting.autoScanOnVisible)
+                                {
+                                    ping();
+                                }
+                            };
+                            MenuItem setting = new MenuItem();
+                            setting.Text = rm.GetString("settings");
+                            setting.Click += delegate (object click, EventArgs e)
+                            {
+                                settingPage.Show();
+                            };
+                            open.Index = 0;
+                            tray.MenuItems.Add(setting);
+                            tray.MenuItems.Add(open);
+                            tray.MenuItems.Add(exit);
+                            ResourceManager resource = new ResourceManager("Pass.Resource", typeof(MainWindow).Assembly);
+                            ni.Icon = new Icon(Directory.GetParent(originated).FullName+"/Resources/pass.ico");
+                            ni.Visible = true;
+                            ni.DoubleClick += delegate (object senders, EventArgs e)
+                            {
+                                Show();
+                            };
+                            ni.ContextMenu = tray;
+                            ni.Text = "Pass";
+                        }
+                        else
+                        {
+                            Log.log(cmds[i] + " is not recognized as a valid argument", Log.WARN);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                fileOpened = null;
+            }
+            ///
+            /*
+            if (!regedEdited)
+            {
+                Regedit.rm = rm;
+                Regedit.originated = originated;
+                Regedit.checkEnvironment(false);
+            }
+            */
             q.Visibility = hide;
             w.Visibility = hide;
             e.Visibility = hide;
@@ -145,7 +338,7 @@ namespace Pass
             lst.Visibility = hide;
             sup.setResourceManager(rm);
             debuger.setResourceManager(rm);
-            internet.serverStart(this);
+            Show();
         }
         private int keptKeyDown = 0;
         private long lastKeyDown=0;
@@ -189,6 +382,11 @@ namespace Pass
             none.Visibility = Visibility.Hidden;
             finding.Visibility = Visibility.Visible;
             lst.Visibility = Visibility.Hidden;
+            ping();
+        }
+        private void ping()
+        {
+            refresh.IsEnabled = false;
             Task.Run(() =>
             {
                 List<string> ip = internet.scanLocalIp();
@@ -215,6 +413,8 @@ namespace Pass
                     IP = ip;
                     q.Dispatcher.Invoke(() =>
                     {
+                        q.Visibility = hide; w.Visibility = hide; e.Visibility = hide; r.Visibility = hide; t.Visibility = hide;
+                        y.Visibility = hide; u.Visibility = hide;
                         ip.ForEach((string addr) =>
                         {
                             switch (queue)
@@ -273,8 +473,20 @@ namespace Pass
 
         private void killer(object sender, CancelEventArgs e)
         {
-            Hide();
-            e.Cancel = true;
+            if (debugging)
+            {
+                Application.Current.Shutdown();
+            }
+            else if(!dontExitOnClosing)
+            {
+                Hide();
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+                Application.Current.Shutdown();
+            }
         }
 
         private void exec(int whoareu, Label label)
@@ -284,7 +496,7 @@ namespace Pass
                 MessageBox.Show(rm.GetString("sharingAlert"), "Pass", MessageBoxButtons.OK);
                 return;
             }
-            if (fileOpened.Equals("null"))
+            if (fileOpened == null || fileOpened.Equals("null"))
             {
                 MessageBox.Show(rm.GetString("nosel"), "Pass");
                 return;
@@ -304,6 +516,8 @@ namespace Pass
             label.Foreground = Brushes.LawnGreen;
             Task.Run(()=>{
                 int result = internet.wannaSendTo(ip, fileOpened);
+                //TODO: Use Internet.reason;
+                Log.clientLog("Result: "+Internet.reason);
                 if(result==Internet.DENIED)
                 {
                     label.Dispatcher.Invoke(() =>
@@ -334,6 +548,10 @@ namespace Pass
                     label.Foreground = Brushes.White;
                     label.FontWeight = FontWeights.Normal;
                 });
+                if(exitOnDone)
+                {
+                    Environment.Exit(0);
+                }
             });
         }
 

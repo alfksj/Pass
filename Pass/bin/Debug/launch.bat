@@ -1,1 +1,0 @@
-Pass.exe C:\Users\WINNER\Desktop\Wolfgang-amadeus-mozart_1.jpg

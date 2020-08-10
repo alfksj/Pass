@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pass"
         Closing="abortClosing"
         mc:Ignorable="d"
-        Title="Debuger" Height="450" Width="800" ResizeMode="NoResize">
+        Title="Debuger" Height="450" Width="800" ResizeMode="NoResize" Icon="pack://siteoforigin:,,,/Resources/icon.png">
     <Grid Background="Black">
         <ListView x:Name="respon" HorizontalAlignment="Left" Height="377" Margin="10,34,0,0" VerticalAlignment="Top" Width="180">
             <ListView.View>

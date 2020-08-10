@@ -3,17 +3,58 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Pass.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Width="200" Height="125">
     <UserControl.Resources>
         <Thickness x:Key="Left">6,6,45,6</Thickness>
         <Thickness x:Key="Right">45,6,6,6</Thickness>
+        <Brush x:Key="Green">#28BE28</Brush>
+        <Brush x:Key="Gray">#424242</Brush>
+        <!--
+        <Style x:Key="leftSide" TargetType="Rectangle">
+            SET AS GRAY
+            <Setter Property="Fill" Value="#424242"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseLeftButtonDown">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard x:Name="leftSideAnimation_BeginStoryboard">
+                            Gray to Green
+                            <Storyboard x:Name="leftSideAnimation">
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)"
+                                    From="#424242" To="#28BE28"
+                                    BeginTime="0:0:0" Duration="0:0:0.3"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="rightSide" TargetType="Rectangle">
+            SET AS GREEN
+            <Setter Property="Fill" Value="#28BE28"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseLeftButtonDown">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard x:Name="rightSideAnimation_BeginStoryboard">
+                            Gray to Green
+                            <Storyboard x:Name="rightSideAnimation">
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)"
+                                    From="#28BE28" To="#424242"
+                                    BeginTime="0:0:0" Duration="0:0:0.3"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    -->
     </UserControl.Resources>
     <Viewbox Margin="0">
-        <Grid HorizontalAlignment="Left" Height="60" Margin="0" VerticalAlignment="Top" Width="100">
+        <Grid x:Name="rootGrid" HorizontalAlignment="Left" Height="60" Margin="0" VerticalAlignment="Top" Width="100">
             <Rectangle x:Name="back" Fill="#FF424242" Margin="2" RadiusY="28" RadiusX="28" MouseLeftButtonDown="back_MouseLeftButtonDown"/>
-            <Ellipse x:Name="swit" Fill="White" Margin="{DynamicResource Left}" RenderTransformOrigin="0.5,0.5" MouseLeftButtonDown="Ellipse_MouseLeftButtonDown">
+            <Ellipse x:Name="swit" Fill="White" Margin="{DynamicResource Left}" RenderTransformOrigin="0.5,0.5" MouseLeftButtonDown="back_MouseLeftButtonDown">
                 <Ellipse.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleY="-1" ScaleX="-1"/>

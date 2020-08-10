@@ -21,7 +21,7 @@ namespace PassLibrary
                     stat = "WARN";
                     break;
                 case 2:
-                    stat = "ERR";
+                    stat = "ERR ";
                     break;
                 case 3:
                     stat = "FATAL";
