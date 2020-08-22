@@ -18,6 +18,7 @@ using MenuItem = System.Windows.Forms.MenuItem;
 using ContextMenu = System.Windows.Forms.ContextMenu;
 using Application = System.Windows.Application;
 using System.IO;
+using System.Runtime.Remoting.Channels;
 
 namespace Pass
 {
@@ -132,6 +133,8 @@ namespace Pass
             SettingPage settingPage = new SettingPage();
             InitializeComponent();
             settingPage.Rm = rm;
+            settingPage.originated = originated;
+            settingPage.arguments = cmds;
             settingPage.applySetting();
             status.Visibility = hide;
             if (Setting.logOnLaunch) debuger.Show();
@@ -219,24 +222,18 @@ namespace Pass
             {
                 Console.WriteLine(i);
             }
-            //bool regedEdited = false;
+            bool isAutoStart = false;
             if (cmds.Length > 1)
             {
                 fileOpened = cmds[1];
+                if(Setting.autoScanOnVisible)
+                {
+                    ping();
+                }
                 if (cmds.Length > 2)
                 {
                     for (int i = 2; i < cmds.Length; i++)
                     {
-                        /*
-                        if (cmds[i].Equals("-RegisEdit"))
-                        {
-                            Regedit.rm = rm;
-                            Regedit.originated = originated;
-                            Regedit.checkEnvironment(true);
-                            regedEdited = true;
-                            Application.Current.Shutdown();
-                        }
-                        */
                         if (cmds[i].Equals("-debugging"))
                         {
                             debugging = true;
@@ -258,6 +255,7 @@ namespace Pass
                         }
                         else if (cmds[i].Equals("-autoStart"))
                         {
+                            isAutoStart = true;
                             if (!Setting.autoStartOnBoot)
                             {
                                 Application.Current.Shutdown();
@@ -338,6 +336,10 @@ namespace Pass
             lst.Visibility = hide;
             sup.setResourceManager(rm);
             debuger.setResourceManager(rm);
+            if(!isAutoStart)
+            {
+                rootPane.Visibility = show;
+            }
             Show();
         }
         private int keptKeyDown = 0;
@@ -389,6 +391,7 @@ namespace Pass
             refresh.IsEnabled = false;
             Task.Run(() =>
             {
+                internet.lastResponse.Clear();
                 List<string> ip = internet.scanLocalIp();
                 finding.Dispatcher.Invoke(() =>
                 {

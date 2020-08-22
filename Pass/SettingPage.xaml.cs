@@ -1,9 +1,15 @@
 ﻿using PassLibrary;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Resources;
+using System.Runtime.Remoting;
+using System.Security.Permissions;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -31,6 +37,7 @@ namespace Pass
             network_btn.IsEnabled = true;
             general_btn.IsEnabled = true;
             about_btn.IsEnabled = true;
+            securiry_btn.IsEnabled = true;
             ((Button)e.Source).IsEnabled = false;
         }
         public void save(object sender, CancelEventArgs e)
@@ -58,6 +65,10 @@ namespace Pass
         private void about_btn_Click(object sender, RoutedEventArgs e)
         {
             active(about, e);
+        }
+        private void security_btn_Click(object sender, RoutedEventArgs e)
+        {
+            active(security, e);
         }
         private Dictionary<string, string> languageTable = new Dictionary<string, string>();
         private Dictionary<string, int> languageISO = new Dictionary<string, int>();
@@ -93,6 +104,8 @@ namespace Pass
             AutoScanOnLaunch.isToggled = Setting.autoScanOnLaunch;
             autoStartOnBoot.isToggled = Setting.autoStartOnBoot;
             lang.SelectedIndex = languageISO[Setting.language];
+            StealthMode.isToggled = Setting.stealthMode;
+            aes_iv.Text = Setting.Aes_Initial_Value;
             Log.log("Applied");
         }
         public void pushSetting()
@@ -109,11 +122,32 @@ namespace Pass
             Setting.autoScanOnLaunch = AutoScanOnLaunch.isToggled;
             Setting.autoStartOnBoot = autoStartOnBoot.isToggled;
             Setting.language = languageTable[((ComboBoxItem)lang.SelectedItem).Content.ToString()];
+            Setting.stealthMode = StealthMode.isToggled;
+            Setting.Aes_Initial_Value = aes_iv.Text;
             Log.log("Pushed");
         }
         private void PingTimeout_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             timeMs.Content = (int)PingTimeout.Value+"ms";
+        }
+
+        private void resetSettings_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult res = MessageBox.Show(rm.GetString("TryingToReset"), "Pass", MessageBoxButton.YesNo);
+            if(res==MessageBoxResult.No)
+            {
+                return;
+            }
+            Setting.clearEverything();
+            Setting.load();
+            applySetting();
+        }
+
+        public string originated { get; set; }
+        public string[] arguments { get; set; }
+        private void restartPass_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: implement this func
         }
     }
 }

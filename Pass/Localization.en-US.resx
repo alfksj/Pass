@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="aes_iv_value" xml:space="preserve">
+    <value>AES block chain initial vector :</value>
+  </data>
   <data name="allow" xml:space="preserve">
     <value>Allow</value>
   </data>
@@ -263,11 +266,21 @@ you'd better to take this longer.</value>
   <data name="regedonly" xml:space="preserve">
     <value>Registered IP only</value>
   </data>
+  <data name="ResetAllSettings" xml:space="preserve">
+    <value>Reset All Settings</value>
+  </data>
   <data name="responeAsHost" xml:space="preserve">
     <value>Ping Replies</value>
   </data>
   <data name="response" xml:space="preserve">
     <value>Response</value>
+  </data>
+  <data name="RestartPass" xml:space="preserve">
+    <value>Restart Pass</value>
+  </data>
+  <data name="security_settings_warning" xml:space="preserve">
+    <value>Warning: All incorrect settings may cause error or security problems.
+Both Pass must have same security settings to share.</value>
   </data>
   <data name="self" xml:space="preserve">
     <value>Ping from local(Denied)</value>
@@ -290,11 +303,22 @@ you'd better to take this longer.</value>
   <data name="sharingAlert" xml:space="preserve">
     <value>You must turn sharing on to share</value>
   </data>
+  <data name="StealthMode" xml:space="preserve">
+    <value>Stealth Mode :</value>
+  </data>
+  <data name="StealthModeExplaination" xml:space="preserve">
+    <value>When you turn on stealth mode, your Pass will be either don't displayed
+on other Pass and don't response to broadcast from other Pass.</value>
+  </data>
   <data name="sup" xml:space="preserve">
     <value>Why no one here?</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Pass</value>
+  </data>
+  <data name="TryingToReset" xml:space="preserve">
+    <value>You are trying to reset all settings.
+Are you sure?</value>
   </data>
   <data name="vers" xml:space="preserve">
     <value>Version Mismatch(Denied)</value>

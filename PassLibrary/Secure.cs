@@ -15,7 +15,7 @@ namespace PassLibrary
         }
         public Secure() {}
         private string KEY { get; set; }
-        private string IV = "fjheoehgoeheoeh6";
+        private string IV;
         public string Key
         {
             get
@@ -26,6 +26,10 @@ namespace PassLibrary
             {
                 KEY = GetRandomText(Int32.Parse(value));
             }
+        }
+        public void setIV(string iv)
+        {
+            IV = iv;
         }
         private string GetRandomText(int len)
         {

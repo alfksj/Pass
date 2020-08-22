@@ -19,6 +19,9 @@ namespace PassLibrary
         public static bool autoScanOnLaunch { get; set; }
         public static bool autoScanOnVisible { get; set; }
         public static string language { get; set; }
+        public static bool stealthMode { get; set; }
+        public static string Aes_Initial_Value { get; set; }
+        public static string Actual_IV { get; set; }
         private class Preset
         {
             public static int Lenght
@@ -34,11 +37,11 @@ namespace PassLibrary
                 }
             }
             public static string[] keyList = { "sharing", "DeviceName", "askBeforeShare", "DefaultSave", "PingTimeout", "statusOnLaunch", "LogPageOnLaunch",
-            "AutoStartOnInit", "autoScanOnLaunch", "autoScanOnVisible", "language"};
-            public static object[] defaultSetting = { true, "", false, "USER_DOWNLOAD_PATH", 3000, false, false, true, false, true, "DEFAULT_LANG"};
+            "AutoStartOnInit", "autoScanOnLaunch", "autoScanOnVisible", "language", "stealthMode", "ENCRYPTION_IV"};
+            public static object[] defaultSetting = { true, "", false, "USER_DOWNLOAD_PATH", 3000, false, false, true, false, true, "DEFAULT_LANG", false, "[DEFAULT]"};
             public static RegistryValueKind[] valueType = { RegistryValueKind.String, RegistryValueKind.String, RegistryValueKind.String,
                 RegistryValueKind.String, RegistryValueKind.DWord, RegistryValueKind.String, RegistryValueKind.String, RegistryValueKind.String,
-                RegistryValueKind.String, RegistryValueKind.String, RegistryValueKind.String };
+                RegistryValueKind.String, RegistryValueKind.String, RegistryValueKind.String, RegistryValueKind.String, RegistryValueKind.String };
         }
         public static void checkEnvironment()
         {
@@ -89,6 +92,12 @@ namespace PassLibrary
             autoScanOnVisible = bool.Parse(Registry.GetValue(REGED_PATH, "autoScanOnVisible", true).ToString());
             autoScanOnLaunch = bool.Parse(Registry.GetValue(REGED_PATH, "autoScanOnLaunch", false).ToString());
             language = Registry.GetValue(REGED_PATH, "language", "en-US").ToString();
+            stealthMode = bool.Parse(Registry.GetValue(REGED_PATH, "stealthMode", false).ToString());
+            Aes_Initial_Value = Registry.GetValue(REGED_PATH, "ENCRYPTION_IV", "[DEFAULT]").ToString();
+            if(Aes_Initial_Value.Equals("[DEFAULT]"))
+            {
+                Actual_IV = "23fwe0gwegwdgofdogofdhg";
+            }
             Log.log("Loaded!");
         }
         /// <summary>
@@ -109,7 +118,31 @@ namespace PassLibrary
             Registry.SetValue(REGED_PATH, "autoScanOnLaunch", autoScanOnLaunch);
             Registry.SetValue(REGED_PATH, "AutoStartOnInit", autoStartOnBoot);
             Registry.SetValue(REGED_PATH, "language", language);
+            Registry.SetValue(REGED_PATH, "stealthMode", stealthMode);
+            Registry.SetValue(REGED_PATH, "ENCRYPTION_IV", Aes_Initial_Value);
             Log.log("Saved!");
+        }
+        /// <summary>
+        /// Clear all settings as first settings.
+        /// </summary>
+        public static void clearEverything()
+        {
+            Log.log("Clear all settings");
+            for (int i = 0; i < Preset.Lenght; i++)
+            {
+                if (i == 3)
+                {
+                    Preset.defaultSetting[3] = "C:\\Users\\"
+                        + Environment.GetEnvironmentVariable("USERNAME")
+                        + "\\Downloads";
+                }
+                if (i == 10)
+                {
+                    Preset.defaultSetting[10] = CultureInfo.InstalledUICulture.Name;
+                }
+                Registry.SetValue(REGED_PATH, Preset.keyList[i], Preset.defaultSetting[i], Preset.valueType[i]);
+                Log.log("Set value: " + REGED_PATH + Preset.keyList[i] + " = \"" + Preset.defaultSetting[i] + "\"");
+            }
         }
     }
 }

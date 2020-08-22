@@ -169,6 +169,37 @@
             <Style.Triggers>
             </Style.Triggers>
         </Style>
+        <Style x:Key="Btn" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" CornerRadius="8" BorderBrush="Black" BorderThickness="2">
+                                <Border.Background>
+                                    <SolidColorBrush Color="#FF3F3F3F"/>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center">
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <!--
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#888888"/>
+                            </Trigger>
+                            -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FF4F4F4F"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid Background="Black">
         <Grid.RowDefinitions>
@@ -192,11 +223,16 @@
                     <Label Content="{x:Static local:Localization.pingTimeExplain}" HorizontalAlignment="Left" Margin="20,110,0,0" VerticalAlignment="Top" Foreground="White"/>
                     <Label Content="{x:Static local:Localization.PingTimeout}" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
                 </Grid>
-                <Grid Height="133" Margin="20,157,20,0" VerticalAlignment="Top">
+                <Grid Margin="20,157,20,0" VerticalAlignment="Top">
                     <Label Content="{x:Static local:Localization.AutoScanOnVisible}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
                     <Label Content="{x:Static local:Localization.AutoScanOnLaunch}" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
                     <WPF:ToggleButton x:Name="autoScanOnBoot" Height="30" Margin="0,10,10,0" VerticalAlignment="Top" Width="56" HorizontalAlignment="Right"/>
                     <WPF:ToggleButton x:Name="AutoScanOnLaunch" Height="30" Margin="0,45,10,0" VerticalAlignment="Top" Width="56" HorizontalAlignment="Right"/>
+                </Grid>
+                <Grid Margin="20,237,20,0" VerticalAlignment="Top" Height="107">
+                    <Label Content="{x:Static local:Localization.StealthMode}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
+                    <WPF:ToggleButton x:Name="StealthMode" Height="30" Margin="0,10,10,0" VerticalAlignment="Top" Width="56" HorizontalAlignment="Right"/>
+                    <Label Content="{x:Static local:Localization.StealthModeExplaination}" HorizontalAlignment="Left" Margin="20,40,0,-15" VerticalAlignment="Top" Foreground="White"/>
                 </Grid>
             </Grid>
             <Grid x:Name="general" Margin="-686,56.553,158,0" Tag="general">
@@ -216,6 +252,10 @@
                         <ComboBoxItem Content="English" FontSize="15"/>
                         <ComboBoxItem Content="Korean" FontSize="15"/>
                     </ComboBox>
+                </Grid>
+                <Grid Margin="20,220,20,0" VerticalAlignment="Top">
+                    <Button x:Name="resetSettings" Content="{x:Static local:Localization.ResetAllSettings}" Margin="10,10,10,0" VerticalAlignment="Top" Height="30" Style="{StaticResource Btn}" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="resetSettings_Click"/>
+                    <Button x:Name="restartPass" Content="{x:Static local:Localization.RestartPass}" Margin="10,45,10,0" VerticalAlignment="Top" Height="30" Style="{StaticResource Btn}" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="restartPass_Click" Visibility="Hidden"/>
                 </Grid>
             </Grid>
             <Grid x:Name="about" Margin="694,56.553,-694,0" Grid.Column="1" Tag="info">
@@ -244,12 +284,19 @@
                     <StackPanel Margin="0,38.94,0,0">
                         <Button x:Name="network_btn" Content="{x:Static local:Localization.network}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="network_btn_Click" IsEnabled="False"/>
                         <Button x:Name="general_btn" Content="{x:Static local:Localization.general}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="general_btn_Click"/>
+                        <Button x:Name="securiry_btn" Content="Security" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="security_btn_Click"/>
                         <Button x:Name="about_btn" Content="{x:Static local:Localization.info}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="about_btn_Click"/>
                     </StackPanel>
                     <Label Content="{x:Static local:Localization.settings}" Background="Black" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="18" FontWeight="Bold"/>
                 </Grid>
             </Border>
+            <Grid x:Name="security" Margin="-1351,57,823,0" Tag="general">
+                <Grid Margin="20,10,20,0" VerticalAlignment="Top">
+                    <Label Content="{x:Static local:Localization.aes_iv_value}" Margin="10,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15" HorizontalAlignment="Left"/>
+                    <TextBox x:Name="aes_iv" HorizontalContentAlignment="Right" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Background="#FF303030" Foreground="White" HorizontalAlignment="Right" Width="370"/>
+                </Grid>
+                <Label Content="{x:Static local:Localization.security_settings_warning}" Margin="20,0,20,10" Foreground="White" FontSize="15" Height="50" VerticalAlignment="Bottom"/>
+            </Grid>
         </Grid>
-
     </Grid>
 </Window>

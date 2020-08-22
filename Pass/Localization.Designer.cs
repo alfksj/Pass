@@ -61,6 +61,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AES block chain initial vector :.
+        /// </summary>
+        public static string aes_iv_value {
+            get {
+                return ResourceManager.GetString("aes_iv_value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Allow.
         /// </summary>
         public static string allow {
@@ -495,6 +504,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset All Settings.
+        /// </summary>
+        public static string ResetAllSettings {
+            get {
+                return ResourceManager.GetString("ResetAllSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ping Replies.
         /// </summary>
         public static string responeAsHost {
@@ -509,6 +527,25 @@ namespace Pass {
         public static string response {
             get {
                 return ResourceManager.GetString("response", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart Pass.
+        /// </summary>
+        public static string RestartPass {
+            get {
+                return ResourceManager.GetString("RestartPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning: All incorrect settings may cause error or security problems.
+        ///Both Pass must have same security settings to share..
+        /// </summary>
+        public static string security_settings_warning {
+            get {
+                return ResourceManager.GetString("security_settings_warning", resourceCulture);
             }
         }
         
@@ -567,6 +604,25 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stealth Mode :.
+        /// </summary>
+        public static string StealthMode {
+            get {
+                return ResourceManager.GetString("StealthMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When you turn on stealth mode, your Pass will be either don&apos;t displayed
+        ///on other Pass and don&apos;t response to broadcast from other Pass..
+        /// </summary>
+        public static string StealthModeExplaination {
+            get {
+                return ResourceManager.GetString("StealthModeExplaination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Why no one here?.
         /// </summary>
         public static string sup {
@@ -581,6 +637,16 @@ namespace Pass {
         public static string title {
             get {
                 return ResourceManager.GetString("title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are trying to reset all settings.
+        ///Are you sure?.
+        /// </summary>
+        public static string TryingToReset {
+            get {
+                return ResourceManager.GetString("TryingToReset", resourceCulture);
             }
         }
         

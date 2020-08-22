@@ -14,6 +14,7 @@ using PassLibrary.Box;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using MessageBox = System.Windows.MessageBox;
+using System.Diagnostics.Contracts;
 
 namespace PassLibrary
 {
@@ -52,7 +53,7 @@ namespace PassLibrary
                     return ip.ToString();
                 }
             }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
+            throw new Exception("No network adapter with an IPv4 address in this system!");
         }
         /// <summary>
         /// Send ping to local network machine  through broatcasting
@@ -122,6 +123,9 @@ namespace PassLibrary
                     {
                         determined.Invoke(false);
                         return;
+                    } catch(ThreadInterruptedException)
+                    {
+                        return;
                     }
                 }
             });
@@ -147,6 +151,11 @@ namespace PassLibrary
                 pinger.Close();
                 string code = ASCIIEncoding.ASCII.GetString(received);
                 Log.log("Ping received!");
+                if(Setting.stealthMode)
+                {
+                    Log.log("You're currently in stealth mode. Ignore ping.");
+                    continue;
+                }
                 string[] div = code.Split(new char[] { '+' });
                 if(div[0].Equals("Hi"))
                 {
@@ -294,6 +303,7 @@ namespace PassLibrary
                             Log.serverLog("Sent RSA public key");
                             AES = rsa.RSADecrypt(receive(sock));
                             Secure secure = new Secure(AES);
+                            secure.setIV(Setting.Actual_IV);
                             Log.serverLog("AES key was replied");
                             JObject json = JObject.Parse(receive(sock, secure));
                             Log.serverLog("File Info Received");
@@ -473,6 +483,7 @@ namespace PassLibrary
                 Secure.RSASystem rsa = new Secure.RSASystem(pubKey);
                 Secure secure = new Secure();
                 secure.Key = "32";
+                secure.setIV(Setting.Actual_IV);
                 send(rsa.encrypt(secure.Key), socket);
                 Log.clientLog("Replied AES key");
                 //Get Allow
@@ -586,9 +597,9 @@ namespace PassLibrary
                 return ERROR;
             }
         }
-        public void serverStart(Window window)
+        public Task serverStart(Window window)
         {
-            Task.Run(() =>
+            return Task.Run(() =>
             {
                 mainServer(window);
             });
