@@ -2,6 +2,8 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace PassLibrary
 {
@@ -96,7 +98,18 @@ namespace PassLibrary
             Aes_Initial_Value = Registry.GetValue(REGED_PATH, "ENCRYPTION_IV", "[DEFAULT]").ToString();
             if(Aes_Initial_Value.Equals("[DEFAULT]"))
             {
-                Actual_IV = "23fwe0gwegwdgofdogofdhg";
+                Actual_IV = "e0gwegwdgofdogofdhgfuysdkfjdkejd";
+            }
+            else if(Aes_Initial_Value.Equals("[RANDOM]"))
+            {
+                RNGCryptoServiceProvider rand = new RNGCryptoServiceProvider();
+                byte[] iv = new byte[32];
+                rand.GetBytes(iv, 0, 32);
+                Actual_IV = Encoding.ASCII.GetString(iv);
+            }
+            else
+            {
+                Actual_IV = Aes_Initial_Value;
             }
             Log.log("Loaded!");
         }

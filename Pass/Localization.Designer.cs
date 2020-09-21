@@ -541,7 +541,7 @@ namespace Pass {
         
         /// <summary>
         ///   Looks up a localized string similar to Warning: All incorrect settings may cause error or security problems.
-        ///Both Pass must have same security settings to share..
+        ///All settings will be synchronized to sender&apos;s configuration..
         /// </summary>
         public static string security_settings_warning {
             get {

@@ -280,7 +280,7 @@ Normaly, shorter than a second is also good.</value>
   </data>
   <data name="security_settings_warning" xml:space="preserve">
     <value>Warning: All incorrect settings may cause error or security problems.
-Both Pass must have same security settings to share.</value>
+All settings will be synchronized to sender's configuration.</value>
   </data>
   <data name="self" xml:space="preserve">
     <value>Ping from local(Denied)</value>

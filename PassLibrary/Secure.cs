@@ -34,20 +34,22 @@ namespace PassLibrary
         private string GetRandomText(int len)
         {
             Random random = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghizklmnopqrstuvwxyz0123456789";
             return new string(Enumerable.Repeat(chars, len)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
         //TODO: Code Optimize
         public string AES256Encrypt(string msg)
         {
-            RijndaelManaged aes = new RijndaelManaged();
-            aes.KeySize = 256;
-            aes.BlockSize = 128;
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-            aes.Key = Encoding.UTF8.GetBytes(Key);
-            aes.IV = Encoding.UTF8.GetBytes(IV);
+            RijndaelManaged aes = new RijndaelManaged
+            {
+                KeySize = 256,
+                BlockSize = 256,
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.PKCS7,
+                Key = Encoding.ASCII.GetBytes(Key),
+                IV = Encoding.ASCII.GetBytes(IV)
+            };
             var encrypt = aes.CreateEncryptor(aes.Key, aes.IV);
             byte[] buf = null;
             using (var ms = new MemoryStream())
@@ -64,13 +66,15 @@ namespace PassLibrary
         }
         public string AES256Decrypt(string msg)
         {
-            RijndaelManaged aes = new RijndaelManaged();
-            aes.KeySize = 256;
-            aes.BlockSize = 128;
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-            aes.Key = Encoding.UTF8.GetBytes(Key);
-            aes.IV = Encoding.UTF8.GetBytes(IV);
+            RijndaelManaged aes = new RijndaelManaged
+            {
+                KeySize = 256,
+                BlockSize = 256,
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.PKCS7,
+                Key = Encoding.ASCII.GetBytes(Key),
+                IV = Encoding.ASCII.GetBytes(IV)
+            };
             var decrypt = aes.CreateDecryptor();
             byte[] buf = null;
             using (var ms = new MemoryStream())

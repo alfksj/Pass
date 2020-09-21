@@ -295,7 +295,7 @@
                     <Label Content="{x:Static local:Localization.aes_iv_value}" Margin="10,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15" HorizontalAlignment="Left"/>
                     <TextBox x:Name="aes_iv" HorizontalContentAlignment="Right" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Background="#FF303030" Foreground="White" HorizontalAlignment="Right" Width="370"/>
                 </Grid>
-                <Label Content="{x:Static local:Localization.security_settings_warning}" Margin="20,0,20,10" Foreground="White" FontSize="15" Height="50" VerticalAlignment="Bottom"/>
+                <Label Content="Warning: All incorrect settings may cause error or security problems.&#xD;&#xA;All settings will be syncronized to receiver's configuration." Margin="20,0,20,10" Foreground="White" FontSize="15" Height="50" VerticalAlignment="Bottom"/>
             </Grid>
         </Grid>
     </Grid>

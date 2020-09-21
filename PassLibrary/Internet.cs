@@ -22,7 +22,7 @@ namespace PassLibrary
     {
         private const int PING_PORT = 24689;
         private const int CONTROL_PORT = 24690;
-        private const string VERSION = "1.0.0";
+        private const string VERSION = "1.1.0";
         public string myIP = "-1";
         public List<Response> lastResponse = new List<Response>();
         private ResourceManager rm;
@@ -301,10 +301,15 @@ namespace PassLibrary
                             Secure.RSASystem rsa = new Secure.RSASystem();
                             send(rsa.PubKey, sock);
                             Log.serverLog("Sent RSA public key");
+                            //get AES key
                             AES = rsa.RSADecrypt(receive(sock));
                             Secure secure = new Secure(AES);
-                            secure.setIV(Setting.Actual_IV);
                             Log.serverLog("AES key was replied");
+                            //Set IV
+                            string ivx = rsa.RSADecrypt(receive(sock));
+                            secure.setIV(ivx);
+                            Log.serverLog("IV value was received");
+                            //File Go.
                             JObject json = JObject.Parse(receive(sock, secure));
                             Log.serverLog("File Info Received");
                             if(!json.Value<string>("reply").Equals("OK"))
@@ -483,9 +488,12 @@ namespace PassLibrary
                 Secure.RSASystem rsa = new Secure.RSASystem(pubKey);
                 Secure secure = new Secure();
                 secure.Key = "32";
-                secure.setIV(Setting.Actual_IV);
                 send(rsa.encrypt(secure.Key), socket);
                 Log.clientLog("Replied AES key");
+                //get IV
+                send(rsa.encrypt(Setting.Actual_IV), socket);
+                secure.setIV(Setting.Actual_IV);
+                Log.clientLog("IV was sent");
                 //Get Allow
                 JObject pack = new JObject();
                 if (!File.Exists(path))
