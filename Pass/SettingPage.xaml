@@ -267,8 +267,8 @@
                     <Label Content="{x:Static local:Localization.PassProtocolVersion}" HorizontalAlignment="Left" Margin="0,139.8,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
                     <Label Content="{x:Static local:Localization.DefaultSavingPath}" HorizontalAlignment="Left" Margin="0,174.75,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
                     <Label x:Name="downloadPath" Content="C:\Users\foo\Downloads" HorizontalAlignment="Right" Margin="0,175,10,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
-                    <Label x:Name="protocolVers" Content="1.0.0" HorizontalAlignment="Right" Margin="0,140,10,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
-                    <Label x:Name="programVers" Content="1.0.0" HorizontalAlignment="Right" Margin="0,105,10,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
+                    <Label x:Name="protocolVers" Content="1.1.0" HorizontalAlignment="Right" Margin="0,140,10,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
+                    <Label x:Name="programVers" Content="1.1.0" HorizontalAlignment="Right" Margin="0,105,10,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
                     <Label x:Name="macAddr" Content="1.0.0" HorizontalAlignment="Right" Margin="0,70,10,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
                     <Label x:Name="ipAddr" Content="1.0.0" HorizontalAlignment="Right" Margin="0,35,10,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
                     <Label x:Name="name" Content="foo" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
