@@ -34,9 +34,9 @@ namespace PassLibrary
         private string GetRandomText(int len)
         {
             Random random = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghizklmnopqrstuvwxyz0123456789";
-            return new string(Enumerable.Repeat(chars, len)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
+            byte[] key = new byte[len];
+            random.NextBytes(key);
+            return Bytes.ADTS(key);
         }
         //TODO: Code Optimize
         public string AES256Encrypt(string msg)
