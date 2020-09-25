@@ -17,7 +17,7 @@ namespace PassConsole
             Internet internet = new Internet(rm);
             internet.serverStart();
             Console.ReadKey();
-            internet.wannaSendTo("172.30.1.1", "");
+            internet.WannaSendTo("172.30.1.1", "");
         }
     }
 }

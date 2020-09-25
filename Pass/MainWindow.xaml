@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pass"
-        Closing="killer"
-        KeyDown="keyDown"
+        Closing="Killer"
+        KeyDown="KeyDown"
         mc:Ignorable="d"
         Title="{x:Static local:Localization.title}" Height="376" Width="800" Background="Black" ResizeMode="NoResize" Icon="pack://siteoforigin:,,,/Resources/icon.png" Visibility="Hidden">
     <Window.Resources>
@@ -151,7 +151,7 @@
                 <Grid>
                     <Grid x:Name="none" HorizontalAlignment="Stretch" Height="76" Margin="10,10,10,0" VerticalAlignment="Top" Width="Auto" Visibility="Hidden">
                         <Label Content="{x:Static local:Localization.none}" Margin="10,0,10,43" Foreground="White" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <Button x:Name="sup1" Content="{x:Static local:Localization.sup}" Style="{StaticResource BtnStyle}" Margin="10,38,10,0" VerticalAlignment="Top" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF51A8FF" Click="sup1_Click"/>
+                        <Button x:Name="sup1" Content="{x:Static local:Localization.sup}" Style="{StaticResource BtnStyle}" Margin="10,38,10,0" VerticalAlignment="Top" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF51A8FF" Click="Sup1_Click"/>
                     </Grid>
                     <Grid x:Name="finding" Margin="10" Visibility="Hidden">
                         <Label Content="{x:Static local:Localization.finding}" Margin="10,18,10,25" Foreground="White" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
@@ -169,37 +169,37 @@
                         <Grid x:Name="q" Margin="0,0,3,2">
                             <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip1" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
-                            <Button x:Name="q1" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" Click="q1_Click" BorderBrush="{x:Null}"/>
+                            <Button x:Name="q1" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" Click="Q1_Click" BorderBrush="{x:Null}"/>
                         </Grid>
                         <Grid x:Name="w" Margin="3,0,3,2" Grid.Column="1">
                             <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip2" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
-                            <Button x:Name="q2" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q2_Click"/>
+                            <Button x:Name="q2" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="Q2_Click"/>
                         </Grid>
                         <Grid x:Name="e" Margin="3,0,3,2" Grid.Column="2">
                             <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip3" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
-                            <Button x:Name="q3" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q3_Click"/>
+                            <Button x:Name="q3" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="Q3_Click"/>
                         </Grid>
                         <Grid x:Name="r" Margin="3,0,3,2" Grid.Column="3">
                             <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip4" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
-                            <Button x:Name="q4" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q4_Click"/>
+                            <Button x:Name="q4" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="Q4_Click"/>
                         </Grid>
                         <Grid x:Name="t" Margin="3,0,3,2" Grid.Column="4">
                             <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip5" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
-                            <Button x:Name="q5" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q5_Click"/>
+                            <Button x:Name="q5" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="Q5_Click"/>
                         </Grid>
                         <Grid x:Name="y" Margin="3,0,3,2" Grid.Column="5">
                             <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip6" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center"/>
-                            <Button x:Name="q6" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q6_Click"/>
+                            <Button x:Name="q6" Style="{StaticResource BtnStyle}" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="Q6_Click"/>
                         </Grid>
                         <Grid x:Name="u" Margin="3,0,3,2" Grid.Column="6">
                             <Image Margin="10,0,10,25" Source="pack://application:,,,/Resources/win.png"/>
                             <Label x:Name="ip7" Content="255.255.255.255" Margin="0,62,0,0" Foreground="White" FontSize="11" HorizontalAlignment="Center" Width="89"/>
-                            <Button x:Name="q7" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="q7_Click"/>
+                            <Button x:Name="q7" Style="{StaticResource BtnStyle}" Content="Button" Background="#00000001" Foreground="{x:Null}" BorderBrush="{x:Null}" Click="Q7_Click"/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -242,7 +242,7 @@
                     <ProgressBar x:Name="progress" Height="10" VerticalAlignment="Top" Style="{DynamicResource CornerRadius}" Background="{x:Null}" BorderBrush="White" Foreground="White" Width="516.267"/>
                 </StatusBarItem>
             </StatusBar>
-            <Button x:Name="refresh" Style="{StaticResource BtnStyle}" Content="{x:Static local:Localization.doesntappear}" Margin="11,300,10.4,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="16" Click="refresh_Click" Height="Auto" Width="Auto" Foreground="#FF51A8FF" HorizontalAlignment="Center"/>
+            <Button x:Name="refresh" Style="{StaticResource BtnStyle}" Content="{x:Static local:Localization.doesntappear}" Margin="11,300,10.4,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="16" Click="Refresh_Click" Height="Auto" Width="Auto" Foreground="#FF51A8FF" HorizontalAlignment="Center"/>
             <Border BorderBrush="White" BorderThickness="1" Margin="286,155,267.4,92" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <!-- THIS IS CUSTOMIZED ALERT BOX CODE. WHEN YOU SOLVED THREAD PROBLEM, PLEASE APPLY THIS!

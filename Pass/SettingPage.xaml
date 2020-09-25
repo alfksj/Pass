@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Pass"
         xmlns:WPF="clr-namespace:Pass.WPF" x:Class="Pass.SettingPage"
         mc:Ignorable="d"
-        Closing="save"
+        Closing="Save"
         Title="{x:Static local:Localization.settings}" Height="450" Width="800" ResizeMode="NoResize" Icon="pack://siteoforigin:,,,/Resources/icon.png">
     <Window.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -254,8 +254,8 @@
                     </ComboBox>
                 </Grid>
                 <Grid Margin="20,220,20,0" VerticalAlignment="Top">
-                    <Button x:Name="resetSettings" Content="{x:Static local:Localization.ResetAllSettings}" Margin="10,10,10,0" VerticalAlignment="Top" Height="30" Style="{StaticResource Btn}" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="resetSettings_Click"/>
-                    <Button x:Name="restartPass" Content="{x:Static local:Localization.RestartPass}" Margin="10,45,10,0" VerticalAlignment="Top" Height="30" Style="{StaticResource Btn}" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="restartPass_Click" Visibility="Hidden"/>
+                    <Button x:Name="resetSettings" Content="{x:Static local:Localization.ResetAllSettings}" Margin="10,10,10,0" VerticalAlignment="Top" Height="30" Style="{StaticResource Btn}" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="ResetSettings_Click"/>
+                    <Button x:Name="restartPass" Content="{x:Static local:Localization.RestartPass}" Margin="10,45,10,0" VerticalAlignment="Top" Height="30" Style="{StaticResource Btn}" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="RestartPass_Click" Visibility="Hidden"/>
                 </Grid>
             </Grid>
             <Grid x:Name="about" Margin="694,56.553,-694,0" Grid.Column="1" Tag="info">
@@ -282,10 +282,10 @@
             <Border BorderBrush="White" BorderThickness="0,0,2,0">
                 <Grid>
                     <StackPanel Margin="0,38.94,0,0">
-                        <Button x:Name="network_btn" Content="{x:Static local:Localization.network}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="network_btn_Click" IsEnabled="False"/>
-                        <Button x:Name="general_btn" Content="{x:Static local:Localization.general}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="general_btn_Click"/>
-                        <Button x:Name="securiry_btn" Content="Security" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="security_btn_Click"/>
-                        <Button x:Name="about_btn" Content="{x:Static local:Localization.info}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="about_btn_Click"/>
+                        <Button x:Name="network_btn" Content="{x:Static local:Localization.network}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="Network_btn_Click" IsEnabled="False"/>
+                        <Button x:Name="general_btn" Content="{x:Static local:Localization.general}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="General_btn_Click"/>
+                        <Button x:Name="securiry_btn" Content="Security" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="Security_btn_Click"/>
+                        <Button x:Name="about_btn" Content="{x:Static local:Localization.info}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="About_btn_Click"/>
                     </StackPanel>
                     <Label Content="{x:Static local:Localization.settings}" Background="Black" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="18" FontWeight="Bold"/>
                 </Grid>

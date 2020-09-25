@@ -26,7 +26,7 @@ namespace Pass
 
         public ResourceManager Rm { set => rm = value; }
 
-        public void active(Grid target, RoutedEventArgs e)
+        public void Active(Grid target, RoutedEventArgs e)
         {
             content.Content = rm.GetString(target.Tag.ToString());
             target.SetValue(Grid.ColumnProperty, 1);
@@ -40,9 +40,9 @@ namespace Pass
             securiry_btn.IsEnabled = true;
             ((Button)e.Source).IsEnabled = false;
         }
-        public void save(object sender, CancelEventArgs e)
+        public void Save(object sender, CancelEventArgs e)
         {
-            pushSetting();
+            PushSetting();
             Setting.save();
             Hide();
             e.Cancel = true;
@@ -54,25 +54,25 @@ namespace Pass
             languageTable["Korean"] = "ko-KR";  languageISO["ko-KR"] = 1;
             currentOn = network;
         }
-        private void network_btn_Click(object sender, RoutedEventArgs e)
+        private void Network_btn_Click(object sender, RoutedEventArgs e)
         {
-            active(network, e);
+            Active(network, e);
         }
-        private void general_btn_Click(object sender, RoutedEventArgs e)
+        private void General_btn_Click(object sender, RoutedEventArgs e)
         {
-            active(general, e);
+            Active(general, e);
         }
-        private void about_btn_Click(object sender, RoutedEventArgs e)
+        private void About_btn_Click(object sender, RoutedEventArgs e)
         {
-            active(about, e);
+            Active(about, e);
         }
-        private void security_btn_Click(object sender, RoutedEventArgs e)
+        private void Security_btn_Click(object sender, RoutedEventArgs e)
         {
-            active(security, e);
+            Active(security, e);
         }
-        private Dictionary<string, string> languageTable = new Dictionary<string, string>();
-        private Dictionary<string, int> languageISO = new Dictionary<string, int>();
-        public void applySetting()
+        private readonly Dictionary<string, string> languageTable = new Dictionary<string, string>();
+        private readonly Dictionary<string, int> languageISO = new Dictionary<string, int>();
+        public void ApplySetting()
         {
             Log.log("Applying to UI");
             sharing.isToggled = Setting.sharing;
@@ -108,7 +108,7 @@ namespace Pass
             aes_iv.Text = Setting.Aes_Initial_Value;
             Log.log("Applied");
         }
-        public void pushSetting()
+        public void PushSetting()
         {
             Log.log("Pushing data to Setting");
             Setting.sharing = sharing.isToggled;
@@ -131,7 +131,7 @@ namespace Pass
             timeMs.Content = (int)PingTimeout.Value+"ms";
         }
 
-        private void resetSettings_Click(object sender, RoutedEventArgs e)
+        private void ResetSettings_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult res = MessageBox.Show(rm.GetString("TryingToReset"), "Pass", MessageBoxButton.YesNo);
             if(res==MessageBoxResult.No)
@@ -140,12 +140,12 @@ namespace Pass
             }
             Setting.clearEverything();
             Setting.load();
-            applySetting();
+            ApplySetting();
         }
 
-        public string originated { get; set; }
-        public string[] arguments { get; set; }
-        private void restartPass_Click(object sender, RoutedEventArgs e)
+        public string Originated { get; set; }
+        public string[] Arguments { get; set; }
+        private void RestartPass_Click(object sender, RoutedEventArgs e)
         {
             //TODO: implement this func
         }

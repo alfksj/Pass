@@ -29,17 +29,17 @@ namespace Pass
     {
         private const Visibility hide = Visibility.Hidden;
         private const Visibility show = Visibility.Visible;
-        private string fileOpened;
-        public string originated;
+        private readonly string fileOpened = null;
+        public string originated = null;
 
         private List<string> IP;
-        private ResourceManager rm = new ResourceManager("Pass.Localization", typeof(MainWindow).Assembly);
-        private Internet internet;
+        private readonly ResourceManager rm = new ResourceManager("Pass.Localization", typeof(MainWindow).Assembly);
+        private readonly Internet internet = null;
         public static Window Me_Myself;
 
         public bool debugging = false;
-        private bool dontExitOnClosing = true;
-        private bool exitOnDone = false;
+        private readonly bool dontExitOnClosing = true;
+        private readonly bool exitOnDone = false;
         /********************************************************************
         //ALERT//
         private Thickness up = new Thickness(180, -144, 180, 0);
@@ -133,9 +133,9 @@ namespace Pass
             SettingPage settingPage = new SettingPage();
             InitializeComponent();
             settingPage.Rm = rm;
-            settingPage.originated = originated;
-            settingPage.arguments = cmds;
-            settingPage.applySetting();
+            settingPage.Originated = originated;
+            settingPage.Arguments = cmds;
+            settingPage.ApplySetting();
             status.Visibility = hide;
             if (Setting.logOnLaunch) debuger.Show();
             if (Setting.statusOnLaunch) status.Visibility = show;
@@ -144,8 +144,8 @@ namespace Pass
                 statusText.Content = fileOpened;
             }
             else statusText.Content = "Not selelcted";
-            internet = new Internet(rm);
-            internet.setFunction(
+            internet = new Internet();
+            internet.SetFunction(
             (bool action) =>
             {
                 try {
@@ -214,7 +214,7 @@ namespace Pass
             }
             if(Setting.autoScanOnLaunch)
             {
-                ping();
+                Ping();
             }
             ///Arguments Loading
             originated = cmds[0];
@@ -228,7 +228,7 @@ namespace Pass
                 fileOpened = cmds[1];
                 if(Setting.autoScanOnVisible)
                 {
-                    ping();
+                    Ping();
                 }
                 if (cmds.Length > 2)
                 {
@@ -244,7 +244,7 @@ namespace Pass
                         }
                         else if (cmds[i].Equals("-server"))
                         {
-                            internet.serverStart(this);
+                            internet.ServerStart();
                         }
                         else if (cmds[i].Equals("-pingReceiver"))
                         {
@@ -269,25 +269,31 @@ namespace Pass
                         {
                             NotifyIcon ni = new NotifyIcon();
                             ContextMenu tray = new ContextMenu();
-                            MenuItem exit = new MenuItem();
-                            exit.Index = 0;
-                            exit.Text = rm.GetString("exit");
+                            MenuItem exit = new MenuItem
+                            {
+                                Index = 0,
+                                Text = rm.GetString("exit")
+                            };
                             exit.Click += delegate (object click, EventArgs e)
                             {
                                 Environment.Exit(0);
                             };
-                            MenuItem open = new MenuItem();
-                            open.Text = rm.GetString("open");
+                            MenuItem open = new MenuItem
+                            {
+                                Text = rm.GetString("open")
+                            };
                             open.Click += delegate (object click, EventArgs e)
                             {
                                 Show();
                                 if (Setting.autoScanOnVisible)
                                 {
-                                    ping();
+                                    Ping();
                                 }
                             };
-                            MenuItem setting = new MenuItem();
-                            setting.Text = rm.GetString("settings");
+                            MenuItem setting = new MenuItem
+                            {
+                                Text = rm.GetString("settings")
+                            };
                             setting.Click += delegate (object click, EventArgs e)
                             {
                                 settingPage.Show();
@@ -344,8 +350,8 @@ namespace Pass
         }
         private int keptKeyDown = 0;
         private long lastKeyDown=0;
-        private Debuger debuger = new Debuger();
-        private void keyDown(object sender, KeyEventArgs e)
+        private readonly Debuger debuger = new Debuger();
+        private void KeyDownDetected(object sender, KeyEventArgs e)
         {
             if(e.Key==Key.F9)
             {
@@ -377,22 +383,21 @@ namespace Pass
                 debuger.Show();
             }
         }
-        int retries=0;
-        private void refresh_Click(object sender, RoutedEventArgs ex)
+        private void Refresh_Click(object sender, RoutedEventArgs ex)
         {
             refresh.IsEnabled = false;
             none.Visibility = Visibility.Hidden;
             finding.Visibility = Visibility.Visible;
             lst.Visibility = Visibility.Hidden;
-            ping();
+            Ping();
         }
-        private void ping()
+        private void Ping()
         {
             refresh.IsEnabled = false;
             Task.Run(() =>
             {
                 internet.lastResponse.Clear();
-                List<string> ip = internet.scanLocalIp();
+                List<string> ip = internet.ScanLocalIp();
                 finding.Dispatcher.Invoke(() =>
                 {
                     finding.Visibility = Visibility.Hidden;
@@ -403,11 +408,9 @@ namespace Pass
                     {
                         none.Visibility = Visibility.Visible;
                     });
-                    retries++;
                 }
                 else
                 {
-                    retries = 0;
                     lst.Dispatcher.Invoke(() =>
                     {
                         lst.Visibility = show;
@@ -464,17 +467,17 @@ namespace Pass
             });
         }
 
-        private Support sup = new Support();
-        private void sup2_Click(object sender, RoutedEventArgs e)
+        private readonly Support sup = new Support();
+        private void Sup2_Click(object sender, RoutedEventArgs e)
         {
             sup.go(Support.NONE_VISIBLE);
         }
-        private void sup1_Click(object sender, RoutedEventArgs e)
+        private void Sup1_Click(object sender, RoutedEventArgs e)
         {
             sup.go(Support.NONE_VISIBLE);
         }
 
-        private void killer(object sender, CancelEventArgs e)
+        private void Killer(object sender, CancelEventArgs e)
         {
             if (debugging)
             {
@@ -492,7 +495,7 @@ namespace Pass
             }
         }
 
-        private void exec(int whoareu, Label label)
+        private void Exec(int whoareu, Label label)
         {
             if(!Setting.sharing)
             {
@@ -518,8 +521,7 @@ namespace Pass
             label.Content = rm.GetString("sending");
             label.Foreground = Brushes.LawnGreen;
             Task.Run(()=>{
-                int result = internet.wannaSendTo(ip, fileOpened);
-                //TODO: Use Internet.reason;
+                int result = internet.WannaSendTo(ip, fileOpened);
                 Log.clientLog("Result: "+Internet.reason);
                 if(result==Internet.DENIED)
                 {
@@ -558,39 +560,39 @@ namespace Pass
             });
         }
 
-        private void q1_Click(object sender, RoutedEventArgs e)
+        private void Q1_Click(object sender, RoutedEventArgs e)
         {
-            exec(0, ip1);
+            Exec(0, ip1);
         }
 
-        private void q2_Click(object sender, RoutedEventArgs e)
+        private void Q2_Click(object sender, RoutedEventArgs e)
         {
-            exec(1, ip2);
+            Exec(1, ip2);
         }
 
-        private void q3_Click(object sender, RoutedEventArgs e)
+        private void Q3_Click(object sender, RoutedEventArgs e)
         {
-            exec(2, ip3);
+            Exec(2, ip3);
         }
 
-        private void q4_Click(object sender, RoutedEventArgs e)
+        private void Q4_Click(object sender, RoutedEventArgs e)
         {
-            exec(3, ip4);
+            Exec(3, ip4);
         }
 
-        private void q5_Click(object sender, RoutedEventArgs e)
+        private void Q5_Click(object sender, RoutedEventArgs e)
         {
-            exec(4, ip5);
+            Exec(4, ip5);
         }
 
-        private void q6_Click(object sender, RoutedEventArgs e)
+        private void Q6_Click(object sender, RoutedEventArgs e)
         {
-            exec(5, ip6);
+            Exec(5, ip6);
         }
 
-        private void q7_Click(object sender, RoutedEventArgs e)
+        private void Q7_Click(object sender, RoutedEventArgs e)
         {
-            exec(6, ip7);
+            Exec(6, ip7);
         }
     }
 }

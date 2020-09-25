@@ -323,13 +323,13 @@ namespace Pass {
             this.rootPane = ((Pass.MainWindow)(target));
             
             #line 7 "..\..\MainWindow.xaml"
-            this.rootPane.Closing += new System.ComponentModel.CancelEventHandler(this.killer);
+            this.rootPane.Closing += new System.ComponentModel.CancelEventHandler(this.Killer);
             
             #line default
             #line hidden
             
             #line 8 "..\..\MainWindow.xaml"
-            this.rootPane.KeyDown += new System.Windows.Input.KeyEventHandler(this.keyDown);
+            this.rootPane.KeyDown += new System.Windows.Input.KeyEventHandler(this.KeyDownDetected);
             
             #line default
             #line hidden
@@ -344,7 +344,7 @@ namespace Pass {
             this.sup1 = ((System.Windows.Controls.Button)(target));
             
             #line 154 "..\..\MainWindow.xaml"
-            this.sup1.Click += new System.Windows.RoutedEventHandler(this.sup1_Click);
+            this.sup1.Click += new System.Windows.RoutedEventHandler(this.Sup1_Click);
             
             #line default
             #line hidden
@@ -365,7 +365,7 @@ namespace Pass {
             this.q1 = ((System.Windows.Controls.Button)(target));
             
             #line 172 "..\..\MainWindow.xaml"
-            this.q1.Click += new System.Windows.RoutedEventHandler(this.q1_Click);
+            this.q1.Click += new System.Windows.RoutedEventHandler(this.Q1_Click);
             
             #line default
             #line hidden
@@ -380,7 +380,7 @@ namespace Pass {
             this.q2 = ((System.Windows.Controls.Button)(target));
             
             #line 177 "..\..\MainWindow.xaml"
-            this.q2.Click += new System.Windows.RoutedEventHandler(this.q2_Click);
+            this.q2.Click += new System.Windows.RoutedEventHandler(this.Q2_Click);
             
             #line default
             #line hidden
@@ -395,7 +395,7 @@ namespace Pass {
             this.q3 = ((System.Windows.Controls.Button)(target));
             
             #line 182 "..\..\MainWindow.xaml"
-            this.q3.Click += new System.Windows.RoutedEventHandler(this.q3_Click);
+            this.q3.Click += new System.Windows.RoutedEventHandler(this.Q3_Click);
             
             #line default
             #line hidden
@@ -410,7 +410,7 @@ namespace Pass {
             this.q4 = ((System.Windows.Controls.Button)(target));
             
             #line 187 "..\..\MainWindow.xaml"
-            this.q4.Click += new System.Windows.RoutedEventHandler(this.q4_Click);
+            this.q4.Click += new System.Windows.RoutedEventHandler(this.Q4_Click);
             
             #line default
             #line hidden
@@ -425,7 +425,7 @@ namespace Pass {
             this.q5 = ((System.Windows.Controls.Button)(target));
             
             #line 192 "..\..\MainWindow.xaml"
-            this.q5.Click += new System.Windows.RoutedEventHandler(this.q5_Click);
+            this.q5.Click += new System.Windows.RoutedEventHandler(this.Q5_Click);
             
             #line default
             #line hidden
@@ -440,7 +440,7 @@ namespace Pass {
             this.q6 = ((System.Windows.Controls.Button)(target));
             
             #line 197 "..\..\MainWindow.xaml"
-            this.q6.Click += new System.Windows.RoutedEventHandler(this.q6_Click);
+            this.q6.Click += new System.Windows.RoutedEventHandler(this.Q6_Click);
             
             #line default
             #line hidden
@@ -455,7 +455,7 @@ namespace Pass {
             this.q7 = ((System.Windows.Controls.Button)(target));
             
             #line 202 "..\..\MainWindow.xaml"
-            this.q7.Click += new System.Windows.RoutedEventHandler(this.q7_Click);
+            this.q7.Click += new System.Windows.RoutedEventHandler(this.Q7_Click);
             
             #line default
             #line hidden
@@ -473,7 +473,7 @@ namespace Pass {
             this.refresh = ((System.Windows.Controls.Button)(target));
             
             #line 245 "..\..\MainWindow.xaml"
-            this.refresh.Click += new System.Windows.RoutedEventHandler(this.refresh_Click);
+            this.refresh.Click += new System.Windows.RoutedEventHandler(this.Refresh_Click);
             
             #line default
             #line hidden
