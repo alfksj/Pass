@@ -27,19 +27,18 @@ namespace PassLibrary
                 KEY = GetRandomText(Int32.Parse(value));
             }
         }
-        public void setIV(string iv)
+        public void SetIV(string iv)
         {
             IV = iv;
         }
         private string GetRandomText(int len)
         {
             Random random = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghizklmnopqrstuvwxyz0123456789";
-            return new string(Enumerable.Repeat(chars, len)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
+            byte[] key = new byte[len];
+            random.NextBytes(key);
+            return Bytes.ADTS(key);
         }
-        //TODO: Code Optimize
-        public string AES256Encrypt(string msg)
+        private RijndaelManaged InitializeAES()
         {
             RijndaelManaged aes = new RijndaelManaged
             {
@@ -50,6 +49,11 @@ namespace PassLibrary
                 Key = Encoding.ASCII.GetBytes(Key),
                 IV = Encoding.ASCII.GetBytes(IV)
             };
+            return aes;
+        }
+        public string AES256Encrypt(string msg)
+        {
+            RijndaelManaged aes = InitializeAES();
             var encrypt = aes.CreateEncryptor(aes.Key, aes.IV);
             byte[] buf = null;
             using (var ms = new MemoryStream())
@@ -66,15 +70,7 @@ namespace PassLibrary
         }
         public string AES256Decrypt(string msg)
         {
-            RijndaelManaged aes = new RijndaelManaged
-            {
-                KeySize = 256,
-                BlockSize = 256,
-                Mode = CipherMode.CBC,
-                Padding = PaddingMode.PKCS7,
-                Key = Encoding.ASCII.GetBytes(Key),
-                IV = Encoding.ASCII.GetBytes(IV)
-            };
+            RijndaelManaged aes = InitializeAES();
             var decrypt = aes.CreateDecryptor();
             byte[] buf = null;
             using (var ms = new MemoryStream())
@@ -92,12 +88,6 @@ namespace PassLibrary
         public byte[] AES256Encrypt(byte[] msg)
         {
             RijndaelManaged aes = new RijndaelManaged();
-            aes.KeySize = 256;
-            aes.BlockSize = 128;
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-            aes.Key = Encoding.UTF8.GetBytes(Key);
-            aes.IV = Encoding.UTF8.GetBytes(IV);
             var encrypt = aes.CreateEncryptor(aes.Key, aes.IV);
             byte[] buf = null;
             using (var ms = new MemoryStream())
@@ -113,12 +103,6 @@ namespace PassLibrary
         public byte[] AES256Decrypt(byte[] msg)
         {
             RijndaelManaged aes = new RijndaelManaged();
-            aes.KeySize = 256;
-            aes.BlockSize = 128;
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-            aes.Key = Encoding.UTF8.GetBytes(Key);
-            aes.IV = Encoding.UTF8.GetBytes(IV);
             var decrypt = aes.CreateDecryptor();
             byte[] buf = null;
             using (var ms = new MemoryStream())
@@ -133,37 +117,32 @@ namespace PassLibrary
         }
         public class RSASystem
         {
-            private string priKey;
-            private string pubKey;
-            public string PubKey
-            {
-                get
-                {
-                    return pubKey;
-                }
-            }
+            private string PriKey { get; set; }
+            public string PubKey { get; }
             public RSASystem()
             {
                 RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
                 //Public Key
                 RSAParameters privateKey = RSA.Create().ExportParameters(true);
                 rsa.ImportParameters(privateKey);
-                priKey = rsa.ToXmlString(true);
+                PriKey = rsa.ToXmlString(true);
                 //Private Key
-                RSAParameters publicKey = new RSAParameters();
-                publicKey.Modulus = privateKey.Modulus;
-                publicKey.Exponent = privateKey.Exponent;
+                RSAParameters publicKey = new RSAParameters
+                {
+                    Modulus = privateKey.Modulus,
+                    Exponent = privateKey.Exponent
+                };
                 rsa.ImportParameters(publicKey);
-                pubKey = rsa.ToXmlString(false);
+                PubKey = rsa.ToXmlString(false);
             }
             public RSASystem(string pubKey)
             {
-                this.pubKey = pubKey;
+                this.PubKey = pubKey;
             }
-            public string encrypt(string plainText)
+            public string Encrypt(string plainText)
             {
                 RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-                rsa.FromXmlString(pubKey);
+                rsa.FromXmlString(PubKey);
 
                 byte[] inbuf = (new UTF8Encoding()).GetBytes(plainText);
 
@@ -174,7 +153,7 @@ namespace PassLibrary
             public string RSADecrypt(string encryptedText)
             {
                 RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-                rsa.FromXmlString(priKey);
+                rsa.FromXmlString(PriKey);
 
                 byte[] srcbuf = System.Convert.FromBase64String(encryptedText);
 
