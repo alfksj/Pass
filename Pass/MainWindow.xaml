@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pass"
         Closing="Killer"
-        KeyDown="KeyDown"
+        KeyDown="KeyDownDetected"
         mc:Ignorable="d"
         Title="{x:Static local:Localization.title}" Height="376" Width="800" Background="Black" ResizeMode="NoResize" Icon="pack://siteoforigin:,,,/Resources/icon.png" Visibility="Hidden">
     <Window.Resources>

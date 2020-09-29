@@ -18,7 +18,6 @@ using MenuItem = System.Windows.Forms.MenuItem;
 using ContextMenu = System.Windows.Forms.ContextMenu;
 using Application = System.Windows.Application;
 using System.IO;
-using System.Runtime.Remoting.Channels;
 
 namespace Pass
 {
@@ -126,10 +125,10 @@ namespace Pass
         {
             Me_Myself = this;
             string[] cmds = Environment.GetCommandLineArgs();
-            Setting.checkEnvironment();
-            Setting.load();
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(Setting.language);
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(Setting.language);
+            Setting.CheckEnvironment();
+            Setting.Load();
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(Setting.Language);
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(Setting.Language);
             SettingPage settingPage = new SettingPage();
             InitializeComponent();
             settingPage.Rm = rm;
@@ -137,8 +136,8 @@ namespace Pass
             settingPage.Arguments = cmds;
             settingPage.ApplySetting();
             status.Visibility = hide;
-            if (Setting.logOnLaunch) debuger.Show();
-            if (Setting.statusOnLaunch) status.Visibility = show;
+            if (Setting.LogOnLaunch) debuger.Show();
+            if (Setting.StatusOnLaunch) status.Visibility = show;
             if (fileOpened != null)
             {
                 statusText.Content = fileOpened;
@@ -204,15 +203,15 @@ namespace Pass
                     Log.log(e.Message, Log.WARN);
                 }
             });
-            if(Setting.name.Equals(""))
+            if(Setting.Name.Equals(""))
             {
                 MyIp.Content = rm.GetString("mypc") + ": " + internet.myIP;
             }
             else
             {
-                MyIp.Content = Setting.name;
+                MyIp.Content = Setting.Name;
             }
-            if(Setting.autoScanOnLaunch)
+            if(Setting.AutoScanOnLaunch)
             {
                 Ping();
             }
@@ -226,7 +225,7 @@ namespace Pass
             if (cmds.Length > 1)
             {
                 fileOpened = cmds[1];
-                if(Setting.autoScanOnVisible)
+                if(Setting.AutoScanOnVisible)
                 {
                     Ping();
                 }
@@ -256,7 +255,7 @@ namespace Pass
                         else if (cmds[i].Equals("-autoStart"))
                         {
                             isAutoStart = true;
-                            if (!Setting.autoStartOnBoot)
+                            if (!Setting.AutoStartOnBoot)
                             {
                                 Application.Current.Shutdown();
                             }
@@ -285,7 +284,7 @@ namespace Pass
                             open.Click += delegate (object click, EventArgs e)
                             {
                                 Show();
-                                if (Setting.autoScanOnVisible)
+                                if (Setting.AutoScanOnVisible)
                                 {
                                     Ping();
                                 }
@@ -497,7 +496,7 @@ namespace Pass
 
         private void Exec(int whoareu, Label label)
         {
-            if(!Setting.sharing)
+            if(!Setting.Sharing)
             {
                 MessageBox.Show(rm.GetString("sharingAlert"), "Pass", MessageBoxButtons.OK);
                 return;
@@ -507,7 +506,7 @@ namespace Pass
                 MessageBox.Show(rm.GetString("nosel"), "Pass");
                 return;
             }
-            if (Setting.askBeforeShare)
+            if (Setting.AskBeforeShare)
             {
                 DialogResult opti = MessageBox.Show(rm.GetString("askBeforeShare1")+fileOpened+rm.GetString("askBeforeShare2"), "Pass", MessageBoxButtons.YesNo);
                 if (opti == System.Windows.Forms.DialogResult.No)

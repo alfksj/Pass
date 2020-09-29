@@ -13,7 +13,7 @@ namespace PassConsole
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("ko-KR");
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("ko-KR");
             ResourceManager rm = new ResourceManager("Pass.Localization", typeof(MainWindow).Assembly);
-            Setting.load();
+            Setting.Load();
             Internet internet = new Internet(rm);
             internet.serverStart();
             Console.ReadKey();

@@ -70,6 +70,16 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IV is used to CBC block chain cipher. IV must be 256bit long.
+        ///Normally, default setting([RANDOM]) is best for you..
+        /// </summary>
+        public static string AESIVExplain {
+            get {
+                return ResourceManager.GetString("AESIVExplain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Allow.
         /// </summary>
         public static string allow {

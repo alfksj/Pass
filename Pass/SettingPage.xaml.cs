@@ -1,15 +1,9 @@
 ﻿using PassLibrary;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Resources;
-using System.Runtime.Remoting;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -43,7 +37,7 @@ namespace Pass
         public void Save(object sender, CancelEventArgs e)
         {
             PushSetting();
-            Setting.save();
+            Setting.Save();
             Hide();
             e.Cancel = true;
         }
@@ -75,17 +69,17 @@ namespace Pass
         public void ApplySetting()
         {
             Log.log("Applying to UI");
-            sharing.isToggled = Setting.sharing;
-            askBeforeShare.isToggled = Setting.askBeforeShare;
-            name_setting.Text = Setting.name;
-            name.Content = Setting.name;
-            downloadPath.Content = Setting.defaultSave;
+            sharing.isToggled = Setting.Sharing;
+            askBeforeShare.isToggled = Setting.AskBeforeShare;
+            name_setting.Text = Setting.Name;
+            name.Content = Setting.Name;
+            downloadPath.Content = Setting.DefaultSave;
             ipAddr.Content = Internet.GetLocalIPAddress();
-            defSavingPath.Text = Setting.defaultSave;
-            PingTimeout.Value = Setting.pingTimeout;
-            timeMs.Content = Setting.pingTimeout+"ms";
-            statusVisible.isToggled = Setting.statusOnLaunch;
-            openLogPage.isToggled = Setting.logOnLaunch;
+            defSavingPath.Text = Setting.DefaultSave;
+            PingTimeout.Value = Setting.PingTimeout;
+            timeMs.Content = Setting.PingTimeout+"ms";
+            statusVisible.isToggled = Setting.StatusOnLaunch;
+            openLogPage.isToggled = Setting.LogOnLaunch;
             string macAddress = NetworkInterface
                 .GetAllNetworkInterfaces()
                 .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
@@ -100,29 +94,29 @@ namespace Pass
                 }
             }
             macAddr.Content = string.Join(":", partition);
-            autoScanOnBoot.isToggled = Setting.autoStartOnBoot;
-            AutoScanOnLaunch.isToggled = Setting.autoScanOnLaunch;
-            autoStartOnBoot.isToggled = Setting.autoStartOnBoot;
-            lang.SelectedIndex = languageISO[Setting.language];
-            StealthMode.isToggled = Setting.stealthMode;
+            autoScanOnBoot.isToggled = Setting.AutoStartOnBoot;
+            AutoScanOnLaunch.isToggled = Setting.AutoScanOnLaunch;
+            autoStartOnBoot.isToggled = Setting.AutoStartOnBoot;
+            lang.SelectedIndex = languageISO[Setting.Language];
+            StealthMode.isToggled = Setting.StealthMode;
             aes_iv.Text = Setting.Aes_Initial_Value;
             Log.log("Applied");
         }
         public void PushSetting()
         {
             Log.log("Pushing data to Setting");
-            Setting.sharing = sharing.isToggled;
-            Setting.name = name_setting.Text;
-            Setting.askBeforeShare = askBeforeShare.isToggled;
-            Setting.defaultSave = defSavingPath.Text;
-            Setting.pingTimeout = (int)PingTimeout.Value;
-            Setting.statusOnLaunch = statusVisible.isToggled;
-            Setting.logOnLaunch = openLogPage.isToggled;
-            Setting.autoStartOnBoot = autoScanOnBoot.isToggled;
-            Setting.autoScanOnLaunch = AutoScanOnLaunch.isToggled;
-            Setting.autoStartOnBoot = autoStartOnBoot.isToggled;
-            Setting.language = languageTable[((ComboBoxItem)lang.SelectedItem).Content.ToString()];
-            Setting.stealthMode = StealthMode.isToggled;
+            Setting.Sharing = sharing.isToggled;
+            Setting.Name = name_setting.Text;
+            Setting.AskBeforeShare = askBeforeShare.isToggled;
+            Setting.DefaultSave = defSavingPath.Text;
+            Setting.PingTimeout = (int)PingTimeout.Value;
+            Setting.StatusOnLaunch = statusVisible.isToggled;
+            Setting.LogOnLaunch = openLogPage.isToggled;
+            Setting.AutoStartOnBoot = autoScanOnBoot.isToggled;
+            Setting.AutoScanOnLaunch = AutoScanOnLaunch.isToggled;
+            Setting.AutoStartOnBoot = autoStartOnBoot.isToggled;
+            Setting.Language = languageTable[((ComboBoxItem)lang.SelectedItem).Content.ToString()];
+            Setting.StealthMode = StealthMode.isToggled;
             Setting.Aes_Initial_Value = aes_iv.Text;
             Log.log("Pushed");
         }
@@ -138,8 +132,8 @@ namespace Pass
             {
                 return;
             }
-            Setting.clearEverything();
-            Setting.load();
+            Setting.ClearEverything();
+            Setting.Load();
             ApplySetting();
         }
 

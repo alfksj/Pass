@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AESIVExplain" xml:space="preserve">
+    <value>IV값은 AES CBC 블록체인의 초기벡터로 사용됩니다. 반드시 길이가 256bit여야 합니다.
+대부분의 경우 기본 설정([RANDOM])이 가장 좋습니다.</value>
+  </data>
   <data name="aes_iv_value" xml:space="preserve">
     <value>AES 블록체인 초기 벡터 :</value>
   </data>

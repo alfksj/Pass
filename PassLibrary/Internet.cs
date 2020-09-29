@@ -14,7 +14,6 @@ using PassLibrary.Box;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using MessageBox = System.Windows.MessageBox;
-using System.Diagnostics.Contracts;
 
 namespace PassLibrary
 {
@@ -131,7 +130,7 @@ namespace PassLibrary
                 }
             });
             receiving.Start();
-            receiving.Join(Setting.pingTimeout);
+            receiving.Join(Setting.PingTimeout);
             avls.Close();
             Log.log("Searching finished");
             determined.Invoke(false);
@@ -152,7 +151,7 @@ namespace PassLibrary
                 pinger.Close();
                 string code = ASCIIEncoding.ASCII.GetString(received);
                 Log.log("Ping received!");
-                if(Setting.stealthMode)
+                if(Setting.StealthMode)
                 {
                     Log.log("You're currently in stealth mode. Ignore ping.");
                     continue;
@@ -175,7 +174,7 @@ namespace PassLibrary
                         stream.Write(tosend, 0, tosend.Length);
                         Log.log("Version Mismatch: " + endPoint.Address.ToString());
                     }
-                    else if(!Setting.sharing)
+                    else if(!Setting.Sharing)
                     {
                         byte[] tosend = ASCIIEncoding.ASCII.GetBytes("hate");
                         stream.Write(tosend, 0, tosend.Length);
@@ -277,7 +276,7 @@ namespace PassLibrary
                         msg = Receive(sock);
                         if (msg.Substring(0, 9).Equals("handshake")) // Share request
                         {
-                            if (!Setting.sharing)
+                            if (!Setting.Sharing)
                             {
                                 Send("{\"reply\":\"deny\",\"reason\":\"notSharing\"}", sock);
                                 Log.serverLog("Denied request: You're currently not sharing", Log.WARN);
@@ -366,7 +365,7 @@ namespace PassLibrary
                             }
                             string hashValue = Receive(sock, secure);
                             Log.serverLog("Received hash");
-                            string targetPath = Setting.defaultSave + '\\' + json.Value<string>("name");
+                            string targetPath = Setting.DefaultSave + '\\' + json.Value<string>("name");
                             Log.serverLog("Write to " + targetPath);
                             //file download start;
                             Log.serverLog("Downloading started");
