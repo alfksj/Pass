@@ -17,7 +17,7 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace PassLibrary
 {
-    public class Internet
+    public partial class Internet
     {
         private const int PING_PORT = 24689;
         private const int CONTROL_PORT = 24690;
@@ -88,6 +88,9 @@ namespace PassLibrary
                             byte[] msg = new byte[4];
                             int flg = socket.Receive(msg, 4, SocketFlags.None);
                             string r_msg = ASCIIEncoding.ASCII.GetString(msg);
+                            //Add history
+                            IPEndPoint remoteEndPoint = socket.RemoteEndPoint as IPEndPoint;
+                            history.AddHistory(new NetworkHistory.Record(NetworkHistory.COMMU_TYPE.PING_REPLY, remoteEndPoint.Address.ToString()));
                             if (r_msg.Equals("love"))
                             {
                                 Log.log("Accepted: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
@@ -151,7 +154,9 @@ namespace PassLibrary
                 pinger.Close();
                 string code = ASCIIEncoding.ASCII.GetString(received);
                 Log.log("Ping received!");
-                if(Setting.StealthMode)
+                //Add history
+                history.AddHistory(new NetworkHistory.Record(NetworkHistory.COMMU_TYPE.PING, endPoint.Address.ToString()));
+                if (Setting.StealthMode)
                 {
                     Log.log("You're currently in stealth mode. Ignore ping.");
                     continue;

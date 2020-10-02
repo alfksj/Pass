@@ -74,3 +74,6 @@ C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\SettingPage.baml
 C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\WPF\ToggleButton.g.cs
 C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\WPF\ToggleButton.baml
 C:\Users\hyunc\source\repos\Pass\Pass\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\System.Data.SQLite.dll
+C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\System.Data.SQLite.xml
+C:\Users\hyunc\source\repos\Pass\Pass\bin\Debug\System.Data.SQLite.dll.config

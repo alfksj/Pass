@@ -143,6 +143,11 @@ namespace Pass
                 statusText.Content = fileOpened;
             }
             else statusText.Content = "Not selelcted";
+            //netwoek history
+            PassLibrary.NetworkHistory.NetworkHistory networkHistory = new PassLibrary.NetworkHistory.NetworkHistory();
+            Internet.history = networkHistory;
+            networkHistory.OpenHistory();
+            //
             internet = new Internet();
             internet.SetFunction(
             (bool action) =>
