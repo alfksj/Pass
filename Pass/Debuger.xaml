@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pass"
-        Closing="abortClosing"
+        Closing="AbortClosing"
         mc:Ignorable="d"
         Title="Debuger" Height="450" Width="800" ResizeMode="NoResize" Icon="pack://siteoforigin:,,,/Resources/icon.png">
     <Grid Background="Black">

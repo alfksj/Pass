@@ -16,15 +16,15 @@ namespace Pass
             InitializeComponent();
         }
         private ResourceManager rm;
-        public void setResourceManager(ResourceManager rm)
+        public void SetResourceManager(ResourceManager rm)
         {
             this.rm = rm;
         }
-        public void abortClosing(object sender, CancelEventArgs e)
+        public void AbortClosing(object sender, CancelEventArgs e)
         {
             e.Cancel = true;
         }
-        public void setReponse(List<Response> response)
+        public void SetReponse(List<Response> response)
         {
             List<Response> Items = new List<Response>();
             response.ForEach((cons) =>

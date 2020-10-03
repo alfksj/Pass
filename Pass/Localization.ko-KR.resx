@@ -155,11 +155,32 @@
   <data name="AutoStartOnComputerBoot" xml:space="preserve">
     <value>자동 시작 :</value>
   </data>
+  <data name="block" xml:space="preserve">
+    <value>차단 리스트</value>
+  </data>
+  <data name="commu-type-INCOMMING_SHARE" xml:space="preserve">
+    <value>들어오는 공유 </value>
+  </data>
+  <data name="commu-type-OUTGOING_SHARE" xml:space="preserve">
+    <value>나가는 공유</value>
+  </data>
+  <data name="commu-type-PING" xml:space="preserve">
+    <value>Ping 요청</value>
+  </data>
+  <data name="commu-type-PING_REPLY" xml:space="preserve">
+    <value>Ping 응답</value>
+  </data>
+  <data name="CommunicationType" xml:space="preserve">
+    <value>종류</value>
+  </data>
   <data name="DefaultSavingPath" xml:space="preserve">
     <value>저장 경로</value>
   </data>
   <data name="DefaultSavingPathSetter" xml:space="preserve">
     <value>저장 경로 :</value>
+  </data>
+  <data name="deleteHistoryWarning" xml:space="preserve">
+    <value>네트워크 기록을 모두 지우려고 합니다. 계속합니까?</value>
   </data>
   <data name="denied" xml:space="preserve">
     <value>거부됨</value>
@@ -178,6 +199,9 @@
   </data>
   <data name="exit" xml:space="preserve">
     <value>Pass 종료</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>파일</value>
   </data>
   <data name="FileErr" xml:space="preserve">
     <value>상대가 보내려는 파일에 문제가 생겼습니다.</value>
@@ -230,8 +254,14 @@
   <data name="name" xml:space="preserve">
     <value>이름</value>
   </data>
+  <data name="netHistory" xml:space="preserve">
+    <value>네트워크 기록</value>
+  </data>
   <data name="network" xml:space="preserve">
     <value>네트워크</value>
+  </data>
+  <data name="networkHistoryLegalExplaination" xml:space="preserve">
+    <value>네트워크 기록은 단순한 참고용이며 법적 효력이 없습니다.</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>공유할 사람이 없습니다.</value>
@@ -273,14 +303,26 @@
   <data name="ResetAllSettings" xml:space="preserve">
     <value>모든 설정 초기화</value>
   </data>
+  <data name="resetHistory" xml:space="preserve">
+    <value>기록 삭제</value>
+  </data>
   <data name="responeAsHost" xml:space="preserve">
     <value>Ping 응답</value>
   </data>
   <data name="response" xml:space="preserve">
     <value>응답</value>
   </data>
+  <data name="responseForCommu" xml:space="preserve">
+    <value>응답</value>
+  </data>
   <data name="RestartPass" xml:space="preserve">
     <value>Pass 재시작</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>결과</value>
+  </data>
+  <data name="security" xml:space="preserve">
+    <value>보안</value>
   </data>
   <data name="security_settings_warning" xml:space="preserve">
     <value>경고: 부적절한 설정은 Pass에 오류, 혹은 보안 문제를 발생시킬 수 있습니다.
@@ -316,6 +358,9 @@
   </data>
   <data name="sup" xml:space="preserve">
     <value>왜 아무도 뜨지 않나요?</value>
+  </data>
+  <data name="Timestamp" xml:space="preserve">
+    <value>타임스탬프</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Pass</value>

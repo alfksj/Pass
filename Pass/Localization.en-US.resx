@@ -155,11 +155,32 @@ Are you sure?</value>
   <data name="AutoStartOnComputerBoot" xml:space="preserve">
     <value>Auto Startup : </value>
   </data>
+  <data name="block" xml:space="preserve">
+    <value>Blocked list</value>
+  </data>
+  <data name="commu-type-INCOMMING_SHARE" xml:space="preserve">
+    <value>Incomming share</value>
+  </data>
+  <data name="commu-type-OUTGOING_SHARE" xml:space="preserve">
+    <value>Outgoing share</value>
+  </data>
+  <data name="commu-type-PING" xml:space="preserve">
+    <value>Ping request</value>
+  </data>
+  <data name="commu-type-PING_REPLY" xml:space="preserve">
+    <value>Reply for ping</value>
+  </data>
+  <data name="CommunicationType" xml:space="preserve">
+    <value>Type</value>
+  </data>
   <data name="DefaultSavingPath" xml:space="preserve">
     <value>Downloading Path</value>
   </data>
   <data name="DefaultSavingPathSetter" xml:space="preserve">
     <value>Downloading Path :</value>
+  </data>
+  <data name="deleteHistoryWarning" xml:space="preserve">
+    <value>You are going to delete all network history. Are you sure?</value>
   </data>
   <data name="denied" xml:space="preserve">
     <value>Denied</value>
@@ -178,6 +199,9 @@ Are you sure?</value>
   </data>
   <data name="exit" xml:space="preserve">
     <value>Exit</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
   </data>
   <data name="FileErr" xml:space="preserve">
     <value>Peer has a problem with a file</value>
@@ -230,8 +254,14 @@ Are you sure?</value>
   <data name="name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="netHistory" xml:space="preserve">
+    <value>Network History</value>
+  </data>
   <data name="network" xml:space="preserve">
     <value>Network</value>
+  </data>
+  <data name="networkHistoryLegalExplaination" xml:space="preserve">
+    <value>Network logs are just for your reference and don't have any legal effect.</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>No one to share with...</value>
@@ -273,14 +303,26 @@ you'd better to take this longer.</value>
   <data name="ResetAllSettings" xml:space="preserve">
     <value>Reset All Settings</value>
   </data>
+  <data name="resetHistory" xml:space="preserve">
+    <value>Delete histories</value>
+  </data>
   <data name="responeAsHost" xml:space="preserve">
     <value>Ping Replies</value>
   </data>
   <data name="response" xml:space="preserve">
     <value>Response</value>
   </data>
+  <data name="responseForCommu" xml:space="preserve">
+    <value>Response</value>
+  </data>
   <data name="RestartPass" xml:space="preserve">
     <value>Restart Pass</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="security" xml:space="preserve">
+    <value>Security</value>
   </data>
   <data name="security_settings_warning" xml:space="preserve">
     <value>Warning: All incorrect settings may cause error or security problems.
@@ -316,6 +358,9 @@ on other Pass and don't response to broadcast from other Pass.</value>
   </data>
   <data name="sup" xml:space="preserve">
     <value>Why no one here?</value>
+  </data>
+  <data name="Timestamp" xml:space="preserve">
+    <value>Timestamp</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Pass</value>

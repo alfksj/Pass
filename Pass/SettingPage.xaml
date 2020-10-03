@@ -53,7 +53,6 @@
             </Trigger>
         </ControlTemplate.Triggers>-->
         </ControlTemplate>
-
         <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
             <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
         </ControlTemplate>
@@ -200,6 +199,15 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="historyRowTemplate" TargetType="ContentControl">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Label Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplatedParent.IPAddr}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid Background="Black">
         <Grid.RowDefinitions>
@@ -210,7 +218,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="content" Content="Network" Margin="10,0,0,0" FontSize="35" Foreground="White" Grid.Column="1" VerticalAlignment="Top"/>
+            <Label x:Name="content" Content="{x:Static local:Localization.network}" Margin="10,0,0,0" FontSize="35" Foreground="White" Grid.Column="1" VerticalAlignment="Top"/>
             <Grid x:Name="network" Grid.Column="1" Tag="network" Margin="0,56.553,10,10">
                 <Grid Margin="20,0" VerticalAlignment="Top">
                     <Label Content="{x:Static local:Localization.allowSharing}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15"/>
@@ -247,7 +255,7 @@
                     <WPF:ToggleButton x:Name="openLogPage" HorizontalAlignment="Right" Height="30" Margin="0,105,10,0" VerticalAlignment="Top" Width="56"/>
                     <Label Content="{x:Static local:Localization.AutoStartOnComputerBoot}" Margin="10,140,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15" HorizontalAlignment="Left"/>
                     <WPF:ToggleButton x:Name="autoStartOnBoot" HorizontalAlignment="Right" Height="30" Margin="0,140,10,0" VerticalAlignment="Top" Width="56"/>
-                    <Label Content="Language" Margin="10,175,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15" HorizontalAlignment="Left"/>
+                    <Label Content="{x:Static local:Localization.Language}" Margin="10,175,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15" HorizontalAlignment="Left"/>
                     <ComboBox x:Name="lang" HorizontalAlignment="Right" Margin="0,175,10,0" Width="150" Height="30" VerticalAlignment="Top" SelectedIndex="0" FontSize="15">
                         <ComboBoxItem Content="English" FontSize="15"/>
                         <ComboBoxItem Content="Korean" FontSize="15"/>
@@ -284,19 +292,37 @@
                     <StackPanel Margin="0,38.94,0,0">
                         <Button x:Name="network_btn" Content="{x:Static local:Localization.network}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="Network_btn_Click" IsEnabled="False"/>
                         <Button x:Name="general_btn" Content="{x:Static local:Localization.general}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="General_btn_Click"/>
-                        <Button x:Name="securiry_btn" Content="Security" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="Security_btn_Click"/>
+                        <Button x:Name="securiry_btn" Content="{x:Static local:Localization.security}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="Security_btn_Click"/>
+                        <Button x:Name="block_btn" Content="{x:Static local:Localization.netHistory}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="Block_btn_Click"/>
                         <Button x:Name="about_btn" Content="{x:Static local:Localization.info}" Height="31" FontSize="15" BorderBrush="White" Background="White" Click="About_btn_Click"/>
                     </StackPanel>
                     <Label Content="{x:Static local:Localization.settings}" Background="Black" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="18" FontWeight="Bold"/>
                 </Grid>
             </Border>
-            <Grid x:Name="security" Margin="-1351,57,823,0" Tag="general">
+            <Grid x:Name="security" Margin="-1351,57,823,0" Tag="security">
                 <Grid Margin="20,10,20,0" VerticalAlignment="Top">
                     <Label Content="{x:Static local:Localization.aes_iv_value}" Margin="10,0,0,0" VerticalAlignment="Top" Foreground="White" FontSize="15" HorizontalAlignment="Left"/>
                     <TextBox x:Name="aes_iv" HorizontalContentAlignment="Right" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Background="#FF303030" Foreground="White" HorizontalAlignment="Right" Width="370"/>
                     <Label Content="{x:Static local:Localization.AESIVExplain}" Margin="20,30,0,0" VerticalAlignment="Top" Foreground="White"/>
                 </Grid>
                 <Label Content="{x:Static local:Localization.security_settings_warning}" Margin="20,0,20,10" Foreground="White" FontSize="15" Height="50" VerticalAlignment="Bottom"/>
+            </Grid>
+            <Grid x:Name="netHistory" Margin="-2016,47,1488,10" Tag="netHistory">
+                <ListView x:Name="history" Margin="0,0,0,60">
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridViewColumn DisplayMemberBinding="{Binding IP}" Header="{x:Static local:Localization.IpAddress}" Width="70"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding MAC}" Header="{x:Static local:Localization.MacAddress}" Width="110"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding TYPE}" Header="{x:Static local:Localization.CommunicationType}" Width="90"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding TIME}" Header="{x:Static local:Localization.Timestamp}" Width="100"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding RESPONSE}" Header="{x:Static local:Localization.responseForCommu}" Width="80"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding FILE}" Header="{x:Static local:Localization.File}" Width="90"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding RESULT}" Header="{x:Static local:Localization.Result}" Width="70"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button Content="{x:Static local:Localization.resetHistory}" Margin="100,0,100,10" Style="{StaticResource Btn}" Foreground="White" FontSize="15" Height="24" VerticalAlignment="Bottom" Click="Button_Click"/>
+                <Label Content="{x:Static local:Localization.networkHistoryLegalExplaination}" HorizontalAlignment="Left" Margin="0,0,0,34" VerticalAlignment="Bottom" Background="{x:Null}" Foreground="White"/>
             </Grid>
         </Grid>
     </Grid>

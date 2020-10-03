@@ -46,7 +46,7 @@ namespace PassLibrary
             var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var ip in host.AddressList)
             {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                if(ip.AddressFamily == AddressFamily.InterNetwork)
                 {
                     return ip.ToString();
                 }
@@ -88,26 +88,30 @@ namespace PassLibrary
                             byte[] msg = new byte[4];
                             int flg = socket.Receive(msg, 4, SocketFlags.None);
                             string r_msg = ASCIIEncoding.ASCII.GetString(msg);
-                            //Add history
                             IPEndPoint remoteEndPoint = socket.RemoteEndPoint as IPEndPoint;
-                            history.AddHistory(new NetworkHistory.Record(NetworkHistory.COMMU_TYPE.PING_REPLY, remoteEndPoint.Address.ToString()));
+                            StringBuilder comment = new StringBuilder("{\"reply\":\"");
                             if (r_msg.Equals("love"))
                             {
                                 Log.log("Accepted: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
                                 okIp.Add(((IPEndPoint)socket.RemoteEndPoint).Address.ToString());
+                                comment.Append("accept\"}");
                             }
                             else if (r_msg.Equals("vers"))
                             {
                                 Log.log("Version Mismatched: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
+                                comment.Append("versMis\"}");
                             }
                             else if (r_msg.Equals("self"))
                             {
                                 Log.log("Myself: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
+                                comment.Append("local\"}");
                             }
                             else
                             {
                                 Log.log("Denied: " + ((IPEndPoint)socket.RemoteEndPoint).Address.ToString() + " msg=\"" + r_msg + '\"');
+                                comment.Append("deny\"}");
                             }
+                            history.RegisterHistory(NetworkHistory.COMMU_TYPE.PING_REPLY, remoteEndPoint.Address.ToString(), comment.ToString());
                             lastResponse.Add(new Response()
                             {
                                 IP = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString(),
@@ -154,11 +158,11 @@ namespace PassLibrary
                 pinger.Close();
                 string code = ASCIIEncoding.ASCII.GetString(received);
                 Log.log("Ping received!");
-                //Add history
-                history.AddHistory(new NetworkHistory.Record(NetworkHistory.COMMU_TYPE.PING, endPoint.Address.ToString()));
+                StringBuilder comment = new StringBuilder("{\"response\":\"");
                 if (Setting.StealthMode)
                 {
                     Log.log("You're currently in stealth mode. Ignore ping.");
+                    history.RegisterHistory(NetworkHistory.COMMU_TYPE.PING, endPoint.Address.ToString(), "{\"response\":\"stealth\"}");
                     continue;
                 }
                 string[] div = code.Split(new char[] { '+' });
@@ -169,28 +173,33 @@ namespace PassLibrary
                     NetworkStream stream = cli.GetStream();
                     if(((IPEndPoint)cli.Client.RemoteEndPoint).Address.ToString().Equals(myIP))
                     {
-                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("self");
+                        byte[] tosend = Bytes.AETB("self");
                         stream.Write(tosend, 0, tosend.Length);
                         Log.log("Ping from me myself: " + endPoint.Address.ToString());
+                        comment.Append("local\"}");
                     }
                     else if(!div[1].Equals(VERSION))
                     {
-                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("vers");
+                        byte[] tosend = Bytes.AETB("vers");
                         stream.Write(tosend, 0, tosend.Length);
                         Log.log("Version Mismatch: " + endPoint.Address.ToString());
+                        comment.Append("versMis\"}");
                     }
                     else if(!Setting.Sharing)
                     {
-                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("hate");
+                        byte[] tosend = Bytes.AETB("hate");
                         stream.Write(tosend, 0, tosend.Length);
                         Log.log("Deny: " + endPoint.Address.ToString());
+                        comment.Append("deny\"}");
                     }
                     else
                     {
-                        byte[] tosend = ASCIIEncoding.ASCII.GetBytes("love");
+                        byte[] tosend = Bytes.AETB("love");
                         stream.Write(tosend, 0, tosend.Length);
                         Log.log("Accept: " + endPoint.Address.ToString());
+                        comment.Append("accept\"}");
                     }
+                    history.RegisterHistory(NetworkHistory.COMMU_TYPE.PING, endPoint.Address.ToString(), comment.ToString());
                     stream.Flush();
                     stream.Close();
                     cli.Close();
@@ -279,12 +288,15 @@ namespace PassLibrary
                         //HAND SHAKE
                         string msg;
                         msg = Receive(sock);
+                        IPEndPoint remoteEndPoint = sock.RemoteEndPoint as IPEndPoint;
                         if (msg.Substring(0, 9).Equals("handshake")) // Share request
                         {
                             if (!Setting.Sharing)
                             {
                                 Send("{\"reply\":\"deny\",\"reason\":\"notSharing\"}", sock);
                                 Log.serverLog("Denied request: You're currently not sharing", Log.WARN);
+                                history.RegisterHistory(NetworkHistory.COMMU_TYPE.INCOMMING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"\",\"status\":\"deny\"}");
                                 MessageBox.Show("notSharing", "Pass", MessageBoxButton.OK);
                                 return;
                             }
@@ -292,6 +304,8 @@ namespace PassLibrary
                             {
                                 Send("{\"reply\":\"deny\",\"reason\":\"VersionMismatch\"}", sock);
                                 Log.serverLog("Denied request: FROM" + msg.Substring(9, msg.Length - 9) + " You're: " + VERSION, Log.WARN);
+                                history.RegisterHistory(NetworkHistory.COMMU_TYPE.INCOMMING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"\",\"status\":\"vers\"}");
                                 MessageBox.Show("versMismatch", "Pass", MessageBoxButton.OK);
                                 return;
                             }
@@ -320,11 +334,13 @@ namespace PassLibrary
                             if (!json.Value<string>("reply").Equals("OK"))
                             {
                                 Log.serverLog("Not OK!", Log.ERR);
+                                history.RegisterHistory(NetworkHistory.COMMU_TYPE.INCOMMING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"\",\"status\":\"file_error\"}");
                                 MessageBox.Show(Rm.GetString(json.Value<string>("reply")), "Pass", MessageBoxButton.OK);
                                 return;
                             }
                             Log.serverLog("File info displayed");
-                            Int64 bytes = Int64.Parse(json.Value<string>("size"));
+                            long bytes = long.Parse(json.Value<string>("size"));
                             string unit = " Byte";
                             double bas;
                             //Byte to suitable unit
@@ -355,8 +371,9 @@ namespace PassLibrary
                             }
                             bas = Math.Round(bas * 100) / 100;
                             frameControl.Invoke(true);
+                            string file_name = json.Value<string>("name");
                             DialogResult result = MessageBoxClass.Show(((IPEndPoint)sock.RemoteEndPoint).Address.ToString() +
-                                Rm.GetString("appv1") + json.Value<string>("name") + Rm.GetString("appv2") +
+                                Rm.GetString("appv1") + file_name + Rm.GetString("appv2") +
                                 " (" + bas + unit + ')', "Pass", Rm.GetString("allow"), Rm.GetString("deny"));
                             if (result == DialogResult.Yes)
                             {
@@ -366,6 +383,8 @@ namespace PassLibrary
                             {
                                 Send("deny", sock, secure);
                                 frameControl.Invoke(false);
+                                history.RegisterHistory(NetworkHistory.COMMU_TYPE.INCOMMING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + file_name + "\",\"status\":\"user_deny\"}");
                                 return;
                             }
                             string hashValue = Receive(sock, secure);
@@ -383,8 +402,8 @@ namespace PassLibrary
                                 //Log.serverLog("Waiting for data piece");
                                 string dataSegment = Receive(sock);
                                 JObject data = JObject.Parse(dataSegment);
-                                string segment = (String)data.GetValue("segment");
-                                string hash = (String)data.GetValue("hash");
+                                string segment = (string)data.GetValue("segment");
+                                string hash = (string)data.GetValue("hash");
                                 bool isEnd = (bool)data.GetValue("isEnd");
                                 byte[] finalSegment = secure.AES256Decrypt(Convert.FromBase64String(segment));
 
@@ -418,22 +437,24 @@ namespace PassLibrary
                             if (!hashValue.Equals(stringHashValue))
                             {
                                 Log.serverLog("FILE HASH MISMATCH! \"" + stringHashValue + "\" vs. n\"" + hashValue + '\"');
+                                history.RegisterHistory(NetworkHistory.COMMU_TYPE.INCOMMING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + file_name + "\",\"status\":\"hash_mismatch\"}");
                                 Send("hash", sock, secure);
                             }
                             else
                             {
                                 Log.serverLog("FILE HASH MATCH! " + stringHashValue);
+                                history.RegisterHistory(NetworkHistory.COMMU_TYPE.INCOMMING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + file_name + "\",\"status\":\"sucess\"}");
                                 Send("goodbye", sock, secure);
                             }
                             Log.serverLog("Done: received " + packets + " file pieces");
                         }
-                        else if (msg.Equals("ping"))
-                        {
-
-                        }
                         else
                         {
                             Log.serverLog("Invalid Message: \"" + msg + "\"");
+                            history.RegisterHistory(NetworkHistory.COMMU_TYPE.INCOMMING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"\",\"status\":\"invalid_msg\"}");
                         }
                         sock.Close();
                     }
@@ -475,11 +496,14 @@ namespace PassLibrary
                 Send("handshake" + VERSION, socket);
                 string reply = Receive(socket);
                 var j1 = JObject.Parse(reply);
+                IPEndPoint remoteEndPoint = socket.RemoteEndPoint as IPEndPoint;
                 if (j1.Value<string>("reply").Equals("deny"))
                 {
                     Log.clientLog("Denied: " + j1.Value<string>("reason"), Log.WARN);
                     reason = j1.Value<string>("reason").ToString();
                     determined.Invoke(false);
+                    history.RegisterHistory(NetworkHistory.COMMU_TYPE.OUTGOING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + path + "\",\"status\":\"" + reason + "\"}");
                     return DENIED;
                 }
                 else if (!j1.Value<string>("reply").Equals("approve"))
@@ -487,6 +511,8 @@ namespace PassLibrary
                     Log.clientLog("Invalid message: " + reply, Log.ERR);
                     reason = "invalid: "+reply;
                     determined.Invoke(false);
+                    history.RegisterHistory(NetworkHistory.COMMU_TYPE.OUTGOING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + path + "\",\"status\":\"invalid_msg\"}");
                     return ERROR;
                 }
                 Log.clientLog("RSA public key was received");
@@ -511,6 +537,8 @@ namespace PassLibrary
                     Send(pack.ToString(), socket, secure);
                     reason = "FileNotFound";
                     determined.Invoke(false);
+                    history.RegisterHistory(NetworkHistory.COMMU_TYPE.OUTGOING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + path + "\",\"status\":\"file_error\"}");
                     return ERROR;
                 }
                 FileInfo file = new FileInfo(path);
@@ -525,6 +553,8 @@ namespace PassLibrary
                     Log.clientLog("User denied", Log.WARN);
                     reason = "Peer denied";
                     determined.Invoke(false);
+                    history.RegisterHistory(NetworkHistory.COMMU_TYPE.OUTGOING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + path + "\",\"status\":\"user_deny\"}");
                     return DENIED;
                 }
                 else if (!received.Equals("approve"))
@@ -532,6 +562,8 @@ namespace PassLibrary
                     Log.clientLog("User invalid reply", Log.ERR);
                     reason = "invalid: " + received;
                     determined.Invoke(false);
+                    history.RegisterHistory(NetworkHistory.COMMU_TYPE.OUTGOING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + path + "\",\"status\":\"invalid_msg\"}");
                     return ERROR;
                 }
                 Log.clientLog("Received Allow Sign!");
@@ -599,15 +631,21 @@ namespace PassLibrary
                 if (hashReply.Equals("hash"))
                 {
                     Log.clientLog("Hash Error: originHash=\"" + stringHashValue + '\"');
+                    history.RegisterHistory(NetworkHistory.COMMU_TYPE.OUTGOING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + path + "\",\"status\":\"hash_mismatch\"}");
                 }
                 else if (!hashReply.Equals("goodbye"))
                 {
                     Log.clientLog("Invalid hash reply: " + hashReply);
+                    history.RegisterHistory(NetworkHistory.COMMU_TYPE.OUTGOING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + path + "\",\"status\":\"invalid_msg\"}");
                     return ERROR;
                 }
                 socket.Close();
                 fileStream.Close();
                 Log.clientLog("Done: sent " + packets + " file pieces");
+                history.RegisterHistory(NetworkHistory.COMMU_TYPE.OUTGOING_SHARE, remoteEndPoint.Address.ToString(),
+                                    "{\"file\":\"" + path + "\",\"status\":\"sucess\"}");
                 return SUCESS;
             } catch(Exception e)
             {

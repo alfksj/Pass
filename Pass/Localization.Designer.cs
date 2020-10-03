@@ -171,6 +171,60 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blocked list.
+        /// </summary>
+        public static string block {
+            get {
+                return ResourceManager.GetString("block", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incomming share.
+        /// </summary>
+        public static string commu_type_INCOMMING_SHARE {
+            get {
+                return ResourceManager.GetString("commu-type-INCOMMING_SHARE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outgoing share.
+        /// </summary>
+        public static string commu_type_OUTGOING_SHARE {
+            get {
+                return ResourceManager.GetString("commu-type-OUTGOING_SHARE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ping request.
+        /// </summary>
+        public static string commu_type_PING {
+            get {
+                return ResourceManager.GetString("commu-type-PING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reply for ping.
+        /// </summary>
+        public static string commu_type_PING_REPLY {
+            get {
+                return ResourceManager.GetString("commu-type-PING_REPLY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string CommunicationType {
+            get {
+                return ResourceManager.GetString("CommunicationType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Downloading Path.
         /// </summary>
         public static string DefaultSavingPath {
@@ -185,6 +239,15 @@ namespace Pass {
         public static string DefaultSavingPathSetter {
             get {
                 return ResourceManager.GetString("DefaultSavingPathSetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are going to delete all network history. Are you sure?.
+        /// </summary>
+        public static string deleteHistoryWarning {
+            get {
+                return ResourceManager.GetString("deleteHistoryWarning", resourceCulture);
             }
         }
         
@@ -239,6 +302,15 @@ namespace Pass {
         public static string exit {
             get {
                 return ResourceManager.GetString("exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
             }
         }
         
@@ -396,11 +468,29 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Network History.
+        /// </summary>
+        public static string netHistory {
+            get {
+                return ResourceManager.GetString("netHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Network.
         /// </summary>
         public static string network {
             get {
                 return ResourceManager.GetString("network", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network logs are just for your reference and don&apos;t have any legal effect..
+        /// </summary>
+        public static string networkHistoryLegalExplaination {
+            get {
+                return ResourceManager.GetString("networkHistoryLegalExplaination", resourceCulture);
             }
         }
         
@@ -523,6 +613,15 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Histories.
+        /// </summary>
+        public static string resetHistory {
+            get {
+                return ResourceManager.GetString("resetHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ping Replies.
         /// </summary>
         public static string responeAsHost {
@@ -541,11 +640,38 @@ namespace Pass {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Response.
+        /// </summary>
+        public static string responseForCommu {
+            get {
+                return ResourceManager.GetString("responseForCommu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restart Pass.
         /// </summary>
         public static string RestartPass {
             get {
                 return ResourceManager.GetString("RestartPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result.
+        /// </summary>
+        public static string Result {
+            get {
+                return ResourceManager.GetString("Result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security.
+        /// </summary>
+        public static string security {
+            get {
+                return ResourceManager.GetString("security", resourceCulture);
             }
         }
         
@@ -638,6 +764,15 @@ namespace Pass {
         public static string sup {
             get {
                 return ResourceManager.GetString("sup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timestamp.
+        /// </summary>
+        public static string Timestamp {
+            get {
+                return ResourceManager.GetString("Timestamp", resourceCulture);
             }
         }
         

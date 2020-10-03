@@ -146,6 +146,7 @@ namespace Pass
             //netwoek history
             PassLibrary.NetworkHistory.NetworkHistory networkHistory = new PassLibrary.NetworkHistory.NetworkHistory();
             Internet.history = networkHistory;
+            PassLibrary.NetworkHistory.NetworkHistory.Rm = rm;
             networkHistory.OpenHistory();
             //
             internet = new Internet();
@@ -345,7 +346,7 @@ namespace Pass
             u.Visibility = hide;
             lst.Visibility = hide;
             sup.setResourceManager(rm);
-            debuger.setResourceManager(rm);
+            debuger.SetResourceManager(rm);
             if(!isAutoStart)
             {
                 rootPane.Visibility = show;
@@ -462,7 +463,7 @@ namespace Pass
                         });
                     });
                 }
-                debuger.setReponse(internet.lastResponse);
+                debuger.SetReponse(internet.lastResponse);
                 refresh.Dispatcher.Invoke(() =>
                 {
                     refresh.IsEnabled = true;

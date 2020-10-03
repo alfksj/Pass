@@ -1,4 +1,6 @@
 ﻿using PassLibrary;
+using PassLibrary.NetworkHistory;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -6,6 +8,7 @@ using System.Net.NetworkInformation;
 using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
+using Newtonsoft.Json.Linq;
 
 namespace Pass
 {
@@ -30,6 +33,7 @@ namespace Pass
             currentOn = target;
             network_btn.IsEnabled = true;
             general_btn.IsEnabled = true;
+            block_btn.IsEnabled = true;
             about_btn.IsEnabled = true;
             securiry_btn.IsEnabled = true;
             ((Button)e.Source).IsEnabled = false;
@@ -63,6 +67,63 @@ namespace Pass
         private void Security_btn_Click(object sender, RoutedEventArgs e)
         {
             Active(security, e);
+        }
+        private void Block_btn_Click(object sender, RoutedEventArgs e)
+        {
+            //read db and apply.
+            List<Record> records = Internet.history.ReadHistory();
+            Internet.history.DeleteAll();
+            records.ForEach((cons) =>
+            {
+                history.Items.Add(new HistoryRow(cons));
+            });
+            Active(netHistory, e);
+        }
+        private class HistoryRow
+        {
+            public string IP { get; set; }
+            public string MAC { get; set; }
+            public string TYPE { get; set; }
+            public string TIME { get; set; }
+            public string RESPONSE { get; set; }
+            public string FILE { get; set; }
+            public string RESULT { get; set; }
+            public HistoryRow(Record record)
+            {
+                IP = record.Ip;
+                MAC = record.Mac;
+                TYPE = NetworkHistory.EnumToString(record.Type);
+                TIME = record.time.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                JObject obj = JObject.Parse(record.Comment);
+                //JSON FORMAT:
+                //ping:{"reponse":"accept/versMis/local/deny/stealth"}
+                //pingReply:{"reply":"accept/versMis/local/deny"}
+                //incomming_share:{"file":foo","status":"vers/sucess/invalid_msg/hash_mismatch/file_error/deny/user_deny"}
+                //outgoing_share:{"file":"foo","status":"VersionMismatch/notSharing/sucess/invalid_msg/file_error/user_deny/hash_mismatch"}
+                //TODO: Test all new feature that they work as expected
+                if(record.Type == COMMU_TYPE.PING)
+                {
+                    RESPONSE = obj.Value<string>("response");
+                }
+                else if (record.Type == COMMU_TYPE.PING_REPLY)
+                {
+                    RESPONSE = obj.Value<string>("reply");
+                }
+                else if (record.Type == COMMU_TYPE.INCOMMING_SHARE)
+                {
+                    FILE = obj.Value<string>("file");
+                    RESULT = obj.Value<string>("status");
+                }
+                else if (record.Type == COMMU_TYPE.OUTGOING_SHARE)
+                {
+                    FILE = obj.Value<string>("file");
+                    RESULT = obj.Value<string>("status");
+                }
+                else
+                {
+                    RESULT = "UNKNOWN COMMUNICATION TYPE";
+                }
+            }
         }
         private readonly Dictionary<string, string> languageTable = new Dictionary<string, string>();
         private readonly Dictionary<string, int> languageISO = new Dictionary<string, int>();
@@ -142,6 +203,22 @@ namespace Pass
         private void RestartPass_Click(object sender, RoutedEventArgs e)
         {
             //TODO: implement this func
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult x = MessageBox.Show(rm.GetString("deleteHistoryWarning"), "Pass", MessageBoxButton.YesNo);
+            if(x == MessageBoxResult.Yes)
+            {
+                Console.WriteLine("DELETE!");
+                Internet.history.DeleteAll();
+                history.Items.Clear();
+                List<Record> records= Internet.history.ReadHistory();
+                records.ForEach((cons) =>
+                {
+                    history.Items.Add(new HistoryRow(cons));
+                });
+            }
         }
     }
 }
