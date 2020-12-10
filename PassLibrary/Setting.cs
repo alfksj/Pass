@@ -76,6 +76,10 @@ namespace PassLibrary
                 }
             }
         }
+        public static bool isAutoStartEnabled()
+        {
+            return bool.Parse(Registry.GetValue(REGED_PATH, "AutoStartOnInit", true).ToString());
+        }
         /// <summary>
         /// Load setting
         /// configure env if it's not configured.

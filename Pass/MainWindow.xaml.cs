@@ -127,6 +127,19 @@ namespace Pass
             string[] cmds = Environment.GetCommandLineArgs();
             Setting.CheckEnvironment();
             Setting.Load();
+            bool isAutoStart = false;
+            foreach(string arg in cmds)
+            {
+                if (arg.Equals("-autoStart"))
+                {
+                    if (!Setting.isAutoStartEnabled())
+                    {
+                        Application.Current.Shutdown();
+                    }
+                    isAutoStart = true;
+                    break;
+                }
+            }
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(Setting.Language);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(Setting.Language);
             SettingPage settingPage = new SettingPage();
@@ -223,11 +236,6 @@ namespace Pass
             }
             ///Arguments Loading
             originated = cmds[0];
-            foreach(string i in cmds)
-            {
-                Console.WriteLine(i);
-            }
-            bool isAutoStart = false;
             if (cmds.Length > 1)
             {
                 fileOpened = cmds[1];
@@ -257,14 +265,6 @@ namespace Pass
                             {
                                 internet.PingReceiver();
                             });
-                        }
-                        else if (cmds[i].Equals("-autoStart"))
-                        {
-                            isAutoStart = true;
-                            if (!Setting.AutoStartOnBoot)
-                            {
-                                Application.Current.Shutdown();
-                            }
                         }
                         else if (cmds[i].Equals("-DoNotExitOnClosing"))
                         {

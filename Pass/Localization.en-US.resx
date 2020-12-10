@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AESIVExplain" xml:space="preserve">
-    <value>IV is used to CBC block chain cipher. IV must be 256bit long.
+    <value>IV is used to CBC block chain cipher. IV must be 256bits long.
 Normally, default setting([RANDOM]) is best for you.</value>
   </data>
   <data name="aes_iv_value" xml:space="preserve">
@@ -261,7 +261,7 @@ Are you sure?</value>
     <value>Network</value>
   </data>
   <data name="networkHistoryLegalExplaination" xml:space="preserve">
-    <value>Network logs are just for your reference and don't have any legal effect.</value>
+    <value>Network logs are just for your reference and don't have any legal power.</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>No one to share with...</value>
@@ -279,7 +279,7 @@ Are you sure?</value>
     <value>Open Pass</value>
   </data>
   <data name="OpenLogPageAlways" xml:space="preserve">
-    <value>Open load page on start :</value>
+    <value>Open log page on start :</value>
   </data>
   <data name="PassProtocolVersion" xml:space="preserve">
     <value>Pass Protocol Version</value>

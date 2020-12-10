@@ -70,7 +70,7 @@ namespace Pass {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IV is used to CBC block chain cipher. IV must be 256bit long.
+        ///   Looks up a localized string similar to IV is used to CBC block chain cipher. IV must be 256bits long.
         ///Normally, default setting([RANDOM]) is best for you..
         /// </summary>
         public static string AESIVExplain {
@@ -486,7 +486,7 @@ namespace Pass {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Network logs are just for your reference and don&apos;t have any legal effect..
+        ///   Looks up a localized string similar to Network logs are just for your reference and don&apos;t have any legal power..
         /// </summary>
         public static string networkHistoryLegalExplaination {
             get {
@@ -540,7 +540,7 @@ namespace Pass {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open load page on start :.
+        ///   Looks up a localized string similar to Open log page on start :.
         /// </summary>
         public static string OpenLogPageAlways {
             get {

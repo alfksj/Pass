@@ -308,7 +308,7 @@
                 <Label Content="{x:Static local:Localization.security_settings_warning}" Margin="20,0,20,10" Foreground="White" FontSize="15" Height="50" VerticalAlignment="Bottom"/>
             </Grid>
             <Grid x:Name="netHistory" Margin="-2016,47,1488,10" Tag="netHistory">
-                <ListView x:Name="history" Margin="0,0,0,60">
+                <ListView x:Name="history" Margin="0,0,0,64">
                     <ListView.View>
                         <GridView AllowsColumnReorder="False">
                             <GridViewColumn DisplayMemberBinding="{Binding IP}" Header="{x:Static local:Localization.IpAddress}" Width="70"/>
@@ -321,8 +321,8 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <Button Content="{x:Static local:Localization.resetHistory}" Margin="100,0,100,10" Style="{StaticResource Btn}" Foreground="White" FontSize="15" Height="24" VerticalAlignment="Bottom" Click="Button_Click"/>
-                <Label Content="{x:Static local:Localization.networkHistoryLegalExplaination}" HorizontalAlignment="Left" Margin="0,0,0,34" VerticalAlignment="Bottom" Background="{x:Null}" Foreground="White"/>
+                <Button Content="{x:Static local:Localization.resetHistory}" Margin="100,0,100,6" Style="{StaticResource Btn}" Foreground="White" FontSize="15" Height="32" VerticalAlignment="Bottom" Click="Button_Click"/>
+                <Label Content="{x:Static local:Localization.networkHistoryLegalExplaination}" HorizontalAlignment="Left" Margin="0,0,0,38" VerticalAlignment="Bottom" Background="{x:Null}" Foreground="White"/>
             </Grid>
         </Grid>
     </Grid>

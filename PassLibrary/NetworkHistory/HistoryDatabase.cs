@@ -48,7 +48,7 @@ namespace PassLibrary.NetworkHistory
         public List<Record> ReadHistory()
         {
             List<Record> ret = new List<Record>();
-            SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM history ORDER BY id ASC;", connection);
+            SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM history ORDER BY id DESC;", connection);
             SQLiteDataReader reader = cmd.ExecuteReader();
             while(reader.Read())
             {
